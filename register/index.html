@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register - Auction House</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom CSS -->
+    <script type="module" src="../src/main.mjs"></script>
+    <link rel="stylesheet" href="./styles/css/styles.css" />
+  </head>
+  <body>
+    <main>
+      <div class="auth-page">
+        <div class="auth-page container">
+          <div class="auth-page header">
+            <h1>Create Account</h1>
+            <p>Join the auction house community</p>
+          </div>
+
+          <div class="auth-page__card">
+            <form class="auth-page form" id="registerUserForm">
+              <div class="form-group">
+                <label for="name" class="form-label">Username</label>
+                <input
+                  type="text"
+                  name="name"
+                  class="form-control"
+                  id="name"
+                  placeholder="John Doe"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="form-label">Email</label>
+                <input
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="your.name@stud.noroff.no"
+                  required
+                />
+                <small class="form-text"
+                  >Must be a valid @stud.noroff.no email address</small
+                >
+              </div>
+
+              <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <input
+                  type="password"
+                  name="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="At least 6 characters"
+                  minlength="6"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="bio" class="form-label">bio</label>
+                <input
+                  type="text"
+                  name="bio"
+                  class="form-control"
+                  id="registerUserBio"
+                  placeholder="Tell something about yourself!"
+                  minlength="6"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="avatarUrl" class="form-label">Image url</label>
+                <input
+                  type="text"
+                  name="avatarUrl"
+                  class="form-control"
+                  id="RegisterAvatarUrl"
+                  placeholder="Enter image url"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="avatarAlt" class="form-label">Image alt</label>
+                <input
+                  type="text"
+                  name="avatarAlt"
+                  class="form-control"
+                  id="RegisterAvatarAlt"
+                  placeholder="Enter image alt text!"
+                />
+              </div>
+
+              <button class="btn btn-primary btn-block" type="submit">
+                Create Account
+              </button>
+            </form>
+
+            <div class="auth-page footer">
+              <p>
+                Already have an account?
+                <a href="login.html">Login here</a>
+              </p>
+            </div>
+          </div>
+
+          <div class="auth-page__demo">
+            <p><strong>Info:</strong> New users start with 1000 credits</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+  </body>
+</html>
