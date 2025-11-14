@@ -1,21 +1,34 @@
 //Generic fetch client for all requests
+// src/api/apiClient.js
 
+const BASE_URL = "https://v2.api.noroff.dev";
 
+export async function apiClient(endpoint, options = {}) {
+  const url = `${BASE_URL}${endpoint}`;
 
-/*
-src/
+  // Clone headers if provided, otherwise create new object
+  const headers = options.headers ? { ...options.headers } : {};
 
+  // Add Authorization header if token exists
+  const token = localStorage.getItem("token");
+  if (token) {
+    headers["Authorization"] = `Bearer ${token}`;
+  }
 
-├── /components/ (or /ui/)
-│   ├── PostCard.js         // A function that renders a single post card
-│   └── LoginForm.js        // Contains the event listener for the login form
-│
-├── /helpers/ (or /utils/)
-│   ├── validation.js       // Pure functions like isValidEmail()
-│   └── date.js             // Pure functions like formatDate()
-│
-├── /storage/
-│   └── index.js            // Reusable save(), load(), remove() functions
-│
-└── main.js                 // Main application entry point and routing
-*/
+  try {
+    const response = await fetch(url, { ...options, headers });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(
+        errorData.message || `HTTP error! Status: ${response.status}`
+      );
+    }
+
+    // Return parsed JSON response
+    return await response.json();
+  } catch (error) {
+    console.error("API Client Error:", error);
+    throw error; // Re-throw so other modules can handle it
+  }
+}
