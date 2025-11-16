@@ -1,73 +1,34 @@
 // Handles login, register, etc.
+// src/api/authService.js
+import { apiClient } from "./apiClient.mjs";
+import { LOGIN_URL, REGISTER_URL, GET_LISTINGS_URL } from "./config.mjs";
 
-import { BASE_URL, REGISTER_URL, LOGIN_URL } from "./config.mjs";
-
-const loginFormEl = document.getElementById("loginForm");
-
-export async function registerUser(formData) {
-  const formDataInput = {
-    name: formData.get("name"),
-    email: formData.get("email"),
-    password: formData.get("password"),
-    bio: formData.get("bio"),
-    avatar: {
-      url: formData.get("avatarUrl"),
-      alt: formData.get("avatarAlt"),
-    },
-  };
-  const options = {
+// Login
+export async function loginUser(payload) {
+  return apiClient(LOGIN_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(formDataInput),
-  };
-
-  try {
-    const response = await fetch(`${BASE_URL + REGISTER_URL}`, options);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const { data } = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error creating user:", error);
-  }
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
 }
 
-loginFormEl.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const formData = new FormData(loginFormEl);
+// Register
+export async function registerUser(payload) {
+  return apiClient(REGISTER_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+}
 
-  const payload = {
-    email: formData.get("email"),
-    password: formData.get("password"),
-  };
+// get all listings
+export async function getListings({
+  includeSeller = true,
+  includeBids = true,
+} = {}) {
+  const query = `?_seller=${includeSeller}&_bids=${includeBids}`;
 
-  console.log(payload);
-
-  try {
-    const response = await fetch("https://v2.api.noroff.dev/auth/login", {
-      method: "POST", // must be POST for login
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    const authToken = data.data.accessToken;
-    const username = data.data.name;
-
-    console.log(authToken);
-    console.log(username);
-
-    console.log("Login successful:", username);
-    // redirect or update UI here
-  } catch (error) {
-    console.error("Error:", error);
-    alert("Wrong email or password. Please try again.");
-  }
-});
+  return apiClient(GET_LISTINGS_URL + query, {
+    method: "GET",
+  });
+}
