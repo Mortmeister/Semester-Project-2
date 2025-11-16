@@ -1,18 +1,32 @@
+// src/components/RegisterForm.js
 import { registerUser } from "../api/authService.mjs";
 
 export function initRegisterForm() {
-  const registerFormEl = document.getElementById("registerUserForm");
+  const registerFormEl = document.getElementById("registerForm");
+  if (!registerFormEl) return;
+
   registerFormEl.addEventListener("submit", async (event) => {
     event.preventDefault();
 
     const formData = new FormData(registerFormEl);
-    console.log(formData);
+    const payload = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      password: formData.get("password"),
+      bio: formData.get("bio"),
+      avatar: {
+        url: formData.get("avatarUrl"),
+        alt: formData.get("avatarAlt"),
+      },
+    };
 
     try {
-      const userData = await registerUser(formData);
-      console.log("User created:", userData);
+      const { data } = await registerUser(payload);
+      console.log("User registered:", data);
+      // maybe redirect to login page
     } catch (error) {
-      console.error("Registration failed:", error);
+      console.error("Register error:", error);
+      alert("Registration failed. Check your input.");
     }
   });
 }

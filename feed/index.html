@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Auction House - Browse Listings</title>
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/styles/css/styles.css" />
+    <script type="module" src="../src/main.mjs"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="app-header">
+      <div class="container d-flex justify-content-between align-items-center">
+        <a
+          href="index.html"
+          class="app-header__brand d-flex align-items-center"
+        >
+          <div class="app-header__logo">AH</div>
+          <span class="ms-2">Auction House</span>
+        </a>
+
+        <nav class="app-header__nav d-flex align-items-center gap-3">
+          <div class="app-header__credits d-flex align-items-center gap-1">
+            <i class="bi bi-coin"></i>
+            <span>1000 Credits</span>
+          </div>
+
+          <a
+            href="create-listing.html"
+            class="btn btn-primary btn-sm d-flex align-items-center gap-1"
+          >
+            <i class="bi bi-plus-lg"></i> Create Listing
+          </a>
+
+          <div class="user-dropdown position-relative">
+            <button
+              id="userMenuButton"
+              class="app-header__user d-flex align-items-center gap-2"
+            >
+              <span class="app-header__username">John Doe</span>
+              <i class="bi bi-chevron-down"></i>
+            </button>
+
+            <div id="userMenu" class="user-dropdown__menu">
+              <div
+                class="user-dropdown__credits-mobile d-flex align-items-center gap-1"
+              >
+                <i class="bi bi-coin"></i>
+                <span>1000 Credits</span>
+              </div>
+
+              <a href="profile.html" class="user-dropdown__item">
+                <i class="bi bi-person"></i> Profile
+              </a>
+
+              <div class="user-dropdown__divider"></div>
+
+              <a
+                href="login.html"
+                class="user-dropdown__item user-dropdown__item--danger"
+              >
+                <i class="bi bi-box-arrow-right"></i> Logout
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <!-- Hero Section -->
+      <section class="hero py-5 text-center">
+        <div class="container">
+          <h1 class="hero__title">Welcome to Auction House</h1>
+          <p class="hero__description">
+            Discover unique treasures and bid your way to victory.
+          </p>
+
+          <div class="hero__search mt-4 mx-auto" style="max-width: 500px">
+            <div class="search-bar d-flex align-items-center">
+              <i class="bi bi-search search-bar__icon"></i>
+              <input
+                type="text"
+                class="form-control ms-2"
+                placeholder="Search listings..."
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Listings Section -->
+      <section class="listings-section py-5">
+        <div class="container">
+          <div
+            class="listings-section__header d-flex justify-content-between align-items-center"
+          >
+            <div>
+              <h2>Active Listings</h2>
+              <p class="text-muted">6 listings available</p>
+            </div>
+
+            <select class="form-select w-auto">
+              <option value="newest">Newest First</option>
+              <option value="ending-soon">Ending Soon</option>
+              <option value="most-bids">Most Bids</option>
+            </select>
+          </div>
+
+          <div
+            id="listingsSectionContainer"
+            class="listings-section__grid mt-4 row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+          >
+            <!-- Example Listing Card -->
+            <a
+              href="listing.html"
+              class="listing-card col text-decoration-none"
+            >
+              <div class="card h-100">
+                <img
+                  src="https://images.unsplash.com/photo-1495121553079-4c61bcce1894?w=800&h=600&fit=crop"
+                  class="card-img-top"
+                  alt="Vintage Camera Collection"
+                />
+
+                <div class="card-body">
+                  <h5 class="card-title">Vintage Camera Collection</h5>
+
+                  <p class="card-text text-muted">
+                    Rare cameras from the 1960s. Includes cases & manuals.
+                  </p>
+
+                  <div class="d-flex justify-content-between mt-3">
+                    <div>
+                      <div class="text-muted small">Current Bid</div>
+                      <strong>300 Credits</strong>
+                    </div>
+
+                    <div class="d-flex align-items-center gap-1">
+                      <i class="bi bi-clock"></i>
+                      <span>3d</span>
+                    </div>
+                  </div>
+
+                  <div class="d-flex align-items-center mt-3">
+                    <img
+                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop"
+                      class="rounded-circle me-2"
+                      width="32"
+                      height="32"
+                    />
+                    <span class="text-muted">John Doe</span>
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <!-- (Repeat cards as needed...) -->
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dropdown Script -->
+    <script>
+      const userMenuButton = document.getElementById("userMenuButton");
+      const userMenu = document.getElementById("userMenu");
+
+      if (userMenuButton && userMenu) {
+        userMenuButton.addEventListener("click", (e) => {
+          e.stopPropagation();
+          userMenu.classList.toggle("show");
+        });
+
+        document.addEventListener("click", () =>
+          userMenu.classList.remove("show")
+        );
+      }
+    </script>
+  </body>
+</html>
