@@ -1,13 +1,14 @@
 {
-  "name": "semester_project_2",
-  "version": "1.0.0",
-  "description": "A responsive auction platform for Noroff students with secure @stud.noroff.no authentication. Users can manage profiles, credits, and listings, and place bids. Visitors can browse and search listings. Clean, modern UI with high-fidelity responsive design.",
-  "main": "index.js",
+  "name": "auction-house",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
   "scripts": {
-    "build": "sass styles/scss:styles/css --style=compressed",
-    "watch": "sass styles/scss:styles/css --watch"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "devDependencies": {
+    "vite": "^7.2.2"
+  }
 }

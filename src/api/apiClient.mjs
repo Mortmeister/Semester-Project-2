@@ -6,7 +6,14 @@ import { BASE_URL } from "./config.mjs";
 export async function apiClient(endpoint, options = {}) {
   const url = `${BASE_URL}${endpoint}`;
 
-  const headers = options.headers ? { ...options.headers } : {};
+  // const headers = options.headers ? { ...options.headers } : {};
+  const API_KEY = import.meta.env.VITE_API_KEY;
+  const headers = {
+    ...options.headers,
+    "Content-Type": "application/json",
+    "X-Noroff-API-Key": API_KEY,
+  };
+  debugger;
 
   const token = localStorage.getItem("token");
   if (token) {
