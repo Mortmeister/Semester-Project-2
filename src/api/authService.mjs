@@ -1,7 +1,12 @@
 // Handles login, register, etc.
 // src/api/authService.js
 import { apiClient } from "./apiClient.mjs";
-import { LOGIN_URL, REGISTER_URL, GET_LISTINGS_URL } from "./config.mjs";
+import {
+  LOGIN_URL,
+  REGISTER_URL,
+  GET_LISTINGS_URL,
+  CREATE_LISTING_URL,
+} from "./config.mjs";
 
 // Login
 export async function loginUser(payload) {
@@ -30,5 +35,13 @@ export async function getListings({
 
   return apiClient(GET_LISTINGS_URL + query, {
     method: "GET",
+  });
+}
+
+export function createListing(payload) {
+  return apiClient(CREATE_LISTING_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
   });
 }

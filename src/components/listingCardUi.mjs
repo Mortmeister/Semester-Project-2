@@ -11,7 +11,7 @@ export function listingCardMarkup(listing) {
   const bidderName = latestBid?.bidder?.name ?? "Unknown bidder";
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
-  debugger;
+
   return `
        <a href="listing.html?id=${listing.id}" class="listing-card col text-decoration-none">
          <div class="card h-100">
