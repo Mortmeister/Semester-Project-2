@@ -1,15 +1,10 @@
 // src/listings/renderListings.js
-
-import { getListings } from "../api/authService.mjs";
+// import { getListings } from "../api/authService.mjs";
 import { listingCardMarkup } from "../components/listingCardUi.mjs";
 
-export async function renderListings(containerSelector) {
-  const container = document.querySelector(containerSelector);
-
+export async function renderListings(container, listings) {
   try {
-    const { data } = await getListings();
-
-    container.innerHTML = data
+    container.innerHTML = listings
       .map((listing) => listingCardMarkup(listing))
       .join("");
   } catch (error) {

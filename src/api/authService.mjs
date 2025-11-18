@@ -12,7 +12,6 @@ import {
 export async function loginUser(payload) {
   return apiClient(LOGIN_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
 }
@@ -21,17 +20,18 @@ export async function loginUser(payload) {
 export async function registerUser(payload) {
   return apiClient(REGISTER_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
 }
 
-// get all listings
+// get all listings, sorted by date created to get the most recent auctions.
 export async function getListings({
   includeSeller = true,
   includeBids = true,
+  limit = 18,
+  page = 1,
 } = {}) {
-  const query = `?_seller=${includeSeller}&_bids=${includeBids}`;
+  const query = `?_seller=${includeSeller}&_bids=${includeBids}&limit=${limit}&page=${page}&sort=created&sortOrder=desc`;
 
   return apiClient(GET_LISTINGS_URL + query, {
     method: "GET",
@@ -41,7 +41,6 @@ export async function getListings({
 export function createListing(payload) {
   return apiClient(CREATE_LISTING_URL, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
 }
