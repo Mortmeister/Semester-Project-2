@@ -24,7 +24,6 @@ export function initLoginForm() {
       saveUsername(username);
       window.location.href = "./feed/index.html";
       console.log("Login successful:", username);
-      // redirect or update UI here
     } catch (error) {
       console.error("Login error:", error);
       alert("Wrong email or password. Please try again.");

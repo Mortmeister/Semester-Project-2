@@ -2,11 +2,10 @@ import { createListing } from "../api/authService.mjs";
 
 export function initCreateListingForm() {
   const createListingFormEl = document.getElementById("createListingForm");
-  // if (!createListingFormEl) return;
+  if (!createListingFormEl) return;
 
   createListingFormEl.addEventListener("submit", async (event) => {
     event.preventDefault();
-    debugger;
 
     const formData = new FormData(createListingFormEl);
     const payload = {

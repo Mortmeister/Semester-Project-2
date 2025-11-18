@@ -1,4 +1,3 @@
-import { renderListings } from "../listings/renderListings.mjs";
+import { loadListings } from "../components/pagination.mjs";
 
-// Run on page load
-renderListings("#listingsSectionContainer");
+loadListings();

@@ -23,7 +23,6 @@ export function initRegisterForm() {
     try {
       const { data } = await registerUser(payload);
       console.log("User registered:", data);
-      // maybe redirect to login page
     } catch (error) {
       console.error("Register error:", error);
       alert("Registration failed. Check your input.");
