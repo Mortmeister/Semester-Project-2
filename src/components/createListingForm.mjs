@@ -19,7 +19,6 @@ export function initCreateListingForm() {
       ],
       endsAt: formData.get("endsAt"),
     };
-    console.log(payload);
 
     try {
       const { data } = await createListing(payload);
