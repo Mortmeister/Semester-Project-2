@@ -1,11 +1,14 @@
 // Handles login, register, etc.
 // src/api/authService.js
 import { apiClient } from "./apiClient.mjs";
+import { getUsername } from "../storage/index.mjs";
 import {
   LOGIN_URL,
   REGISTER_URL,
   GET_LISTINGS_URL,
   CREATE_LISTING_URL,
+  PROFILE_URL,
+  PROFILE_LISTINGS_URL,
 } from "./config.mjs";
 
 // Login
@@ -21,6 +24,20 @@ export async function registerUser(payload) {
   return apiClient(REGISTER_URL, {
     method: "POST",
     body: JSON.stringify(payload),
+  });
+}
+
+export async function getUserProfile() {
+  const username = getUsername();
+  return apiClient(PROFILE_URL + username, {
+    method: "GET",
+  });
+}
+
+export async function getUserListings() {
+  const username = getUsername();
+  return apiClient(PROFILE_URL + username + PROFILE_LISTINGS_URL, {
+    method: "GET",
   });
 }
 

@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile - Auction House</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+    />
+
+    <link rel="stylesheet" href="../styles/css/styles.css" />
+    <!-- <script type="module" src="../src/main.mjs"></script> -->
+    <script type="module" src="../src/pages/profile.mjs"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <header class="app-header">
+      <div class="container">
+        <a href="../feed/index.html" class="app-header__brand">
+          <div class="app-header__logo">AH</div>
+          <span>Auction House</span>
+        </a>
+
+        <nav class="app-header__nav">
+          <div class="app-header__credits">
+            <i class="bi bi-coin"></i>
+            <span>1000 Credits</span>
+          </div>
+
+          <a href="../create_listing/index.html" class="btn btn-primary btn-sm">
+            <i class="bi bi-plus-lg"></i>
+            Create Listing
+          </a>
+
+          <div class="user-dropdown">
+            <button class="app-header__user" id="userMenuButton">
+              <img
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop"
+                alt="John Doe"
+                class="app-header__avatar"
+                id="avatarImage"
+              />
+              <span class="app-header__username">John Doe</span>
+              <i class="bi bi-chevron-down"></i>
+            </button>
+
+            <div class="user-dropdown__menu" id="userMenu">
+              <div class="user-dropdown__credits-mobile">
+                <i class="bi bi-coin"></i>
+                <span>1000 Credits</span>
+              </div>
+              <a href="profile.html" class="user-dropdown__item">
+                <i class="bi bi-person"></i>
+                Profile
+              </a>
+              <div class="user-dropdown__divider"></div>
+              <a
+                href="login.html"
+                class="user-dropdown__item user-dropdown__item--danger"
+              >
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+              </a>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <div class="profile-page">
+        <div class="profile-page__banner">
+          <img
+            src="https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&h=300&fit=crop"
+            alt="Profile banner"
+            id="profileBanner"
+          />
+        </div>
+
+        <div class="container">
+          <div class="profile-page__header">
+            <div class="profile-page__top">
+              <img
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop"
+                alt="John Doe"
+                class="profile-page__avatar"
+                id="avatarImage2"
+              />
+
+              <div class="profile-page__info">
+                <h1>John Doe</h1>
+                <p class="email">john.doe@stud.noroff.no</p>
+                <p class="bio">Passionate collector and auction enthusiast</p>
+              </div>
+
+              <div class="profile-page__meta">
+                <div class="profile-page__credits">
+                  <div class="value">
+                    <i class="bi bi-coin"></i>
+                    <span id="creditsEl">1000</span>
+                  </div>
+                  <div class="label">Available Credits</div>
+                </div>
+
+                <button class="btn btn-outline-primary" id="editProfileBtn">
+                  <i class="bi bi-pencil"></i>
+                  Edit Profile
+                </button>
+              </div>
+            </div>
+
+            <div
+              class="profile-page__edit-form"
+              id="editForm"
+              style="display: none"
+            >
+              <form id="profileForm">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="editName" class="form-label">Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="editName"
+                      value="John Doe"
+                    />
+                  </div>
+
+                  <div class="form-group">
+                    <label for="editAvatar" class="form-label"
+                      >Avatar URL</label
+                    >
+                    <input
+                      type="url"
+                      class="form-control"
+                      id="editAvatar"
+                      value="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop"
+                      placeholder="https://example.com/avatar.jpg"
+                    />
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="editBanner" class="form-label">Banner URL</label>
+                  <input
+                    type="url"
+                    class="form-control"
+                    id="editBanner"
+                    value="https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&h=300&fit=crop"
+                    placeholder="https://example.com/banner.jpg"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="editBio" class="form-label">Bio</label>
+                  <textarea
+                    class="form-control"
+                    id="editBio"
+                    rows="3"
+                    placeholder="Tell us about yourself..."
+                  >
+Passionate collector and auction enthusiast</textarea
+                  >
+                </div>
+
+                <div class="form-actions">
+                  <button type="submit" class="btn btn-primary">
+                    Save Changes
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-ghost"
+                    id="cancelEditBtn"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <div class="profile-page__tabs">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <button
+                  class="nav-link active"
+                  data-tab="my-listings"
+                  id="myListingsCount"
+                >
+                  My Listings (2)
+                </button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" data-tab="my-bids">My Bids (1)</button>
+              </li>
+            </ul>
+
+            <div class="tab-content">
+              <div class="tab-pane active">
+                <div class="profile-page__grid" id="myListings">
+                  <!-- Listing Card 1 -->
+                  <div class="profile-page__bid-card">
+                    <a href="listing.html" class="listing-card">
+                      <div class="listing-card__image">
+                        <img
+                          src="https://images.unsplash.com/photo-1495121553079-4c61bcce1894?w=800&h=600&fit=crop"
+                          alt="Vintage Camera Collection"
+                        />
+                      </div>
+
+                      <div class="listing-card__body">
+                        <div class="listing-card__header">
+                          <h3 class="listing-card__title">
+                            Vintage Camera Collection
+                          </h3>
+                        </div>
+
+                        <p class="listing-card__description">
+                          A rare collection of vintage cameras from the 1960s.
+                        </p>
+
+                        <div class="listing-card__info">
+                          <div class="listing-card__bid">
+                            <div class="listing-card__bid-label">
+                              Current Bid
+                            </div>
+                            <div class="listing-card__bid-amount">
+                              300 Credits
+                            </div>
+                          </div>
+
+                          <div class="listing-card__time">
+                            <i class="bi bi-clock"></i>
+                            <span>3d</span>
+                          </div>
+                        </div>
+
+                        <div class="listing-card__seller">
+                          <img
+                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop"
+                            alt="John Doe"
+                            class="listing-card__seller-avatar"
+                          />
+                          <span class="listing-card__seller-name"
+                            >John Doe</span
+                          >
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+
+                  <!-- Listing Card 2 -->
+                  <div class="profile-page__bid-card">
+                    <a href="listing.html" class="listing-card">
+                      <div class="listing-card__image">
+                        <img
+                          src="https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=800&h=600&fit=crop"
+                          alt="Rare Vinyl Record Collection"
+                        />
+                      </div>
+
+                      <div class="listing-card__body">
+                        <div class="listing-card__header">
+                          <h3 class="listing-card__title">
+                            Rare Vinyl Record Collection
+                          </h3>
+                        </div>
+
+                        <p class="listing-card__description">
+                          Limited edition vinyl records from iconic 70s and 80s
+                          artists.
+                        </p>
+
+                        <div class="listing-card__info">
+                          <div class="listing-card__bid">
+                            <div class="listing-card__bid-label">
+                              Current Bid
+                            </div>
+                            <div class="listing-card__bid-amount">
+                              280 Credits
+                            </div>
+                          </div>
+
+                          <div class="listing-card__time">
+                            <i class="bi bi-clock"></i>
+                            <span>2d</span>
+                          </div>
+                        </div>
+
+                        <div class="listing-card__seller">
+                          <img
+                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop"
+                            alt="John Doe"
+                            class="listing-card__seller-avatar"
+                          />
+                          <span class="listing-card__seller-name"
+                            >John Doe</span
+                          >
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              <div class="tab-pane" id="my-bids">
+                <div class="profile-page__grid">
+                  <div class="profile-page__bid-card">
+                    <div class="listing-card__bid-badge">Your bid: 450</div>
+                    <a href="listing.html" class="listing-card">
+                      <div class="listing-card__image">
+                        <img
+                          src="https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&h=600&fit=crop"
+                          alt="Antique Wooden Desk"
+                        />
+                      </div>
+
+                      <div class="listing-card__body">
+                        <div class="listing-card__header">
+                          <h3 class="listing-card__title">
+                            Antique Wooden Desk
+                          </h3>
+                        </div>
+
+                        <p class="listing-card__description">
+                          Beautiful mahogany desk from the early 1900s.
+                        </p>
+
+                        <div class="listing-card__info">
+                          <div class="listing-card__bid">
+                            <div class="listing-card__bid-label">
+                              Current Bid
+                            </div>
+                            <div class="listing-card__bid-amount">
+                              450 Credits
+                            </div>
+                          </div>
+
+                          <div class="listing-card__time">
+                            <i class="bi bi-clock"></i>
+                            <span>5d</span>
+                          </div>
+                        </div>
+
+                        <div class="listing-card__seller">
+                          <img
+                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop"
+                            alt="Emily Brown"
+                            class="listing-card__seller-avatar"
+                          />
+                          <span class="listing-card__seller-name"
+                            >Emily Brown</span
+                          >
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // Dropdown menu
+      const userMenuButton = document.getElementById("userMenuButton");
+      const userMenu = document.getElementById("userMenu");
+
+      if (userMenuButton && userMenu) {
+        userMenuButton.addEventListener("click", (e) => {
+          e.stopPropagation();
+          userMenu.classList.toggle("show");
+        });
+
+        document.addEventListener("click", () => {
+          userMenu.classList.remove("show");
+        });
+      }
+
+      // Tab navigation
+      const tabButtons = document.querySelectorAll(".nav-link");
+      const tabPanes = document.querySelectorAll(".tab-pane");
+
+      tabButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const tabId = button.dataset.tab;
+
+          tabButtons.forEach((b) => b.classList.remove("active"));
+          button.classList.add("active");
+
+          tabPanes.forEach((pane) => pane.classList.remove("active"));
+          document.getElementById(tabId).classList.add("active");
+        });
+      });
+
+      // Profile edit
+      const editBtn = document.getElementById("editProfileBtn");
+      const editForm = document.getElementById("editForm");
+      const cancelBtn = document.getElementById("cancelEditBtn");
+
+      editBtn.addEventListener("click", () => {
+        editForm.style.display = "block";
+        editBtn.style.display = "none";
+      });
+
+      cancelBtn.addEventListener("click", () => {
+        editForm.style.display = "none";
+        editBtn.style.display = "block";
+      });
+    </script>
+  </body>
+</html>
