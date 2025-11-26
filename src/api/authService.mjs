@@ -10,6 +10,7 @@ import {
   PROFILE_URL,
   PROFILE_LISTINGS_URL,
 } from "./config.mjs";
+import { getToken } from "../storage/index.mjs";
 
 // Login
 export async function loginUser(payload) {
@@ -59,5 +60,17 @@ export function createListing(payload) {
   return apiClient(CREATE_LISTING_URL, {
     method: "POST",
     body: JSON.stringify(payload),
+  });
+}
+
+export function deleteListing(id) {
+  const authToken = getToken();
+
+  if (!authToken) {
+    throw new Error("No auth token was provided");
+  }
+
+  return apiClient(`${GET_LISTINGS_URL}/${id}`, {
+    method: "DELETE",
   });
 }

@@ -26,6 +26,10 @@ export async function apiClient(endpoint, options = {}) {
       );
     }
 
+    if (response.status === 204) {
+      return { success: true };
+    }
+
     return await response.json();
   } catch (error) {
     console.error("API Client Error:", error);

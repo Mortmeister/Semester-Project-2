@@ -23,7 +23,7 @@ export function initCreateListingForm() {
     try {
       const { data } = await createListing(payload);
       console.log("User registered:", data);
-      // maybe redirect to login page
+      window.location.href = "../profile/index.html";
     } catch (error) {
       console.error("Register error:", error);
       alert("Registration failed. Check your input.");
