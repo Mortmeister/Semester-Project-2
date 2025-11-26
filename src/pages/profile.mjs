@@ -1,5 +1,54 @@
 import { getUserProfile, getUserListings } from "../api/authService.mjs";
-import { renderListings } from "../listings/renderListings.mjs";
+import { renderProfileListings } from "../listings/renderListings.mjs";
+import { initDeleteDelegation } from "../listings/deleteListing.mjs";
+
+const container = document.querySelectorAll(["profile-page__bid-card"]);
+
+// Dropdown menu
+const userMenuButton = document.getElementById("userMenuButton");
+const userMenu = document.getElementById("userMenu");
+
+if (userMenuButton && userMenu) {
+  userMenuButton.addEventListener("click", (e) => {
+    e.stopPropagation();
+    userMenu.classList.toggle("show");
+  });
+
+  document.addEventListener("click", () => {
+    userMenu.classList.remove("show");
+  });
+}
+
+// Tab navigation
+const tabButtons = document.querySelectorAll(".nav-link");
+const tabPanes = document.querySelectorAll(".tab-pane");
+
+tabButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const tabId = button.dataset.tab;
+
+    tabButtons.forEach((b) => b.classList.remove("active"));
+    button.classList.add("active");
+
+    tabPanes.forEach((pane) => pane.classList.remove("active"));
+    document.getElementById(tabId).classList.add("active");
+  });
+});
+
+// Profile edit
+const editBtn = document.getElementById("editProfileBtn");
+const editForm = document.getElementById("editForm");
+const cancelBtn = document.getElementById("cancelEditBtn");
+
+editBtn.addEventListener("click", () => {
+  editForm.style.display = "block";
+  editBtn.style.display = "none";
+});
+
+cancelBtn.addEventListener("click", () => {
+  editForm.style.display = "none";
+  editBtn.style.display = "block";
+});
 
 async function loadAvatar() {
   const avatarImage = document.getElementById("avatarImage");
@@ -17,14 +66,13 @@ async function loadAvatar() {
     console.log(error);
   }
 }
-
 export async function loadListings() {
   const container = document.getElementById("myListings");
   const { data } = await getUserListings();
 
-  await renderListings(container, data);
+  await renderProfileListings(container, data);
 }
 
 loadAvatar();
 loadListings();
-getUserListings();
+initDeleteDelegation(container);
