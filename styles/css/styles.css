@@ -1,7 +1,3 @@
-/* ===================================
-   AUCTION HOUSE - COMPILED CSS
-   ================================== */
-/* BASE STYLES */
 * {
   box-sizing: border-box;
 }
@@ -1682,13 +1678,13 @@ select.form-control {
 }
 
 .listing-card {
-  display: block; /* Fixes width collapsing */
-  height: auto; /* Prevents forced height */
-  width: 100%; /* Ensures full column width */
+  display: block;
+  height: auto;
+  width: 100%;
 }
 
 .listing-card .card {
-  height: 100%; /* Makes inner card stretch properly */
+  height: 100%;
 }
 
 .profile-page__bid-card {
@@ -1839,5 +1835,3 @@ select.form-control {
   justify-content: center;
   min-height: 200px;
 }
-
-/*# sourceMappingURL=styles.css.map */

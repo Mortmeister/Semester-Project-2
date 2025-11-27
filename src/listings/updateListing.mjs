@@ -1,9 +1,10 @@
-import { deleteListing } from "../api/authService.mjs";
+import { updateListing, getSingleListing } from "../api/authService.mjs";
+
 const listingEl = document.getElementById("myListings");
 
 export async function initDeleteDelegation() {
   listingEl.addEventListener("click", async (event) => {
-    const btn = event.target.closest("[data-action='delete-listing']");
+    const btn = event.target.closest("[data-action='update-listing']");
     if (!btn) return;
 
     const listingId = btn.dataset.listingId;
@@ -14,7 +15,7 @@ export async function initDeleteDelegation() {
     if (!confirmDelete) return;
 
     try {
-      await deleteListing(listingId);
+      await updateListing(listingId);
       location.reload();
 
       alert("Listing deleted successfully.");

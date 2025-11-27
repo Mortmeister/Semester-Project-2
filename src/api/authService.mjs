@@ -74,3 +74,22 @@ export function deleteListing(id) {
     method: "DELETE",
   });
 }
+
+export function updateListing(payload, id) {
+  const authToken = getToken();
+
+  if (!authToken) {
+    throw new Error("No auth token was provided");
+  }
+
+  return apiClient(`${GET_LISTINGS_URL}/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+}
+
+export function getSingleListing(id) {
+  return apiClient(`${GET_LISTINGS_URL}/${id}`, {
+    method: "GET",
+  });
+}
