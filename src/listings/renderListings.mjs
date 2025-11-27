@@ -1,4 +1,3 @@
-// src/listings/renderListings.js
 import {
   listingCardMarkup,
   listingProfileCardMarkup,

@@ -21,7 +21,7 @@ export function listingProfileCardMarkup(listing) {
 
     <ul class="dropdown-menu dropdown-menu-end">
           <li>
-            <a class="dropdown-item" href="edit-listing.html?id=${listing.id}">
+            <a class="dropdown-item" href="../update_listing/index.html?id=${listing.id}">
               <i class="bi bi-pencil"></i>
               Edit
             </a>
@@ -87,6 +87,7 @@ export function listingProfileCardMarkup(listing) {
     </div>
   `;
 }
+
 export function listingCardMarkup(listing) {
   const imageUrl =
     listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";

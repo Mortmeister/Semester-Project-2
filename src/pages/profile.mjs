@@ -69,7 +69,7 @@ async function loadAvatar() {
 export async function loadListings() {
   const container = document.getElementById("myListings");
   const { data } = await getUserListings();
-
+  debugger;
   await renderProfileListings(container, data);
 }
 
