@@ -88,8 +88,13 @@ export function updateListing(payload, id) {
   });
 }
 
-export function getSingleListing(id) {
-  return apiClient(`${GET_LISTINGS_URL}/${id}`, {
+export function getSingleListing(
+  id,
+  { includeSeller = true, includeBids = true } = {}
+) {
+  const query = `?_seller=${includeSeller}&_bids=${includeBids}`;
+
+  return apiClient(`${GET_LISTINGS_URL}/${id}${query}`, {
     method: "GET",
   });
 }
