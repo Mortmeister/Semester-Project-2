@@ -1,4 +1,4 @@
-import { updateListing, getSingleListing } from "../api/authService.mjs";
+import { updateListing } from "../api/authService.mjs";
 
 const listingEl = document.getElementById("myListings");
 

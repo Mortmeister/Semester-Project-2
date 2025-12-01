@@ -41,7 +41,7 @@ export function listingProfileCardMarkup(listing) {
         </ul>
       </div>
 
-      <a href="listing.html?id=${listing.id}" class="listing-card">
+      <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
 
         
         <div class="listing-card__image">
@@ -103,7 +103,7 @@ export function listingCardMarkup(listing) {
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
 
   return `
-       <a href="listing.html?id=${listing.id}" class="listing-card col text-decoration-none">
+       <a href="../single_page/index.html?id=${listing.id}" class="listing-card col text-decoration-none">
          <div class="card h-100">
            <img
              src="${imageUrl}"
@@ -143,4 +143,134 @@ export function listingCardMarkup(listing) {
          </div>
        </a>
        `;
+}
+
+export function singlePageCardMarkup(listing) {
+  const imageUrl =
+    listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
+  const imageAlt = listing.media?.[0]?.alt ?? "No alt text provided";
+
+  //  BIDS
+  const bids = listing.bids ?? [];
+  const latestBid = bids.length > 0 ? bids[bids.length - 1] : null;
+
+  const currentBidAmount = latestBid?.amount ?? "No bids yet";
+  const bidderName = latestBid?.bidder?.name ?? "No bids yet";
+  const bidderAvatar =
+    latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
+
+  const latestBidTime = latestBid?.created ?? "";
+
+  // SELLER
+  const sellerImg =
+    listing.seller?.avatar?.url ?? "https://placehold.co/48x48?text=S";
+  const sellerImgAlt = listing.seller?.avatar?.alt ?? "Seller avatar";
+  const sellerName = listing.seller?.name ?? "Unknown seller";
+
+  return `
+    <div class="container">
+      <a href="index.html" class="btn btn-outline-secondary btn-sm mb-3">
+        <i class="bi bi-arrow-left"></i>
+        Back to Listings
+      </a>
+
+              <div class="row g-4">
+          <div class="col-lg-6">
+            <div class="border rounded p-2 mb-3" id="mainImage">
+              <img
+                src="${imageUrl}"
+                class="img-fluid rounded"
+                alt="${imageAlt}"
+              />
+            </div>
+
+            <div class="d-flex gap-2">
+              <div
+              >
+                <img
+                  src="${imageUrl}"
+                  alt="${imageAlt}"
+                  class="img-thumbnail"
+                />
+              </div>
+
+              <div>
+                <img
+                  src="${imageUrl}"
+                  alt="${imageAlt}"
+                  class="img-thumbnail"
+                />
+              </div>
+            </div>
+          </div>
+
+        <div class="col-lg-6">
+          <h1 class="mb-2">${listing.title}</h1>
+          <p>${listing.description}</p>
+
+          <div class="mb-3">
+            <span class="badge bg-secondary">${listing.tags}</span>
+          </div>
+
+          <div class="d-flex align-items-center gap-3 mb-4">
+            <img
+              src="${sellerImg}"
+              alt="${sellerImgAlt}"
+              class="rounded-circle"
+              width="48"
+              height="48"
+            />
+            <div>
+              <div class="text-muted">Seller</div>
+              <div>${sellerName}</div>
+            </div>
+          </div>
+
+          <div class="border rounded p-3 mb-4">
+            <div class="d-flex justify-content-between mb-3">
+              <div>
+                <div class="text-muted">Current Bid</div>
+                <div class="fw-bold">${currentBidAmount} Credits</div>
+              </div>
+              <div>
+                <div class="text-muted">Time Remaining</div>
+                <div><i class="bi bi-clock"></i> ${listing.endsAt}</div>
+              </div>
+            </div>
+
+            <form class="d-flex gap-2 mb-2">
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Enter bid amount"
+              />
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-gavel"></i> Place Bid
+              </button>
+            </form>
+
+            <p class="text-muted small">Your available credits: 1000</p>
+          </div>
+
+          <h4>Bid History (${listing._count?.bids ?? 0})</h4>
+          <div class="list-group">
+            ${
+              latestBid
+                ? `
+              <div class="list-group-item d-flex justify-content-between">
+                <div><i class="bi bi-person-fill"></i> ${bidderName}</div>
+                <div>${currentBidAmount} Credits · ${latestBidTime}</div>
+              </div>
+              `
+                : `
+              <div class="list-group-item">
+                <div class="text-muted">No bids yet</div>
+              </div>
+              `
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
 }
