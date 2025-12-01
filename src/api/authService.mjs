@@ -35,9 +35,13 @@ export async function getUserProfile() {
   });
 }
 
-export async function getUserListings() {
+export async function getUserListings({
+  includeSeller = true,
+  includeBids = true,
+} = {}) {
+  const query = `?_seller=${includeSeller}&_bids=${includeBids}`;
   const username = getUsername();
-  return apiClient(PROFILE_URL + username + PROFILE_LISTINGS_URL, {
+  return apiClient(PROFILE_URL + username + PROFILE_LISTINGS_URL + query, {
     method: "GET",
   });
 }
