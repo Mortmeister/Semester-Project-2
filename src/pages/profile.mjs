@@ -1,11 +1,11 @@
 import { getUserProfile, getUserListings } from "../api/authService.mjs";
 import { renderProfileListings } from "../listings/renderListings.mjs";
 import { initDeleteDelegation } from "../listings/deleteListing.mjs";
-import { initHeaderDropdown } from "../components/header.mjs";
+import { loadHeader } from "../components/header.mjs";
+
+loadHeader();
 
 const container = document.querySelectorAll(["profile-page__bid-card"]);
-
-initHeaderDropdown();
 
 const tabButtons = document.querySelectorAll(".nav-link");
 const tabPanes = document.querySelectorAll(".tab-pane");
@@ -57,6 +57,7 @@ export async function loadListings() {
   const container = document.getElementById("myListings");
   const { data } = await getUserListings();
   await renderProfileListings(container, data);
+  // loadHeader();
 }
 
 loadAvatar();
