@@ -238,8 +238,9 @@ export function singlePageCardMarkup(listing) {
               </div>
             </div>
 
-            <form class="d-flex gap-2 mb-2">
+            <form class="d-flex gap-2 mb-2" id="bidOnAuctionForm">
               <input
+                name="bidAmount"
                 type="number"
                 class="form-control"
                 placeholder="Enter bid amount"

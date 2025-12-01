@@ -1,25 +1,12 @@
 import { getUserProfile, getUserListings } from "../api/authService.mjs";
 import { renderProfileListings } from "../listings/renderListings.mjs";
 import { initDeleteDelegation } from "../listings/deleteListing.mjs";
+import { initHeaderDropdown } from "../components/header.mjs";
 
 const container = document.querySelectorAll(["profile-page__bid-card"]);
 
-// Dropdown menu
-const userMenuButton = document.getElementById("userMenuButton");
-const userMenu = document.getElementById("userMenu");
+initHeaderDropdown();
 
-if (userMenuButton && userMenu) {
-  userMenuButton.addEventListener("click", (e) => {
-    e.stopPropagation();
-    userMenu.classList.toggle("show");
-  });
-
-  document.addEventListener("click", () => {
-    userMenu.classList.remove("show");
-  });
-}
-
-// Tab navigation
 const tabButtons = document.querySelectorAll(".nav-link");
 const tabPanes = document.querySelectorAll(".tab-pane");
 
@@ -69,7 +56,6 @@ async function loadAvatar() {
 export async function loadListings() {
   const container = document.getElementById("myListings");
   const { data } = await getUserListings();
-  debugger;
   await renderProfileListings(container, data);
 }
 
