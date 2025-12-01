@@ -2,6 +2,7 @@ import { renderSingleListing } from "../listings/renderListings.mjs";
 import { getSingleListing } from "../api/authService.mjs";
 import { getParam } from "../helpers/getParams.mjs";
 import { initBidForm } from "../listings/bidOnListing.mjs";
+import { loadHeader } from "../components/header.mjs";
 
 export async function loadListings() {
   const id = getParam("id");
@@ -16,3 +17,4 @@ export async function loadListings() {
 }
 
 loadListings();
+loadHeader();
