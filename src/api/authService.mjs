@@ -98,3 +98,10 @@ export function getSingleListing(
     method: "GET",
   });
 }
+
+export function makeBid(id, payload) {
+  return apiClient(`${GET_LISTINGS_URL}/${id}/bids`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}

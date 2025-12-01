@@ -22,3 +22,7 @@ UPDATE
 DELETE 
 /auction/listings/<id>
 */
+
+/* BID 
+/auction/listings/<id>/bids
+*/
