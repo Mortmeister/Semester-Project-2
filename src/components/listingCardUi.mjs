@@ -1,3 +1,5 @@
+import { toDatetimeLocal } from "../helpers/dateTime";
+
 export function listingProfileCardMarkup(listing) {
   const imageUrl =
     listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
@@ -11,7 +13,8 @@ export function listingProfileCardMarkup(listing) {
   const bidderName = latestBid?.bidder?.name ?? "Unknown bidder";
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
-
+  const formattedDate = toDatetimeLocal(listing);
+  debugger;
   return `
     <div class="profile-page__bid-card">
       <div class="listing-card__actions">
@@ -67,7 +70,7 @@ export function listingProfileCardMarkup(listing) {
 
             <div class="listing-card__time">
               <i class="bi bi-clock"></i>
-              <span>${listing.endsAt}</span>
+              <span>${formattedDate}</span>
             </div>
 
           </div>
@@ -102,6 +105,8 @@ export function listingCardMarkup(listing) {
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
 
+  const formattedDate = toDatetimeLocal(listing);
+
   return `
        <a href="../single_page/index.html?id=${listing.id}" class="listing-card col text-decoration-none">
          <div class="card h-100">
@@ -126,7 +131,7 @@ export function listingCardMarkup(listing) {
 
                <div class="d-flex align-items-center gap-1">
                  <i class="bi bi-clock"></i>
-                 <span>${listing.endsAt}</span>
+                 <span>${formattedDate}</span>
                </div>
              </div>
 
@@ -166,7 +171,7 @@ export function singlePageCardMarkup(listing) {
     listing.seller?.avatar?.url ?? "https://placehold.co/48x48?text=S";
   const sellerImgAlt = listing.seller?.avatar?.alt ?? "Seller avatar";
   const sellerName = listing.seller?.name ?? "Unknown seller";
-
+  const formattedDate = toDatetimeLocal(listing);
   return `
     <div class="container">
       <a href="index.html" class="btn btn-outline-secondary btn-sm mb-3">
@@ -234,7 +239,7 @@ export function singlePageCardMarkup(listing) {
               </div>
               <div>
                 <div class="text-muted">Time Remaining</div>
-                <div><i class="bi bi-clock"></i> ${listing.endsAt}</div>
+                <div><i class="bi bi-clock"></i> ${formattedDate}</div>
               </div>
             </div>
 
