@@ -9,6 +9,7 @@ import {
   CREATE_LISTING_URL,
   PROFILE_URL,
   PROFILE_LISTINGS_URL,
+  SEARCH_LISTING_URL,
 } from "./config.mjs";
 import { getToken } from "../storage/index.mjs";
 
@@ -107,5 +108,11 @@ export function makeBid(id, payload) {
   return apiClient(`${GET_LISTINGS_URL}/${id}/bids`, {
     method: "POST",
     body: JSON.stringify(payload),
+  });
+}
+
+export function searchPosts(query) {
+  return apiClient(`${SEARCH_LISTING_URL}${query}`, {
+    method: "GET",
   });
 }
