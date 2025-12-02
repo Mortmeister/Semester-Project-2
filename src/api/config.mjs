@@ -10,6 +10,8 @@ export const PROFILE_URL = "auction/profiles/";
 
 export const PROFILE_LISTINGS_URL = `/listings`;
 
+export const SEARCH_LISTING_URL = `auction/listings/search?q=`;
+
 /*
 /auction/profiles/<name>/listings
 /auction/profiles/<name>/bids
