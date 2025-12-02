@@ -53,8 +53,10 @@ export async function getListings({
   includeBids = true,
   limit = 18,
   page = 1,
+  sort = "created",
+  sortOrder = "desc",
 } = {}) {
-  const query = `?_seller=${includeSeller}&_bids=${includeBids}&limit=${limit}&page=${page}&sort=created&sortOrder=desc`;
+  const query = `?_seller=${includeSeller}&_bids=${includeBids}&limit=${limit}&page=${page}&&sort=${sort}&sortOrder=${sortOrder}`;
 
   return apiClient(GET_LISTINGS_URL + query, {
     method: "GET",
