@@ -13,8 +13,8 @@ export function listingProfileCardMarkup(listing) {
   const bidderName = latestBid?.bidder?.name ?? "Unknown bidder";
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
-  const formattedDate = toDatetimeLocal(listing);
-  debugger;
+  const formattedDate = toDatetimeLocal(listing.endsAt);
+
   return `
     <div class="profile-page__bid-card">
       <div class="listing-card__actions">
@@ -105,7 +105,7 @@ export function listingCardMarkup(listing) {
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
 
-  const formattedDate = toDatetimeLocal(listing);
+  const formattedDate = toDatetimeLocal(listing.endsAt);
 
   return `
        <a href="../single_page/index.html?id=${listing.id}" class="listing-card col text-decoration-none">
@@ -164,14 +164,15 @@ export function singlePageCardMarkup(listing) {
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
 
-  const latestBidTime = latestBid?.created ?? "";
+  const latestBidTime = toDatetimeLocal(latestBid?.created) ?? "";
 
   // SELLER
   const sellerImg =
     listing.seller?.avatar?.url ?? "https://placehold.co/48x48?text=S";
   const sellerImgAlt = listing.seller?.avatar?.alt ?? "Seller avatar";
   const sellerName = listing.seller?.name ?? "Unknown seller";
-  const formattedDate = toDatetimeLocal(listing);
+  const formattedDate = toDatetimeLocal(listing.endsAt);
+
   return `
     <div class="container">
       <a href="index.html" class="btn btn-outline-secondary btn-sm mb-3">
