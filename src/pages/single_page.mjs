@@ -13,7 +13,7 @@ export async function loadListings() {
   const container = document.getElementById("singlePageContainer");
   const { data } = await getSingleListing(id);
   await renderSingleListing(container, data);
-  await initBidForm(id);
+  initBidForm(id);
 }
 
 loadListings();
