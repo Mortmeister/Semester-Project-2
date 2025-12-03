@@ -1,4 +1,5 @@
 import { toDatetimeLocal } from "../helpers/dateTime";
+import { bidHistoryMarkup } from "./bidHistory";
 
 export function listingProfileCardMarkup(listing) {
   const imageUrl =
@@ -260,22 +261,7 @@ export function singlePageCardMarkup(listing) {
           </div>
 
           <h4>Bid History (${listing._count?.bids ?? 0})</h4>
-          <div class="list-group">
-            ${
-              latestBid
-                ? `
-              <div class="list-group-item d-flex justify-content-between">
-                <div><i class="bi bi-person-fill"></i> ${bidderName}</div>
-                <div>${currentBidAmount} Credits · ${latestBidTime}</div>
-              </div>
-              `
-                : `
-              <div class="list-group-item">
-                <div class="text-muted">No bids yet</div>
-              </div>
-              `
-            }
-          </div>
+        ${bidHistoryMarkup(listing.bids)}
         </div>
       </div>
     </div>
