@@ -7,26 +7,36 @@ const sortPostsEl = document.getElementById("sortPostsEl");
 export function initSortPosts() {
   sortPostsEl.addEventListener("input", async (event) => {
     const value = event.target.value;
-    let { data } = await getListings();
+
+    let sort = "created";
+    let sortOrder = "desc";
 
     switch (value) {
       case "ending-soon":
-        data = data.sort((a, b) => new Date(a.endsAt) - new Date(b.endsAt));
-
+        sort = "endsAt";
+        sortOrder = "asc";
         break;
-
+      case "ending-last":
+        sort = "endsAt";
+        sortOrder = "desc";
+        break;
       case "most-bids":
-        data = data.sort((a, b) => b._count.bids - a._count.bids);
+        sort = "_count.bids";
+        sortOrder = "desc";
         break;
-
       case "newest":
-        data = data.sort((a, b) => new Date(b.created) - new Date(a.created));
+        sort = "created";
+        sortOrder = "asc";
         break;
 
-      default:
-        data = data.sort((a, b) => new Date(b.created) - new Date(a.created));
-    }
+      case "oldest":
+        sort = "created";
+        sortOrder = "desc";
+        break;
 
+      // etc.
+    }
+    const { data } = await getListings({ sort, sortOrder });
     renderListings(container, data);
   });
 }

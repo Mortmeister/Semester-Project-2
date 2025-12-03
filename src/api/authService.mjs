@@ -56,11 +56,8 @@ export async function getListings({
   sort = "created",
   sortOrder = "desc",
 } = {}) {
-  const query = `?_seller=${includeSeller}&_bids=${includeBids}&limit=${limit}&page=${page}&&sort=${sort}&sortOrder=${sortOrder}`;
-
-  return apiClient(GET_LISTINGS_URL + query, {
-    method: "GET",
-  });
+  const query = `?_seller=${includeSeller}&_active=true&_bids=${includeBids}&limit=${limit}&page=${page}&sort=${sort}&sortOrder=${sortOrder}`;
+  return apiClient(GET_LISTINGS_URL + query, { method: "GET" });
 }
 
 export function createListing(payload) {
