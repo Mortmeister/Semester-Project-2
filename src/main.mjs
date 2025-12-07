@@ -1,6 +1,6 @@
-import { initRegisterForm } from "./components/registerForm.mjs";
-import { initLoginForm } from "./components/loginForm.mjs";
-import { getUserProfile } from "./api/authService.mjs";
+import { initRegisterForm } from "./components/register-form.mjs";
+import { initLoginForm } from "./components/login-form.mjs";
+import { getUserProfile } from "./api/auth-service.mjs";
 
 initRegisterForm();
 getUserProfile();

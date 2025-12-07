@@ -1,6 +1,5 @@
-// src/components/LoginForm.js
-import { loginUser } from "../api/authService.mjs";
-import { saveToken, saveUsername } from "../storage/index.mjs";
+import { loginUser } from "../api/auth-service.mjs";
+import { saveToken, saveUsername } from "../utils/storage.mjs";
 
 export function initLoginForm() {
   const loginFormEl = document.getElementById("loginForm");

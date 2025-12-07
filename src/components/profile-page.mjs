@@ -2,24 +2,15 @@ import {
   getUserProfile,
   getUserListings,
   getUserBids,
-  getSingleListing,
-} from "../api/authService.mjs";
+} from "../api/auth-service.mjs";
 import {
   renderProfileListings,
   renderBidListings,
-} from "../listings/renderListings.mjs";
-import { initDeleteDelegation } from "../listings/deleteListing.mjs";
-import { loadHeader } from "../components/header.mjs";
-import {
-  prefillForm,
-  initUpdateProfileForm,
-} from "../components/editProfile.mjs";
-import { getUsername } from "../storage/index.mjs";
+} from "../listings/render-listings.mjs";
+import { initDeleteDelegation } from "../listings/delete-listing.mjs";
+import { getUsername } from "../utils/storage.mjs";
 
-loadHeader();
-
-// Tab switching function
-function initTabSwitching() {
+export function initTabSwitching() {
   const tabButtons = document.querySelectorAll(".nav-link");
   const tabPanes = document.querySelectorAll(".tab-pane");
 
@@ -27,9 +18,11 @@ function initTabSwitching() {
     button.addEventListener("click", () => {
       const tabId = button.dataset.tab;
 
+      // Update button states
       tabButtons.forEach((b) => b.classList.remove("active"));
       button.classList.add("active");
 
+      // Update pane states
       tabPanes.forEach((pane) => pane.classList.remove("active"));
       const targetPane = document.getElementById(tabId);
       if (targetPane) {
@@ -39,29 +32,29 @@ function initTabSwitching() {
   });
 }
 
-// Profile edit
-const editBtn = document.getElementById("editProfileBtn");
-const editForm = document.getElementById("editForm");
-const cancelBtn = document.getElementById("cancelEditBtn");
+export function initProfileEditToggle() {
+  const editBtn = document.getElementById("editProfileBtn");
+  const editForm = document.getElementById("editForm");
+  const cancelBtn = document.getElementById("cancelEditBtn");
 
-editBtn.addEventListener("click", () => {
-  editForm.style.display = "block";
-  editBtn.style.display = "none";
-});
+  if (!editBtn || !editForm || !cancelBtn) return;
 
-cancelBtn.addEventListener("click", () => {
-  editForm.style.display = "none";
-  editBtn.style.display = "block";
-});
+  editBtn.addEventListener("click", () => {
+    editForm.style.display = "block";
+    editBtn.style.display = "none";
+  });
 
-// Main init function to load all profile data
-async function initProfilePage() {
+  cancelBtn.addEventListener("click", () => {
+    editForm.style.display = "none";
+    editBtn.style.display = "block";
+  });
+}
+
+export async function loadProfilePage() {
   try {
-    // Get profile data
     const { data: profileData } = await getUserProfile();
     const currentUsername = getUsername();
 
-    // Populate profile header
     const avatarImage = document.getElementById("avatarImage");
     const avatarImage2 = document.getElementById("avatarImage2");
     const profileBanner = document.getElementById("profileBanner");
@@ -72,6 +65,7 @@ async function initProfilePage() {
     const myListingsCountEl = document.getElementById("myListingsCount");
     const myBidsCountEl = document.getElementById("myBidsCount");
 
+    // Avatar images
     if (avatarImage && profileData.avatar?.url) {
       avatarImage.src = profileData.avatar.url;
       avatarImage.alt = profileData.name || "User avatar";
@@ -81,27 +75,33 @@ async function initProfilePage() {
       avatarImage2.alt = profileData.name || "User avatar";
     }
 
+    // Banner image
     if (profileBanner && profileData.banner?.url) {
       profileBanner.src = profileData.banner.url;
       profileBanner.alt = "Profile banner";
     }
 
+    // Username
     if (profileUsername) {
       profileUsername.textContent = profileData.name || "User";
     }
 
+    // Email
     if (profileEmail) {
       profileEmail.textContent = profileData.email || "";
     }
 
+    // Bio
     if (profileBio) {
       profileBio.textContent = profileData.bio || "";
     }
 
+    // Credits
     if (creditsEl) {
       creditsEl.textContent = profileData.credits ?? 0;
     }
 
+    // Load and render user listings
     const listingsContainer = document.getElementById("myListings");
     if (listingsContainer) {
       try {
@@ -109,6 +109,7 @@ async function initProfilePage() {
         await renderProfileListings(listingsContainer, listings || []);
         initDeleteDelegation(listingsContainer);
 
+        // Update listings count
         if (myListingsCountEl) {
           const count = listings?.length ?? profileData._count?.listings ?? 0;
           myListingsCountEl.textContent = `My Listings (${count})`;
@@ -145,8 +146,3 @@ async function initProfilePage() {
     console.error("Failed to load profile:", error);
   }
 }
-
-initTabSwitching();
-initProfilePage();
-prefillForm();
-initUpdateProfileForm();

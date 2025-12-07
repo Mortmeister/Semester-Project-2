@@ -1,6 +1,6 @@
-import { getSingleListing, updateListing } from "../api/authService.mjs";
-import { getParam } from "../helpers/getParams.mjs";
-import { toDatetimeLocal } from "../helpers/dateTime";
+import { getSingleListing, updateListing } from "../api/auth-service.mjs";
+import { getParam } from "../utils/get-params.mjs";
+import { toDatetimeLocal } from "../utils/date-time.mjs";
 
 async function prefillForm() {
   const id = getParam("id");
@@ -48,8 +48,8 @@ export function initUpdateListingForm() {
       await updateListing(payload, id);
       window.location.href = "../profile/index.html";
     } catch (error) {
-      console.error("Register error:", error);
-      alert("Registration failed. Check your input.");
+      console.error("Update listing error:", error);
+      alert("Failed to update listing. Check your input.");
     }
   });
 }

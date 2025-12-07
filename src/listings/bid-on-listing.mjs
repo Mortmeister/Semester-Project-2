@@ -1,4 +1,4 @@
-import { makeBid } from "../api/authService.mjs";
+import { makeBid } from "../api/auth-service.mjs";
 
 export function initBidForm(id) {
   const form = document.getElementById("bidOnAuctionForm");
@@ -11,7 +11,7 @@ export function initBidForm(id) {
       await makeBid(id, payload);
       location.reload();
     } catch (error) {
-      console.alert(error);
+      console.error(error);
     }
   });
 }
