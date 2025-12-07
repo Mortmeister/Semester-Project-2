@@ -1,5 +1,4 @@
-// src/components/RegisterForm.js
-import { registerUser } from "../api/authService.mjs";
+import { registerUser } from "../api/auth-service.mjs";
 
 export function initRegisterForm() {
   const registerFormEl = document.getElementById("registerForm");

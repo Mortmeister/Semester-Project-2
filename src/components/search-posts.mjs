@@ -1,5 +1,5 @@
-import { searchPosts, getListings } from "../api/authService.mjs";
-import { renderListings } from "../listings/renderListings.mjs";
+import { searchPosts, getListings } from "../api/auth-service.mjs";
+import { renderListings } from "../listings/render-listings.mjs";
 
 const container = document.getElementById("listingsSectionContainer");
 const searchPostsEl = document.getElementById("searchForPosts");

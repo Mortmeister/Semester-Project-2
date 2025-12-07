@@ -4,7 +4,7 @@ import {
   listingBidCardMarkup,
   bidCardMarkup,
   singlePageCardMarkup,
-} from "../components/listingCardUi.mjs";
+} from "../components/listing-card-ui.mjs";
 
 export async function renderListings(container, listings) {
   try {

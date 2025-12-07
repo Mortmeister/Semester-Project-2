@@ -1,4 +1,4 @@
-import { getUserProfile } from "../api/authService.mjs";
+import { getUserProfile } from "../api/auth-service.mjs";
 
 export function initHeaderDropdown() {
   const menuBtn = document.getElementById("userMenuButton");

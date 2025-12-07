@@ -1,5 +1,5 @@
-import { toDatetimeLocal } from "../helpers/dateTime";
-import { bidHistoryMarkup } from "./bidHistory";
+import { toDatetimeLocal } from "../utils/date-time.mjs";
+import { bidHistoryMarkup } from "./bid-history.mjs";
 
 export function listingProfileCardMarkup(listing) {
   const imageUrl =
@@ -105,7 +105,6 @@ export function listingCardMarkup(listing) {
   const bidderName = latestBid?.bidder?.name ?? "Unknown bidder";
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
-
   const formattedDate = toDatetimeLocal(listing.endsAt);
 
   return `
@@ -214,12 +213,10 @@ export function listingBidCardMarkup(listing, userBidAmount) {
   `;
 }
 
-// New function to render bid cards from bid objects (which include listing info)
 export function bidCardMarkup(bid) {
-  // Bid object has: id, amount, bidder, created, and potentially listing
   const listing = bid.listing;
   if (!listing) {
-    return ""; // Skip if no listing info
+    return "";
   }
 
   const imageUrl =

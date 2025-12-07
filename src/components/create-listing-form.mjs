@@ -1,4 +1,4 @@
-import { createListing } from "../api/authService.mjs";
+import { createListing } from "../api/auth-service.mjs";
 
 export function initCreateListingForm() {
   const createListingFormEl = document.getElementById("createListingForm");
@@ -22,11 +22,11 @@ export function initCreateListingForm() {
 
     try {
       const { data } = await createListing(payload);
-      console.log("User registered:", data);
+      console.log("Listing created:", data);
       window.location.href = "../profile/index.html";
     } catch (error) {
-      console.error("Register error:", error);
-      alert("Registration failed. Check your input.");
+      console.error("Create listing error:", error);
+      alert("Failed to create listing. Check your input.");
     }
   });
 }

@@ -1,8 +1,7 @@
-import { deleteListing } from "../api/authService.mjs";
-const listingEl = document.getElementById("myListings");
+import { deleteListing } from "../api/auth-service.mjs";
 
-export async function initDeleteDelegation() {
-  listingEl.addEventListener("click", async (event) => {
+export async function initDeleteDelegation(container) {
+  container.addEventListener("click", async (event) => {
     const btn = event.target.closest("[data-action='delete-listing']");
     if (!btn) return;
 

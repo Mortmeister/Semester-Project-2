@@ -1,7 +1,6 @@
 // Handles login, register, etc.
-// src/api/authService.js
-import { apiClient } from "./apiClient.mjs";
-import { getUsername } from "../storage/index.mjs";
+import { apiClient } from "./api-client.mjs";
+import { getUsername, getToken } from "../utils/storage.mjs";
 import {
   LOGIN_URL,
   REGISTER_URL,
@@ -10,8 +9,7 @@ import {
   PROFILE_URL,
   PROFILE_LISTINGS_URL,
   SEARCH_LISTING_URL,
-} from "./config.mjs";
-import { getToken } from "../storage/index.mjs";
+} from "./api-config.mjs";
 
 // Login
 export async function loginUser(payload) {

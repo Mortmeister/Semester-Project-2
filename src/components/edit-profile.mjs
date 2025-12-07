@@ -1,4 +1,4 @@
-import { getUserProfile, updateUserProfile } from "../api/authService.mjs";
+import { getUserProfile, updateUserProfile } from "../api/auth-service.mjs";
 
 export async function prefillForm() {
   const username = document.getElementById("editName");
@@ -42,7 +42,6 @@ export function initUpdateProfileForm() {
     try {
       await updateUserProfile(payload);
       window.location.href = "../profile/index.html";
-      debugger;
     } catch (error) {
       console.error("Profile update error:", error);
       alert("Profile update failed.");

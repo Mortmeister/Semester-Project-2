@@ -1,4 +1,4 @@
-import { BASE_URL } from "./config.mjs";
+import { BASE_URL } from "./api-config.mjs";
 
 //Generic fetch client for all requests
 export async function apiClient(endpoint, options = {}) {
