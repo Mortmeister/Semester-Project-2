@@ -36,6 +36,14 @@ export async function getUserProfile() {
   });
 }
 
+export async function updateUserProfile(payload) {
+  const username = getUsername();
+  return apiClient(PROFILE_URL + username, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+}
+
 export async function getUserListings({
   includeSeller = true,
   includeBids = true,
@@ -45,6 +53,17 @@ export async function getUserListings({
   return apiClient(PROFILE_URL + username + PROFILE_LISTINGS_URL + query, {
     method: "GET",
   });
+}
+
+export async function getUserBids() {
+  const username = getUsername();
+  // Try to include listing information with bids
+  return apiClient(
+    PROFILE_URL + username + "/bids?_listings=true&_seller=true&_bids=true",
+    {
+      method: "GET",
+    }
+  );
 }
 
 // get all listings, sorted by date created to get the most recent auctions.

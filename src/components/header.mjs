@@ -46,7 +46,7 @@ export function initHeaderEl(user) {
           <div class="user-dropdown">
             <button class="app-header__user" id="userMenuButton">
               <img src="${avatarImg}" alt="${avatarAlt}" class="app-header__avatar" id="avatarImage">
-              <span class="app-header__username">John Doe</span>
+              <span class="app-header__username">${name}</span>
               <i class="bi bi-chevron-down"></i>
             </button>
 

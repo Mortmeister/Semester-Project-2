@@ -94,9 +94,11 @@
               />
 
               <div class="profile-page__info">
-                <h1>John Doe</h1>
-                <p class="email">john.doe@stud.noroff.no</p>
-                <p class="bio">Passionate collector and auction enthusiast</p>
+                <h1 id="profileUsername">John Doe</h1>
+                <p class="email" id="profileEmail">john.doe@stud.noroff.no</p>
+                <p class="bio" id="profileBio">
+                  Passionate collector and auction enthusiast
+                </p>
               </div>
 
               <div class="profile-page__meta">
@@ -126,6 +128,7 @@
                     <label for="editName" class="form-label">Name</label>
                     <input
                       type="text"
+                      name="username"
                       class="form-control"
                       id="editName"
                       value="John Doe"
@@ -138,6 +141,7 @@
                     >
                     <input
                       type="url"
+                      name="avatarUrl"
                       class="form-control"
                       id="editAvatar"
                       value="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop"
@@ -150,6 +154,7 @@
                   <label for="editBanner" class="form-label">Banner URL</label>
                   <input
                     type="url"
+                    name="bannerUrl"
                     class="form-control"
                     id="editBanner"
                     value="https://images.unsplash.com/photo-1557683316-973673baf926?w=1200&h=300&fit=crop"
@@ -161,6 +166,7 @@
                   <label for="editBio" class="form-label">Bio</label>
                   <textarea
                     class="form-control"
+                    name="bio"
                     id="editBio"
                     rows="3"
                     placeholder="Tell us about yourself..."
@@ -197,117 +203,22 @@ Passionate collector and auction enthusiast</textarea
                 </button>
               </li>
               <li class="nav-item">
-                <button class="nav-link" data-tab="my-bids">My Bids (1)</button>
+                <button class="nav-link" data-tab="my-bids" id="myBidsCount">
+                  My Bids (0)
+                </button>
               </li>
             </ul>
 
             <div class="tab-content">
-              <div class="tab-pane active">
+              <div class="tab-pane active" id="my-listings">
                 <div class="profile-page__grid" id="myListings">
-                  <div class="profile-page__bid-card">
-                    <a href="listing.html" class="listing-card">
-                      <div class="listing-card__image">
-                        <img
-                          src="https://images.unsplash.com/photo-1495121553079-4c61bcce1894?w=800&h=600&fit=crop"
-                          alt="Vintage Camera Collection"
-                        />
-                      </div>
-
-                      <div class="listing-card__body">
-                        <div class="listing-card__header">
-                          <h3 class="listing-card__title">
-                            Vintage Camera Collection
-                          </h3>
-                        </div>
-
-                        <p class="listing-card__description">
-                          A rare collection of vintage cameras from the 1960s.
-                        </p>
-
-                        <div class="listing-card__info">
-                          <div class="listing-card__bid">
-                            <div class="listing-card__bid-label">
-                              Current Bid
-                            </div>
-                            <div class="listing-card__bid-amount">
-                              300 Credits
-                            </div>
-                          </div>
-
-                          <div class="listing-card__time">
-                            <i class="bi bi-clock"></i>
-                            <span>3d</span>
-                          </div>
-                        </div>
-
-                        <div class="listing-card__seller">
-                          <img
-                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop"
-                            alt="John Doe"
-                            class="listing-card__seller-avatar"
-                          />
-                          <span class="listing-card__seller-name"
-                            >John Doe</span
-                          >
-                        </div>
-                      </div>
-                    </a>
-                  </div>
+                  <!-- Listings will be loaded from API -->
                 </div>
               </div>
 
               <div class="tab-pane" id="my-bids">
-                <div class="profile-page__grid">
-                  <div class="profile-page__bid-card">
-                    <div class="listing-card__bid-badge">Your bid: 450</div>
-                    <a href="listing.html" class="listing-card">
-                      <div class="listing-card__image">
-                        <img
-                          src="https://images.unsplash.com/photo-1518455027359-f3f8164ba6bd?w=800&h=600&fit=crop"
-                          alt="Antique Wooden Desk"
-                        />
-                      </div>
-
-                      <div class="listing-card__body">
-                        <div class="listing-card__header">
-                          <h3 class="listing-card__title">
-                            Antique Wooden Desk
-                          </h3>
-                        </div>
-
-                        <p class="listing-card__description">
-                          Beautiful mahogany desk from the early 1900s.
-                        </p>
-
-                        <div class="listing-card__info">
-                          <div class="listing-card__bid">
-                            <div class="listing-card__bid-label">
-                              Current Bid
-                            </div>
-                            <div class="listing-card__bid-amount">
-                              450 Credits
-                            </div>
-                          </div>
-
-                          <div class="listing-card__time">
-                            <i class="bi bi-clock"></i>
-                            <span>5d</span>
-                          </div>
-                        </div>
-
-                        <div class="listing-card__seller">
-                          <img
-                            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=400&fit=crop"
-                            alt="Emily Brown"
-                            class="listing-card__seller-avatar"
-                          />
-                          <span class="listing-card__seller-name"
-                            >Emily Brown</span
-                          >
-                        </div>
-                      </div>
-                    </a>
-                  </div>
+                <div class="profile-page__grid" id="myBids">
+                  <!-- Bids will be loaded from API -->
                 </div>
               </div>
             </div>
