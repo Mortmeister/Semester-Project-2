@@ -328,7 +328,7 @@ export function singlePageCardMarkup(listing) {
 
   return `
     <div class="container">
-      <a href="index.html" class="btn btn-outline-secondary btn-sm mb-3">
+      <a href="../feed/index.html" class="btn btn-outline-secondary btn-sm mb-3">
         <i class="bi bi-arrow-left"></i>
         Back to Listings
       </a>
