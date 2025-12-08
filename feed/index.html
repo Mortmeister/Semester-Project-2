@@ -20,63 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </head>
   <body>
-    <header class="app-header" id="header">
-      <div class="container d-flex justify-content-between align-items-center">
-        <a
-          href="index.html"
-          class="app-header__brand d-flex align-items-center"
-        >
-          <div class="app-header__logo">AH</div>
-          <span class="ms-2">Auction House</span>
-        </a>
-
-        <nav class="app-header__nav d-flex align-items-center gap-3">
-          <div class="app-header__credits d-flex align-items-center gap-1">
-            <i class="bi bi-coin"></i>
-            <span>1000 Credits</span>
-          </div>
-
-          <a
-            href="../create_listing/index.html"
-            class="btn btn-primary btn-sm d-flex align-items-center gap-1"
-          >
-            <i class="bi bi-plus-lg"></i> Create Listing
-          </a>
-
-          <div class="user-dropdown position-relative">
-            <button
-              id="userMenuButton"
-              class="app-header__user d-flex align-items-center gap-2"
-            >
-              <span class="app-header__username">John Doe</span>
-              <i class="bi bi-chevron-down"></i>
-            </button>
-
-            <div id="userMenu" class="user-dropdown__menu">
-              <div
-                class="user-dropdown__credits-mobile d-flex align-items-center gap-1"
-              >
-                <i class="bi bi-coin"></i>
-                <span>1000 Credits</span>
-              </div>
-
-              <a href="../profile/index.html" class="user-dropdown__item">
-                <i class="bi bi-person"></i> Profile
-              </a>
-
-              <div class="user-dropdown__divider"></div>
-
-              <a
-                href="login.html"
-                class="user-dropdown__item user-dropdown__item--danger"
-              >
-                <i class="bi bi-box-arrow-right"></i> Logout
-              </a>
-            </div>
-          </div>
-        </nav>
-      </div>
-    </header>
+    <header class="app-header" id="header"></header>
 
     <main>
       <section class="hero py-5 text-center">
@@ -107,7 +51,7 @@
           >
             <div>
               <h2>Active Listings</h2>
-              <p class="text-muted">6 listings available</p>
+              <p class="text-muted" id="listingsCount">Loading...</p>
             </div>
 
             <select class="form-select w-auto" id="sortPostsEl">
@@ -121,51 +65,8 @@
 
           <div
             id="listingsSectionContainer"
-            class="listings-section__grid mt-4 row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
-          >
-            <a
-              href="listing.html"
-              class="listing-card col text-decoration-none"
-            >
-              <div class="card h-100">
-                <img
-                  src="https://images.unsplash.com/photo-1495121553079-4c61bcce1894?w=800&h=600&fit=crop"
-                  class="card-img-top"
-                  alt="Vintage Camera Collection"
-                />
-
-                <div class="card-body">
-                  <h5 class="card-title">Vintage Camera Collection</h5>
-
-                  <p class="card-text text-muted">
-                    Rare cameras from the 1960s. Includes cases & manuals.
-                  </p>
-
-                  <div class="d-flex justify-content-between mt-3">
-                    <div>
-                      <div class="text-muted small">Current Bid</div>
-                      <strong>300 Credits</strong>
-                    </div>
-
-                    <div class="d-flex align-items-center gap-1">
-                      <i class="bi bi-clock"></i>
-                      <span>3d</span>
-                    </div>
-                  </div>
-
-                  <div class="d-flex align-items-center mt-3">
-                    <img
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop"
-                      class="rounded-circle me-2"
-                      width="32"
-                      height="32"
-                    />
-                    <span class="text-muted">John Doe</span>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
+            class="listings-section__grid mt-4"
+          ></div>
           <div class="pagination d-flex justify-content-between">
             <button class="btn btn-primary" id="prevBtn">Previous</button>
             <span id="pageIndicator"></span>

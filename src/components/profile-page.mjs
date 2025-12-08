@@ -9,6 +9,7 @@ import {
 } from "../listings/render-listings.mjs";
 import { initDeleteDelegation } from "../listings/delete-listing.mjs";
 import { getUsername } from "../utils/storage.mjs";
+import { loadingSpinner } from "./loading.mjs";
 
 export function initTabSwitching() {
   const tabButtons = document.querySelectorAll(".nav-link");
@@ -52,9 +53,11 @@ export function initProfileEditToggle() {
 
 export async function loadProfilePage() {
   try {
+    // Get profile data
     const { data: profileData } = await getUserProfile();
     const currentUsername = getUsername();
 
+    // Populate profile header
     const avatarImage = document.getElementById("avatarImage");
     const avatarImage2 = document.getElementById("avatarImage2");
     const profileBanner = document.getElementById("profileBanner");
@@ -70,15 +73,30 @@ export async function loadProfilePage() {
       avatarImage.src = profileData.avatar.url;
       avatarImage.alt = profileData.name || "User avatar";
     }
-    if (avatarImage2 && profileData.avatar?.url) {
-      avatarImage2.src = profileData.avatar.url;
-      avatarImage2.alt = profileData.name || "User avatar";
+    if (avatarImage2) {
+      const avatarContainer = document.getElementById("avatarImage2");
+      if (avatarContainer) {
+        if (profileData.avatar?.url) {
+          // Replace placeholder div with actual image
+          avatarContainer.innerHTML = `<img src="${
+            profileData.avatar.url
+          }" alt="${
+            profileData.name || "User avatar"
+          }" class="profile-page__avatar" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;" />`;
+        }
+        // If no avatar, keep the placeholder spinner
+      }
     }
 
     // Banner image
-    if (profileBanner && profileData.banner?.url) {
-      profileBanner.src = profileData.banner.url;
-      profileBanner.alt = "Profile banner";
+    if (profileBanner) {
+      if (profileData.banner?.url) {
+        // Replace loading spinner with actual image
+        profileBanner.innerHTML = `<img src="${profileData.banner.url}" alt="Profile banner" />`;
+      } else {
+        // Keep placeholder if no banner
+        profileBanner.style.backgroundColor = "#e9ecef";
+      }
     }
 
     // Username
@@ -104,6 +122,9 @@ export async function loadProfilePage() {
     // Load and render user listings
     const listingsContainer = document.getElementById("myListings");
     if (listingsContainer) {
+      // Show loading spinner
+      listingsContainer.innerHTML = loadingSpinner();
+
       try {
         const { data: listings } = await getUserListings();
         await renderProfileListings(listingsContainer, listings || []);
@@ -120,12 +141,20 @@ export async function loadProfilePage() {
       }
     }
 
+    // Load and render user bids
     const bidsContainer = document.getElementById("myBids");
     if (bidsContainer) {
+      // Show loading spinner
+      bidsContainer.innerHTML = loadingSpinner();
+
       try {
         const { data: bids } = await getUserBids();
 
+        // If bids don't have listing info, we need to fetch listings separately
+        // Check if first bid has listing property
         if (bids && bids.length > 0 && !bids[0].listing) {
+          // Fetch listing for each bid - bids might have listingId or we need to extract it
+          // For now, assume bids have listing info embedded or we'll need to modify approach
           console.warn(
             "Bids don't include listing info - may need to fetch separately"
           );
@@ -133,6 +162,7 @@ export async function loadProfilePage() {
 
         await renderBidListings(bidsContainer, bids || []);
 
+        // Update bids count
         if (myBidsCountEl) {
           const count = bids?.length ?? 0;
           myBidsCountEl.textContent = `My Bids (${count})`;

@@ -1,10 +1,13 @@
 import { getListings } from "../api/auth-service.mjs";
 import { renderListings } from "../listings/render-listings.mjs";
+import { listingSkeleton } from "./loading.mjs";
 
 const container = document.getElementById("listingsSectionContainer");
 const sortPostsEl = document.getElementById("sortPostsEl");
 
 export function initSortPosts() {
+  if (!sortPostsEl || !container) return;
+
   sortPostsEl.addEventListener("input", async (event) => {
     const value = event.target.value;
 
@@ -33,9 +36,10 @@ export function initSortPosts() {
         sort = "created";
         sortOrder = "desc";
         break;
-
-      // etc.
     }
+
+    container.innerHTML = listingSkeleton(6);
+
     const { data } = await getListings({ sort, sortOrder });
     renderListings(container, data);
   });
