@@ -11,15 +11,8 @@ export function isAuthenticated() {
   return !!token;
 }
 
-export function redirectToLogin(returnUrl = null) {
-  const loginUrl = "../login/index.html";
-  if (returnUrl) {
-    window.location.href = `${loginUrl}?returnUrl=${encodeURIComponent(
-      returnUrl
-    )}`;
-  } else {
-    window.location.href = loginUrl;
-  }
+export function redirectToLogin() {
+  window.location.href = "../login/index.html";
 }
 
 export function handleUnauthorizedAccess(
