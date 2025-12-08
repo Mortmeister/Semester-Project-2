@@ -1,6 +1,7 @@
 import { getSingleListing, updateListing } from "../api/auth-service.mjs";
 import { getParam } from "../utils/get-params.mjs";
 import { toDatetimeLocal } from "../utils/date-time.mjs";
+import { isAuthenticated, handleUnauthorizedAccess } from "../utils/auth.mjs";
 
 async function prefillForm() {
   const id = getParam("id");
@@ -25,6 +26,11 @@ async function prefillForm() {
 }
 
 export function initUpdateListingForm() {
+  if (!isAuthenticated()) {
+    handleUnauthorizedAccess("You must be logged in to update a listing.");
+    return;
+  }
+
   const updateListingFormEl = document.getElementById("updateListingForm");
   if (!updateListingFormEl) return;
   const id = getParam("id");

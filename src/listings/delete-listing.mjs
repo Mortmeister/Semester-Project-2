@@ -1,9 +1,15 @@
 import { deleteListing } from "../api/auth-service.mjs";
+import { isAuthenticated, handleUnauthorizedAccess } from "../utils/auth.mjs";
 
 export async function initDeleteDelegation(container) {
   container.addEventListener("click", async (event) => {
     const btn = event.target.closest("[data-action='delete-listing']");
     if (!btn) return;
+
+    if (!isAuthenticated()) {
+      handleUnauthorizedAccess("You must be logged in to delete a listing.");
+      return;
+    }
 
     const listingId = btn.dataset.listingId;
     if (!listingId) return;

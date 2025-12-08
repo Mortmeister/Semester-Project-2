@@ -1,4 +1,16 @@
 import { getUserProfile } from "../api/auth-service.mjs";
+import { isAuthenticated } from "../utils/auth.mjs";
+import { logout } from "../utils/auth.mjs";
+
+export function initLogoutHandler() {
+  const logoutLink = document.getElementById("logoutLink");
+  if (!logoutLink) return;
+  console.log("herro?");
+  logoutLink.addEventListener("click", (event) => {
+    event.preventDefault();
+    logout();
+  });
+}
 
 export function initHeaderDropdown() {
   const menuBtn = document.getElementById("userMenuButton");
@@ -17,31 +29,32 @@ export function initHeaderDropdown() {
     }
   });
 }
-export function initHeaderEl(user) {
-  const { data } = user;
-  const credits = data?.credits ?? 0;
-  const name = data?.name ?? "Unknown User";
-  const avatarImg = data?.avatar?.url ?? "https://placehold.co/32x32?text=?";
-  const avatarAlt = data?.avatar?.alt ?? "No alt provided";
 
-  return `
-    <div class="container d-flex justify-content-between align-items-center">
+export function initHeaderEl(user, isAuth) {
+  if (isAuth && user?.data) {
+    const { data } = user;
+    const credits = data?.credits ?? 0;
+    const name = data?.name ?? "Unknown User";
+    const avatarImg = data?.avatar?.url ?? "https://placehold.co/32x32?text=?";
+    const avatarAlt = data?.avatar?.alt ?? "No alt provided";
 
-      <a href="../feed/index.html" class="app-header__brand d-flex align-items-center">
-        <div class="app-header__logo">AH</div>
-        <span class="ms-2">Auction House</span>
-      </a>
-
-      <nav class="app-header__nav d-flex align-items-center gap-3">
-        <div class="app-header__credits d-flex align-items-center gap-1">
-        <i class="bi bi-coin"></i>
-          <span>${credits} Credits</span>
-        </div>
-
-        <a href="../create_listing/index.html"
-           class="btn btn-primary btn-sm d-flex align-items-center gap-1">
-          <i class="bi bi-plus-lg"></i> Create Listing
+    return `
+      <div class="container d-flex justify-content-between align-items-center">
+        <a href="../feed/index.html" class="app-header__brand d-flex align-items-center">
+          <div class="app-header__logo">AH</div>
+          <span class="ms-2">Auction House</span>
         </a>
+
+        <nav class="app-header__nav d-flex align-items-center gap-3">
+          <div class="app-header__credits d-flex align-items-center gap-1">
+            <i class="bi bi-coin"></i>
+            <span>${credits} Credits</span>
+          </div>
+
+          <a href="../create_listing/index.html"
+             class="btn btn-primary btn-sm d-flex align-items-center gap-1">
+            <i class="bi bi-plus-lg"></i> Create Listing
+          </a>
 
           <div class="user-dropdown">
             <button class="app-header__user" id="userMenuButton">
@@ -50,35 +63,65 @@ export function initHeaderEl(user) {
               <i class="bi bi-chevron-down"></i>
             </button>
 
-          <div id="userMenu" class="user-dropdown__menu">            
-            <div class="user-dropdown__credits-mobile d-flex align-items-center gap-1">
-              <i class="bi bi-coin"></i>
-              <span>${credits} Credits</span>
+            <div id="userMenu" class="user-dropdown__menu">            
+              <div class="user-dropdown__credits-mobile d-flex align-items-center gap-1">
+                <i class="bi bi-coin"></i>
+                <span>${credits} Credits</span>
+              </div>
+
+              <a href="../profile/index.html" class="user-dropdown__item">
+                <i class="bi bi-person"></i> Profile
+              </a>
+
+              <div class="user-dropdown__divider"></div>
+
+              <a class="user-dropdown__item user-dropdown__item--danger" id="logoutLink">
+                <i class="bi bi-box-arrow-right"></i> Logout
+              </a>
             </div>
-
-            <a href="../profile/index.html" class="user-dropdown__item">
-              <i class="bi bi-person"></i> Profile
-            </a>
-
-            <div class="user-dropdown__divider"></div>
-
-            <a href="../login/index.html"
-               class="user-dropdown__item user-dropdown__item--danger">
-              <i class="bi bi-box-arrow-right"></i> Logout
-            </a>
           </div>
-        </div>
-      </nav>
-    </div>
-  `;
+        </nav>
+      </div>
+    `;
+  } else {
+    return `
+      <div class="container d-flex justify-content-between align-items-center">
+        <a href="../feed/index.html" class="app-header__brand d-flex align-items-center">
+          <div class="app-header__logo">AH</div>
+          <span class="ms-2">Auction House</span>
+        </a>
+
+        <nav class="app-header__nav d-flex align-items-center gap-3">
+          <a href="../login/index.html" class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-box-arrow-in-right"></i> Login
+          </a>
+          <a href="../register/index.html" class="btn btn-primary btn-sm">
+            <i class="bi bi-person-plus"></i> Register
+          </a>
+        </nav>
+      </div>
+    `;
+  }
 }
 
 export async function loadHeader() {
   const headerContainer = document.getElementById("header");
   if (!headerContainer) return;
 
-  const user = await getUserProfile();
-  headerContainer.innerHTML = initHeaderEl(user);
+  const isAuth = isAuthenticated();
 
-  initHeaderDropdown();
+  if (isAuth) {
+    try {
+      const user = await getUserProfile();
+      headerContainer.innerHTML = initHeaderEl(user, true);
+      initHeaderDropdown();
+      initLogoutHandler();
+      debugger;
+    } catch (error) {
+      console.error("Failed to load user profile:", error);
+      headerContainer.innerHTML = initHeaderEl(null, false);
+    }
+  } else {
+    headerContainer.innerHTML = initHeaderEl(null, false);
+  }
 }

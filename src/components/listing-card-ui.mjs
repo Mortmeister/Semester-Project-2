@@ -1,5 +1,6 @@
 import { toDatetimeLocal } from "../utils/date-time.mjs";
 import { bidHistoryMarkup } from "./bid-history.mjs";
+import { isAuthenticated } from "../utils/auth.mjs";
 
 export function listingProfileCardMarkup(listing) {
   const imageUrl =
@@ -213,10 +214,12 @@ export function listingBidCardMarkup(listing, userBidAmount) {
   `;
 }
 
+// New function to render bid cards from bid objects (which include listing info)
 export function bidCardMarkup(bid) {
+  // Bid object has: id, amount, bidder, created, and potentially listing
   const listing = bid.listing;
   if (!listing) {
-    return "";
+    return ""; // Skip if no listing info
   }
 
   const imageUrl =
@@ -300,6 +303,29 @@ export function singlePageCardMarkup(listing) {
   const sellerName = listing.seller?.name ?? "Unknown seller";
   const formattedDate = toDatetimeLocal(listing.endsAt);
 
+  const isAuth = isAuthenticated();
+  const bidFormHtml = isAuth
+    ? `
+            <form class="d-flex gap-2 mb-2" id="bidOnAuctionForm">
+              <input
+                name="bidAmount"
+                type="number"
+                class="form-control"
+                placeholder="Enter bid amount"
+              />
+              <button type="submit" class="btn btn-primary">
+                <i class="bi bi-gavel"></i> Place Bid
+              </button>
+            </form>
+            <p class="text-muted small">Your available credits: 1000</p>
+          `
+    : `
+            <div class="alert alert-info">
+              <i class="bi bi-info-circle"></i> You must be logged in to place a bid.
+              <a href="../login/index.html" class="alert-link">Login here</a>
+            </div>
+          `;
+
   return `
     <div class="container">
       <a href="index.html" class="btn btn-outline-secondary btn-sm mb-3">
@@ -371,19 +397,7 @@ export function singlePageCardMarkup(listing) {
               </div>
             </div>
 
-            <form class="d-flex gap-2 mb-2" id="bidOnAuctionForm">
-              <input
-                name="bidAmount"
-                type="number"
-                class="form-control"
-                placeholder="Enter bid amount"
-              />
-              <button type="submit" class="btn btn-primary">
-                <i class="bi bi-gavel"></i> Place Bid
-              </button>
-            </form>
-
-            <p class="text-muted small">Your available credits: 1000</p>
+            ${bidFormHtml}
           </div>
 
           <h4>Bid History (${listing._count?.bids ?? 0})</h4>
