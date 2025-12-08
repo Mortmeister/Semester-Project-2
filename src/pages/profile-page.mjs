@@ -8,10 +8,15 @@ import {
   initProfileEditToggle,
   loadProfilePage,
 } from "../components/profile-page.mjs";
+import { isAuthenticated, handleUnauthorizedAccess } from "../utils/auth.mjs";
 
-loadHeader();
-initTabSwitching();
-initProfileEditToggle();
-loadProfilePage();
-prefillForm();
-initUpdateProfileForm();
+if (!isAuthenticated()) {
+  handleUnauthorizedAccess("You must be logged in to view your profile.");
+} else {
+  loadHeader();
+  initTabSwitching();
+  initProfileEditToggle();
+  loadProfilePage();
+  prefillForm();
+  initUpdateProfileForm();
+}

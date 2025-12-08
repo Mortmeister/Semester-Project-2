@@ -1,4 +1,5 @@
 import { createListing } from "../api/auth-service.mjs";
+import { isAuthenticated, handleUnauthorizedAccess } from "../utils/auth.mjs";
 
 export function initCreateListingForm() {
   const createListingFormEl = document.getElementById("createListingForm");
@@ -6,6 +7,11 @@ export function initCreateListingForm() {
 
   createListingFormEl.addEventListener("submit", async (event) => {
     event.preventDefault();
+
+    if (!isAuthenticated()) {
+      handleUnauthorizedAccess("You must be logged in to create a listing.");
+      return;
+    }
 
     const formData = new FormData(createListingFormEl);
     const payload = {
