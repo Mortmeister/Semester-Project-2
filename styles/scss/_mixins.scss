@@ -1,0 +1,100 @@
+// Media query mixins
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == sm {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  } @else if $breakpoint == md {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  } @else if $breakpoint == lg {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  } @else if $breakpoint == xl {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  } @else if $breakpoint == max-sm {
+    @media (max-width: $breakpoint-sm - 1px) {
+      @content;
+    }
+  } @else if $breakpoint == max-md {
+    @media (max-width: $breakpoint-md - 1px) {
+      @content;
+    }
+  }
+}
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+// Button reset
+@mixin button-reset {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+// Card styles
+@mixin card-base {
+  background: $color-bg-primary;
+  border: 1px solid $color-border;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+}
+
+// Transition mixin
+@mixin transition($properties...) {
+  transition: $properties;
+}
+
+// Focus styles
+@mixin focus-visible {
+  outline: 2px solid $color-primary;
+  outline-offset: 2px;
+}
+
+// Scrollbar styles
+@mixin custom-scrollbar {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $color-bg-tertiary;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-border-light;
+    border-radius: $border-radius-full;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: $color-border-dark;
+  }
+}
+

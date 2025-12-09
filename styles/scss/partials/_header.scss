@@ -1,0 +1,157 @@
+// Header Component
+.main-header {
+  height: $header-height;
+  background: $color-bg-primary;
+  border-bottom: 1px solid $color-border;
+  position: sticky;
+  top: 0;
+  z-index: $z-index-sticky;
+  box-shadow: $shadow-sm;
+
+  .container {
+    @include flex-between;
+    height: 100%;
+  }
+
+  &__brand {
+    @include flex-start;
+    gap: $spacing-sm;
+    text-decoration: none;
+    color: $color-text-primary;
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-lg;
+    @include transition(opacity $transition-base);
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+
+  &__logo {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(
+      135deg,
+      $color-primary 0%,
+      $color-primary-hover 100%
+    );
+    border-radius: $border-radius-lg;
+    @include flex-center;
+    color: $color-bg-primary;
+    font-weight: $font-weight-bold;
+    font-size: $font-size-lg;
+  }
+
+  &__nav {
+    @include flex-start;
+    gap: $spacing-md;
+  }
+
+  &__credits {
+    @include flex-start;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-md;
+    background: $color-blue-light;
+    color: $color-blue-dark;
+    border-radius: $border-radius-md;
+    font-weight: $font-weight-normal;
+
+    i {
+      font-size: $font-size-lg;
+    }
+
+    @include respond-to(max-sm) {
+      display: none;
+    }
+  }
+
+  &__user {
+    @include button-reset;
+    padding: $spacing-xs;
+    @include flex-start;
+    gap: $spacing-sm;
+    border-radius: $border-radius-md;
+    @include transition(background-color $transition-base);
+
+    &:hover {
+      background-color: $color-bg-tertiary;
+    }
+  }
+
+  &__avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: $border-radius-full;
+    object-fit: cover;
+    border: 2px solid $color-border;
+  }
+
+  &__username {
+    font-weight: $font-weight-normal;
+
+    @include respond-to(max-sm) {
+      display: none;
+    }
+  }
+}
+
+.user-dropdown {
+  position: relative;
+
+  &__menu {
+    position: absolute;
+    top: calc(100% + #{$spacing-sm});
+    right: 0;
+    min-width: 200px;
+    background: $color-bg-primary;
+    border: 1px solid $color-border;
+    border-radius: $border-radius-md;
+    box-shadow: $shadow-lg;
+    padding: $spacing-sm 0;
+    display: none;
+    z-index: $z-index-dropdown;
+
+    &.show {
+      display: block;
+    }
+  }
+
+  &__item {
+    @include button-reset;
+    width: 100%;
+    text-align: left;
+    padding: $spacing-sm $spacing-lg;
+    @include flex-start;
+    gap: $spacing-sm;
+    color: $color-text-primary;
+    @include transition(background-color $transition-base);
+
+    &:hover {
+      background-color: $color-bg-tertiary;
+    }
+
+    &--danger {
+      color: $color-danger;
+    }
+
+    i {
+      font-size: $font-size-base;
+    }
+  }
+
+  &__divider {
+    height: 1px;
+    background: $color-border;
+    margin: $spacing-sm 0;
+  }
+
+  &__credits-mobile {
+    padding: $spacing-sm $spacing-lg;
+    border-bottom: 1px solid $color-border;
+    margin-bottom: $spacing-sm;
+
+    @include respond-to(sm) {
+      display: none;
+    }
+  }
+}

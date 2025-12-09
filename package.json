@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sass:watch": "sass styles/scss/styles.scss styles/css/styles.css --watch",
+    "sass:build": "sass styles/scss/styles.scss styles/css/styles.css --style compressed"
   },
   "devDependencies": {
     "vite": "^7.2.2"

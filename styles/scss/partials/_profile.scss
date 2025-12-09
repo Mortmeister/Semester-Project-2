@@ -1,0 +1,201 @@
+// Profile Page
+.profile-page {
+  padding-bottom: $spacing-6xl;
+
+  &__banner {
+    height: 250px;
+    background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+    position: relative;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  &__header {
+    @include card-base;
+    padding: $spacing-xl;
+    margin-top: -4rem;
+    position: relative;
+  }
+
+  &__top {
+    @include flex-start;
+    align-items: flex-start;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-lg;
+
+    @include respond-to(max-md) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: $border-radius-full;
+    border: 4px solid $color-bg-primary;
+    box-shadow: $shadow-lg;
+    object-fit: cover;
+    background: $color-border;
+    @include flex-center;
+    flex-shrink: 0;
+
+    i {
+      font-size: $font-size-4xl;
+      color: $color-text-muted;
+    }
+  }
+
+  &__info {
+    flex: 1;
+
+    h1 {
+      margin-bottom: $spacing-xs;
+    }
+
+    .email {
+      color: $color-text-secondary;
+      margin-bottom: $spacing-sm;
+    }
+
+    .bio {
+      color: $color-text-primary;
+      line-height: $line-height-relaxed;
+    }
+  }
+
+  &__meta {
+    @include flex-start;
+    gap: $spacing-lg;
+    margin-left: auto;
+
+    @include respond-to(max-md) {
+      margin-left: 0;
+      width: 100%;
+    }
+  }
+
+  &__credits {
+    text-align: right;
+
+    @include respond-to(max-md) {
+      text-align: left;
+    }
+
+    .value {
+      @include flex-start;
+      gap: $spacing-sm;
+      font-size: $font-size-2xl;
+      font-weight: $font-weight-bold;
+      color: $color-primary;
+      margin-bottom: $spacing-xs;
+
+      i {
+        font-size: $font-size-xl;
+      }
+    }
+
+    .label {
+      font-size: $font-size-sm;
+      color: $color-text-muted;
+    }
+  }
+
+  &__edit-form {
+    margin-top: $spacing-xl;
+    padding-top: $spacing-xl;
+    border-top: 1px solid $color-border;
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-lg;
+
+      @include respond-to(md) {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .form-actions {
+      @include flex-start;
+      gap: $spacing-sm;
+      margin-top: $spacing-lg;
+    }
+  }
+
+  &__tabs {
+    margin-top: $spacing-3xl;
+
+    .nav-tabs {
+      border-bottom: 2px solid $color-border;
+      margin-bottom: $spacing-xl;
+      display: flex;
+      gap: 0;
+
+      .nav-item {
+        list-style: none;
+      }
+
+      .nav-link {
+        @include button-reset;
+        border-bottom: 2px solid transparent;
+        padding: $spacing-md $spacing-lg;
+        color: $color-text-secondary;
+        font-weight: $font-weight-normal;
+        @include transition(color $transition-base, border-color $transition-base);
+        cursor: pointer;
+        background: none;
+
+        &:hover {
+          color: $color-text-primary;
+        }
+
+        &.active {
+          color: $color-primary;
+          border-bottom-color: $color-primary;
+        }
+      }
+    }
+
+    .tab-content {
+      .tab-pane {
+        display: none;
+
+        &.active {
+          display: block;
+        }
+      }
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-xl;
+
+    @include respond-to(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__empty {
+    @include card-base;
+    padding: $spacing-3xl;
+    text-align: center;
+
+    p {
+      color: $color-text-secondary;
+      margin-bottom: $spacing-lg;
+    }
+  }
+}
+

@@ -1,0 +1,94 @@
+// Home Page
+.hero {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-dark 100%);
+  color: $color-bg-primary;
+  padding: $spacing-3xl 0;
+
+  @include respond-to(md) {
+    padding: $spacing-6xl 0;
+  }
+
+  &__title {
+    color: $color-bg-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  &__description {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: $font-size-lg;
+    margin-bottom: $spacing-xl;
+    max-width: 600px;
+  }
+
+  &__search {
+    max-width: 600px;
+  }
+}
+
+.listings-section {
+  padding: $spacing-3xl 0;
+
+  &__header {
+    @include flex-between;
+    margin-bottom: $spacing-xl;
+    gap: $spacing-lg;
+
+    @include respond-to(max-md) {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  &__info {
+    h2 {
+      margin-bottom: $spacing-sm;
+    }
+
+    p {
+      color: $color-text-secondary;
+      margin: 0;
+    }
+  }
+
+  &__filters {
+    @include flex-start;
+    gap: $spacing-md;
+
+    @include respond-to(max-md) {
+      width: 100%;
+    }
+
+    select {
+      min-width: 180px;
+
+      @include respond-to(max-md) {
+        width: 100%;
+      }
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-xl;
+
+    @include respond-to(sm) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to(lg) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    padding: $spacing-6xl 0;
+
+    p {
+      color: $color-text-secondary;
+      font-size: $font-size-lg;
+    }
+  }
+}
+
