@@ -151,6 +151,69 @@ export function listingCardMarkup(listing) {
        `;
 }
 
+export function listingBidCardMarkup(listing, userBidAmount) {
+  const imageUrl =
+    listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
+  const imageAlt = listing.media?.[0]?.alt ?? "No alt text provided";
+
+  const latestBid = listing.bids?.length
+    ? listing.bids[listing.bids.length - 1]
+    : null;
+
+  const currentBidAmount = latestBid?.amount ?? "No bids yet";
+  const bidderName = latestBid?.bidder?.name ?? "Unknown bidder";
+  const bidderAvatar =
+    latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
+
+  const sellerImg =
+    listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
+  const sellerName = listing.seller?.name ?? "Unknown seller";
+
+  const formattedDate = listing.endsAt
+    ? toDatetimeLocal(listing.endsAt)
+    : "No end date";
+
+  return `
+    <div class="profile-page__bid-card">
+      <div class="listing-card__bid-badge">Your bid: ${userBidAmount}</div>
+      <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
+        <div class="listing-card__image">
+          <img src="${imageUrl}" alt="${imageAlt}" />
+        </div>
+
+        <div class="listing-card__body">
+          <div class="listing-card__header">
+            <h3 class="listing-card__title">${listing.title}</h3>
+          </div>
+
+          <p class="listing-card__description">${listing.description}</p>
+
+          <div class="listing-card__info">
+            <div class="listing-card__bid">
+              <div class="listing-card__bid-label">Current Bid</div>
+              <div class="listing-card__bid-amount">${currentBidAmount} Credits</div>
+            </div>
+
+            <div class="listing-card__time">
+              <i class="bi bi-clock"></i>
+              <span>${formattedDate}</span>
+            </div>
+          </div>
+
+          <div class="listing-card__seller">
+            <img
+              src="${sellerImg}"
+              alt="${sellerName}"
+              class="listing-card__seller-avatar"
+            />
+            <span class="listing-card__seller-name">${sellerName}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  `;
+}
+
 export function bidCardMarkup(bid) {
   const listing = bid.listing;
   if (!listing) {
@@ -215,10 +278,111 @@ export function bidCardMarkup(bid) {
   `;
 }
 
-export function singlePageCardMarkup(listing) {
+export function winCardMarkup(listing) {
   const imageUrl =
     listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
   const imageAlt = listing.media?.[0]?.alt ?? "No alt text provided";
+
+  const latestBid = listing.bids?.length
+    ? listing.bids[listing.bids.length - 1]
+    : null;
+
+  const winningBidAmount = latestBid?.amount ?? "No bids";
+  const sellerImg =
+    listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
+  const sellerName = listing.seller?.name ?? "Unknown seller";
+
+  const formattedDate = listing.endsAt
+    ? toDatetimeLocal(listing.endsAt)
+    : "No end date";
+
+  return `
+    <div class="profile-page__bid-card">
+      <div class="listing-card__bid-badge" style="background-color: #28a745; color: white;">Won</div>
+      <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
+        <div class="listing-card__image">
+          <img src="${imageUrl}" alt="${imageAlt}" />
+        </div>
+
+        <div class="listing-card__body">
+          <div class="listing-card__header">
+            <h3 class="listing-card__title">${listing.title}</h3>
+          </div>
+
+          <p class="listing-card__description">${listing.description}</p>
+
+          <div class="listing-card__info">
+            <div class="listing-card__bid">
+              <div class="listing-card__bid-label">Winning Bid</div>
+              <div class="listing-card__bid-amount">${winningBidAmount} Credits</div>
+            </div>
+
+            <div class="listing-card__time">
+              <i class="bi bi-clock"></i>
+              <span>Ended: ${formattedDate}</span>
+            </div>
+          </div>
+
+          <div class="listing-card__seller">
+            <img
+              src="${sellerImg}"
+              alt="${sellerName}"
+              class="listing-card__seller-avatar"
+            />
+            <span class="listing-card__seller-name">${sellerName}</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  `;
+}
+
+export function singlePageCardMarkup(listing) {
+  const media = listing.media ?? [];
+  const hasImages = media.length > 0;
+  const firstImage = hasImages
+    ? media[0]
+    : {
+        url: "https://placehold.co/600x400?text=No+Image",
+        alt: "No image available",
+      };
+
+  const mainImageHtml = `
+    <div class="listing-detail__main-image" id="mainImageContainer">
+      <img
+        src="${firstImage.url}"
+        alt="${firstImage.alt}"
+        id="mainImage"
+      />
+    </div>
+  `;
+
+  let thumbnailsHtml = "";
+  if (hasImages) {
+    thumbnailsHtml = `
+      <div class="listing-detail__thumbnails" id="thumbnailsContainer">
+        ${media
+          .map(
+            (item, index) => `
+          <button
+            type="button"
+            class="listing-detail__thumbnail ${
+              index === 0 ? "listing-detail__thumbnail--active" : ""
+            }"
+            data-image-index="${index}"
+            aria-label="View image ${index + 1}"
+          >
+            <img
+              src="${item.url}"
+              alt="${item.alt || "Listing image"}"
+            />
+          </button>
+        `
+          )
+          .join("")}
+      </div>
+    `;
+  }
 
   //  BIDS
   const bids = listing.bids ?? [];
@@ -263,141 +427,69 @@ export function singlePageCardMarkup(listing) {
 
   return `
     <div class="container">
-      <a href="../feed/index.html" class="btn btn-outline-secondary btn-sm mb-3">
+      <a href="../index.html" class="btn btn-outline-secondary btn-sm mb-3 listing-detail__back">
         <i class="bi bi-arrow-left"></i>
         Back to Listings
       </a>
 
-              <div class="row g-4">
-          <div class="col-lg-6">
-            <div class="border rounded p-2 mb-3" id="mainImage">
-              <img
-                src="${imageUrl}"
-                class="img-fluid rounded"
-                alt="${imageAlt}"
-              />
-            </div>
+      <div class="listing-detail__grid">
+        <div class="listing-detail__gallery">
+          ${mainImageHtml}
+          ${thumbnailsHtml}
+        </div>
 
-            <div class="d-flex gap-2">
-              <div
-              >
-                <img
-                  src="${imageUrl}"
-                  alt="${imageAlt}"
-                  class="img-thumbnail"
-                />
-              </div>
-
-              <div>
-                <img
-                  src="${imageUrl}"
-                  alt="${imageAlt}"
-                  class="img-thumbnail"
-                />
-              </div>
-            </div>
+        <div class="listing-detail__details">
+          <div class="listing-detail__header">
+            <h1 class="listing-detail__title">${listing.title}</h1>
           </div>
 
-        <div class="col-lg-6">
-          <h1 class="mb-2">${listing.title}</h1>
-          <p>${listing.description}</p>
+          <p class="listing-detail__description">${listing.description}</p>
 
-          <div class="mb-3">
-            <span class="badge bg-secondary">${listing.tags}</span>
-          </div>
+          ${
+            listing.tags
+              ? `
+            <div class="listing-detail__tags">
+              <span class="badge bg-secondary">${listing.tags}</span>
+            </div>
+          `
+              : ""
+          }
 
-          <div class="d-flex align-items-center gap-3 mb-4">
+          <div class="listing-detail__seller">
             <img
               src="${sellerImg}"
               alt="${sellerImgAlt}"
-              class="rounded-circle"
-              width="48"
-              height="48"
+              class="listing-detail__seller-avatar"
             />
-            <div>
-              <div class="text-muted">Seller</div>
-              <div>${sellerName}</div>
+            <div class="listing-detail__seller-info">
+              <div class="label">Seller</div>
+              <div class="name">${sellerName}</div>
             </div>
           </div>
 
-          <div class="border rounded p-3 mb-4">
-            <div class="d-flex justify-content-between mb-3">
-              <div>
-                <div class="text-muted">Current Bid</div>
-                <div class="fw-bold">${currentBidAmount} Credits</div>
+          <div class="listing-detail__bidding">
+            <div class="listing-detail__bid-info">
+              <div class="listing-detail__bid-current">
+                <div class="label">Current Bid</div>
+                <div class="value">${currentBidAmount} Credits</div>
               </div>
-              <div>
-                <div class="text-muted">Time Remaining</div>
-                <div><i class="bi bi-clock"></i> ${formattedDate}</div>
+              <div class="listing-detail__bid-time">
+                <div class="label">Time Remaining</div>
+                <div class="value">
+                  <i class="bi bi-clock"></i> ${formattedDate}
+                </div>
               </div>
             </div>
 
             ${bidFormHtml}
           </div>
 
-          <h4>Bid History (${listing._count?.bids ?? 0})</h4>
-        ${bidHistoryMarkup(listing.bids)}
+          <h4 class="listing-detail__history-title">Bid History (${
+            listing._count?.bids ?? 0
+          })</h4>
+          ${bidHistoryMarkup(listing.bids)}
         </div>
       </div>
-    </div>
-  `;
-}
-
-export function winCardMarkup(listing) {
-  const imageUrl =
-    listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
-  const imageAlt = listing.media?.[0]?.alt ?? "No alt text provided";
-
-  const latestBid = listing.bids?.length
-    ? listing.bids[listing.bids.length - 1]
-    : null;
-
-  const winningBidAmount = latestBid?.amount ?? "No bids";
-  const sellerImg =
-    listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
-  const sellerName = listing.seller?.name ?? "Unknown seller";
-
-  const formattedDate = listing.endsAt
-    ? toDatetimeLocal(listing.endsAt)
-    : "No end date";
-
-  return `
-    <div class="profile-page__bid-card">
-      <div class="listing-card__bid-badge">Won</div>
-      <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
-        <div class="listing-card__image">
-          <img src="${imageUrl}" alt="${imageAlt}" />
-        </div>
-
-        <div class="listing-card__body">
-          <div class="listing-card__header">
-            <h3 class="listing-card__title">${listing.title}</h3>
-          </div>
-
-          <p class="listing-card__description">${listing.description}</p>
-
-          <div class="listing-card__info">
-            <div class="listing-card__bid">
-              <div class="listing-card__bid-label">Winning Bid</div>
-              <div class="listing-card__bid-amount">${winningBidAmount} Credits</div>
-            </div>
-
-            <div class="listing-card__time">
-              <i class="bi bi-clock"></i>
-              <span>Ended: ${formattedDate}</span>
-            </div>
-          </div>
-
-          <div class="listing-card__seller">
-            <img
-              src="${sellerImg}"
-              alt="${sellerName}"
-              class="listing-card__seller-avatar"
-            />
-            <span class="listing-card__seller-name">${sellerName}</span>
-          </div>
-        </div>
-      </a>
     </div>
   `;
 }

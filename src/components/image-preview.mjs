@@ -30,3 +30,29 @@ export function initImagePreview(
     setTimeout(() => updateImagePreview(inputId, previewId), 10);
   });
 }
+
+export function updateMediaPreview(urlInput) {
+  const mediaGroup = urlInput.closest(".media-group");
+  if (!mediaGroup) return;
+
+  const preview = mediaGroup.querySelector(".media-preview");
+  if (!preview) return;
+
+  const url = urlInput.value.trim();
+  if (url && url.startsWith("http")) {
+    preview.src = url;
+    preview.style.display = "block";
+  } else {
+    preview.style.display = "none";
+  }
+}
+
+export function initMediaPreviews() {
+  const mediaInputsContainer = document.getElementById("mediaInputs");
+  if (!mediaInputsContainer) return;
+
+  const urlInputs = mediaInputsContainer.querySelectorAll(".media-url-input");
+  urlInputs.forEach((input) => {
+    updateMediaPreview(input);
+  });
+}

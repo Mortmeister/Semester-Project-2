@@ -40,13 +40,13 @@ export function initHeaderEl(user, isAuth) {
 
     return `
       <div class="container d-flex justify-content-between align-items-center">
-        <a href="../feed/index.html" class="app-header__brand d-flex align-items-center">
-          <div class="app-header__logo">AH</div>
+        <a href="../feed/index.html" class="main-header__brand d-flex align-items-center">
+          <div class="main-header__logo">AH</div>
           <span class="ms-2">Auction House</span>
         </a>
 
-        <nav class="app-header__nav d-flex align-items-center gap-3">
-          <div class="app-header__credits d-flex align-items-center gap-1">
+        <nav class="main-header__nav d-flex align-items-center gap-3">
+          <div class="main-header__credits d-flex align-items-center gap-1">
             <i class="bi bi-coin"></i>
             <span>${credits} Credits</span>
           </div>
@@ -57,9 +57,9 @@ export function initHeaderEl(user, isAuth) {
           </a>
 
           <div class="user-dropdown">
-            <button class="app-header__user" id="userMenuButton">
-              <img src="${avatarImg}" alt="${avatarAlt}" class="app-header__avatar" id="avatarImage">
-              <span class="app-header__username">${name}</span>
+            <button class="main-header__user" id="userMenuButton">
+              <img src="${avatarImg}" alt="${avatarAlt}" class="main-header__avatar" id="avatarImage">
+              <span class="main-header__username">${name}</span>
               <i class="bi bi-chevron-down"></i>
             </button>
 
@@ -86,12 +86,12 @@ export function initHeaderEl(user, isAuth) {
   } else {
     return `
       <div class="container d-flex justify-content-between align-items-center">
-        <a href="../feed/index.html" class="app-header__brand d-flex align-items-center">
-          <div class="app-header__logo">AH</div>
+        <a href="../feed/index.html" class="main-header__brand d-flex align-items-center">
+          <div class="main-header__logo">AH</div>
           <span class="ms-2">Auction House</span>
         </a>
 
-        <nav class="app-header__nav d-flex align-items-center gap-3">
+        <nav class="main-header__nav d-flex align-items-center gap-3">
           <a href="../login/index.html" class="btn btn-outline-primary btn-sm">
             <i class="bi bi-box-arrow-in-right"></i> Login
           </a>
