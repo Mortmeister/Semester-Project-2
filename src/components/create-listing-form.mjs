@@ -1,9 +1,12 @@
 import { createListing } from "../api/auth-service.mjs";
 import { isAuthenticated, handleUnauthorizedAccess } from "../utils/auth.mjs";
+import { initImagePreview } from "./image-preview.mjs";
 
 export function initCreateListingForm() {
   const createListingFormEl = document.getElementById("createListingForm");
   if (!createListingFormEl) return;
+
+  initImagePreview();
 
   createListingFormEl.addEventListener("submit", async (event) => {
     event.preventDefault();

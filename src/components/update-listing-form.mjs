@@ -2,6 +2,8 @@ import { getSingleListing, updateListing } from "../api/auth-service.mjs";
 import { getParam } from "../utils/get-params.mjs";
 import { toDatetimeLocal } from "../utils/date-time.mjs";
 import { isAuthenticated, handleUnauthorizedAccess } from "../utils/auth.mjs";
+import { updateImagePreview, initImagePreview } from "./image-preview.mjs";
+import { loadHeader } from "./header.mjs";
 
 async function prefillForm() {
   const id = getParam("id");
@@ -15,6 +17,7 @@ async function prefillForm() {
   const imageUrl = document.getElementById("imageUrl");
   const imageAlt = document.getElementById("imageAlt");
   const endsAt = document.getElementById("deadline");
+  const imageURLPreview = document.getElementById("imageURLPreview");
 
   const { data } = await getSingleListing(id);
 
@@ -23,6 +26,11 @@ async function prefillForm() {
   imageUrl.value = data.media?.[0]?.url ?? "";
   imageAlt.value = data.media?.[0]?.alt ?? "";
   endsAt.value = toDatetimeLocal(data.endsAt) ?? "";
+
+  // Show preview if image URL exists
+  if (imageURLPreview && imageUrl.value && imageUrl.value.startsWith("http")) {
+    updateImagePreview();
+  }
 }
 
 export function initUpdateListingForm() {
@@ -33,6 +41,9 @@ export function initUpdateListingForm() {
 
   const updateListingFormEl = document.getElementById("updateListingForm");
   if (!updateListingFormEl) return;
+
+  initImagePreview();
+
   const id = getParam("id");
   updateListingFormEl.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -60,5 +71,6 @@ export function initUpdateListingForm() {
   });
 }
 
+loadHeader();
 prefillForm();
 initUpdateListingForm();
