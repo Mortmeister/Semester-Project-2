@@ -55,9 +55,18 @@ export async function getUserListings({
 
 export async function getUserBids() {
   const username = getUsername();
-  // Try to include listing information with bids
   return apiClient(
     PROFILE_URL + username + "/bids?_listings=true&_seller=true&_bids=true",
+    {
+      method: "GET",
+    }
+  );
+}
+
+export async function getUserWins() {
+  const username = getUsername();
+  return apiClient(
+    PROFILE_URL + username + "/wins?_listings=true&_seller=true&_bids=true",
     {
       method: "GET",
     }
@@ -128,7 +137,7 @@ export function makeBid(id, payload) {
 }
 
 export function searchPosts(query) {
-  return apiClient(`${SEARCH_LISTING_URL}${query}`, {
+  return apiClient(`${SEARCH_LISTING_URL}${query}&_seller=true&_bids=true`, {
     method: "GET",
   });
 }

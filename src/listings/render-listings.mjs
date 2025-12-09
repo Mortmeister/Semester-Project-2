@@ -1,7 +1,7 @@
 import {
   listingCardMarkup,
   listingProfileCardMarkup,
-  listingBidCardMarkup,
+  winCardMarkup,
   bidCardMarkup,
   singlePageCardMarkup,
 } from "../components/listing-card-ui.mjs";
@@ -44,13 +44,28 @@ export async function renderBidListings(container, bids) {
       return;
     }
 
-    // Bids is an array of bid objects, each with listing info
     container.innerHTML = bids
       .map((bid) => bidCardMarkup(bid))
-      .filter((markup) => markup !== "") // Filter out bids without listing info
+      .filter((markup) => markup !== "")
       .join("");
   } catch (error) {
     console.error("Error rendering bid listings", error);
     container.innerHTML = `<p class="text-danger">Failed to load bids.</p>`;
+  }
+}
+
+export async function renderWinListings(container, wins) {
+  try {
+    if (!wins || wins.length === 0) {
+      container.innerHTML = `<p class="text-muted">You haven't won any auctions yet.</p>`;
+      return;
+    }
+
+    container.innerHTML = wins
+      .map((listing) => winCardMarkup(listing))
+      .join("");
+  } catch (error) {
+    console.error("Error rendering win listings", error);
+    container.innerHTML = `<p class="text-danger">Failed to load wins.</p>`;
   }
 }
