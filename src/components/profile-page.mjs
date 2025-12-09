@@ -2,10 +2,12 @@ import {
   getUserProfile,
   getUserListings,
   getUserBids,
+  getUserWins,
 } from "../api/auth-service.mjs";
 import {
   renderProfileListings,
   renderBidListings,
+  renderWinListings,
 } from "../listings/render-listings.mjs";
 import { initDeleteDelegation } from "../listings/delete-listing.mjs";
 import { getUsername } from "../utils/storage.mjs";
@@ -67,6 +69,7 @@ export async function loadProfilePage() {
     const creditsEl = document.getElementById("creditsEl");
     const myListingsCountEl = document.getElementById("myListingsCount");
     const myBidsCountEl = document.getElementById("myBidsCount");
+    const myWinsCountEl = document.getElementById("myWinsCount");
 
     // Avatar images
     if (avatarImage && profileData.avatar?.url) {
@@ -119,10 +122,8 @@ export async function loadProfilePage() {
       creditsEl.textContent = profileData.credits ?? 0;
     }
 
-    // Load and render user listings
     const listingsContainer = document.getElementById("myListings");
     if (listingsContainer) {
-      // Show loading spinner
       listingsContainer.innerHTML = loadingSpinner();
 
       try {
@@ -130,7 +131,6 @@ export async function loadProfilePage() {
         await renderProfileListings(listingsContainer, listings || []);
         initDeleteDelegation(listingsContainer);
 
-        // Update listings count
         if (myListingsCountEl) {
           const count = listings?.length ?? profileData._count?.listings ?? 0;
           myListingsCountEl.textContent = `My Listings (${count})`;
@@ -141,20 +141,14 @@ export async function loadProfilePage() {
       }
     }
 
-    // Load and render user bids
     const bidsContainer = document.getElementById("myBids");
     if (bidsContainer) {
-      // Show loading spinner
       bidsContainer.innerHTML = loadingSpinner();
 
       try {
         const { data: bids } = await getUserBids();
 
-        // If bids don't have listing info, we need to fetch listings separately
-        // Check if first bid has listing property
         if (bids && bids.length > 0 && !bids[0].listing) {
-          // Fetch listing for each bid - bids might have listingId or we need to extract it
-          // For now, assume bids have listing info embedded or we'll need to modify approach
           console.warn(
             "Bids don't include listing info - may need to fetch separately"
           );
@@ -162,7 +156,6 @@ export async function loadProfilePage() {
 
         await renderBidListings(bidsContainer, bids || []);
 
-        // Update bids count
         if (myBidsCountEl) {
           const count = bids?.length ?? 0;
           myBidsCountEl.textContent = `My Bids (${count})`;
@@ -170,6 +163,24 @@ export async function loadProfilePage() {
       } catch (error) {
         console.error("Failed to load bids:", error);
         bidsContainer.innerHTML = `<p class="text-danger">Failed to load bids.</p>`;
+      }
+    }
+
+    const winsContainer = document.getElementById("myWins");
+    if (winsContainer) {
+      winsContainer.innerHTML = loadingSpinner();
+
+      try {
+        const { data: wins } = await getUserWins();
+        await renderWinListings(winsContainer, wins || []);
+
+        if (myWinsCountEl) {
+          const count = wins?.length ?? 0;
+          myWinsCountEl.textContent = `My Wins (${count})`;
+        }
+      } catch (error) {
+        console.error("Failed to load wins:", error);
+        winsContainer.innerHTML = `<p class="text-danger">Failed to load wins.</p>`;
       }
     }
   } catch (error) {

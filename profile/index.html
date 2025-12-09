@@ -25,16 +25,7 @@
     <main>
       <div class="profile-page">
         <div class="profile-page__banner">
-          <div
-            id="profileBanner"
-            class="bg-light"
-            style="
-              height: 300px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            "
-          >
+          <div id="profileBanner" class="bg-light">
             <div class="spinner-border text-primary" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
@@ -47,13 +38,6 @@
               <div
                 class="profile-page__avatar bg-light rounded-circle"
                 id="avatarImage2"
-                style="
-                  width: 120px;
-                  height: 120px;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                "
               >
                 <div
                   class="spinner-border spinner-border-sm text-secondary"
@@ -183,6 +167,11 @@ Passionate collector and auction enthusiast</textarea
                   My Bids
                 </button>
               </li>
+              <li class="nav-item">
+                <button class="nav-link" data-tab="my-wins" id="myWinsCount">
+                  My Wins
+                </button>
+              </li>
             </ul>
 
             <div class="tab-content">
@@ -192,6 +181,10 @@ Passionate collector and auction enthusiast</textarea
 
               <div class="tab-pane" id="my-bids">
                 <div class="profile-page__grid" id="myBids"></div>
+              </div>
+
+              <div class="tab-pane" id="my-wins">
+                <div class="profile-page__grid" id="myWins"></div>
               </div>
             </div>
           </div>

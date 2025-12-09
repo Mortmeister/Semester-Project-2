@@ -151,75 +151,10 @@ export function listingCardMarkup(listing) {
        `;
 }
 
-export function listingBidCardMarkup(listing, userBidAmount) {
-  const imageUrl =
-    listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
-  const imageAlt = listing.media?.[0]?.alt ?? "No alt text provided";
-
-  const latestBid = listing.bids?.length
-    ? listing.bids[listing.bids.length - 1]
-    : null;
-
-  const currentBidAmount = latestBid?.amount ?? "No bids yet";
-  const bidderName = latestBid?.bidder?.name ?? "Unknown bidder";
-  const bidderAvatar =
-    latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
-
-  const sellerImg =
-    listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
-  const sellerName = listing.seller?.name ?? "Unknown seller";
-
-  const formattedDate = listing.endsAt
-    ? toDatetimeLocal(listing.endsAt)
-    : "No end date";
-
-  return `
-    <div class="profile-page__bid-card">
-      <div class="listing-card__bid-badge">Your bid: ${userBidAmount}</div>
-      <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
-        <div class="listing-card__image">
-          <img src="${imageUrl}" alt="${imageAlt}" />
-        </div>
-
-        <div class="listing-card__body">
-          <div class="listing-card__header">
-            <h3 class="listing-card__title">${listing.title}</h3>
-          </div>
-
-          <p class="listing-card__description">${listing.description}</p>
-
-          <div class="listing-card__info">
-            <div class="listing-card__bid">
-              <div class="listing-card__bid-label">Current Bid</div>
-              <div class="listing-card__bid-amount">${currentBidAmount} Credits</div>
-            </div>
-
-            <div class="listing-card__time">
-              <i class="bi bi-clock"></i>
-              <span>${formattedDate}</span>
-            </div>
-          </div>
-
-          <div class="listing-card__seller">
-            <img
-              src="${sellerImg}"
-              alt="${sellerName}"
-              class="listing-card__seller-avatar"
-            />
-            <span class="listing-card__seller-name">${sellerName}</span>
-          </div>
-        </div>
-      </a>
-    </div>
-  `;
-}
-
-// New function to render bid cards from bid objects (which include listing info)
 export function bidCardMarkup(bid) {
-  // Bid object has: id, amount, bidder, created, and potentially listing
   const listing = bid.listing;
   if (!listing) {
-    return ""; // Skip if no listing info
+    return "";
   }
 
   const imageUrl =
@@ -404,6 +339,65 @@ export function singlePageCardMarkup(listing) {
         ${bidHistoryMarkup(listing.bids)}
         </div>
       </div>
+    </div>
+  `;
+}
+
+export function winCardMarkup(listing) {
+  const imageUrl =
+    listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
+  const imageAlt = listing.media?.[0]?.alt ?? "No alt text provided";
+
+  const latestBid = listing.bids?.length
+    ? listing.bids[listing.bids.length - 1]
+    : null;
+
+  const winningBidAmount = latestBid?.amount ?? "No bids";
+  const sellerImg =
+    listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
+  const sellerName = listing.seller?.name ?? "Unknown seller";
+
+  const formattedDate = listing.endsAt
+    ? toDatetimeLocal(listing.endsAt)
+    : "No end date";
+
+  return `
+    <div class="profile-page__bid-card">
+      <div class="listing-card__bid-badge">Won</div>
+      <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
+        <div class="listing-card__image">
+          <img src="${imageUrl}" alt="${imageAlt}" />
+        </div>
+
+        <div class="listing-card__body">
+          <div class="listing-card__header">
+            <h3 class="listing-card__title">${listing.title}</h3>
+          </div>
+
+          <p class="listing-card__description">${listing.description}</p>
+
+          <div class="listing-card__info">
+            <div class="listing-card__bid">
+              <div class="listing-card__bid-label">Winning Bid</div>
+              <div class="listing-card__bid-amount">${winningBidAmount} Credits</div>
+            </div>
+
+            <div class="listing-card__time">
+              <i class="bi bi-clock"></i>
+              <span>Ended: ${formattedDate}</span>
+            </div>
+          </div>
+
+          <div class="listing-card__seller">
+            <img
+              src="${sellerImg}"
+              alt="${sellerName}"
+              class="listing-card__seller-avatar"
+            />
+            <span class="listing-card__seller-name">${sellerName}</span>
+          </div>
+        </div>
+      </a>
     </div>
   `;
 }
