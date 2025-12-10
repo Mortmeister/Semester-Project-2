@@ -1,4 +1,4 @@
-import { toDatetimeLocal } from "../utils/date-time.mjs";
+import { toDatetimeLocal, getTimeRemaining } from "../utils/date-time.mjs";
 import { bidHistoryMarkup } from "./bid-history.mjs";
 import { isAuthenticated } from "../utils/auth.mjs";
 
@@ -15,7 +15,7 @@ export function listingProfileCardMarkup(listing) {
   const bidderName = latestBid?.bidder?.name ?? "No bidder yet";
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
-  const formattedDate = toDatetimeLocal(listing.endsAt);
+  const timeRemaining = getTimeRemaining(listing.endsAt);
 
   return `
     <div class="profile-page__bid-card">
@@ -72,7 +72,7 @@ export function listingProfileCardMarkup(listing) {
 
             <div class="listing-card__time">
               <i class="bi bi-clock"></i>
-              <span>${formattedDate}</span>
+              <span>${timeRemaining}</span>
             </div>
 
           </div>
@@ -106,7 +106,7 @@ export function listingCardMarkup(listing) {
   const bidderName = latestBid?.bidder?.name ?? "No bidder yet";
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
-  const formattedDate = toDatetimeLocal(listing.endsAt);
+  const timeRemaining = getTimeRemaining(listing.endsAt);
 
   return `
        <a href="../single_page/index.html?id=${listing.id}" class="listing-card col text-decoration-none">
@@ -132,7 +132,7 @@ export function listingCardMarkup(listing) {
 
                <div class="d-flex align-items-center gap-1">
                  <i class="bi bi-clock"></i>
-                 <span>${formattedDate}</span>
+                 <span>${timeRemaining}</span>
                </div>
              </div>
 
@@ -169,9 +169,7 @@ export function listingBidCardMarkup(listing, userBidAmount) {
     listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
   const sellerName = listing.seller?.name ?? "Unknown seller";
 
-  const formattedDate = listing.endsAt
-    ? toDatetimeLocal(listing.endsAt)
-    : "No end date";
+  const timeRemaining = getTimeRemaining(listing.endsAt);
 
   return `
     <div class="profile-page__bid-card">
@@ -196,7 +194,7 @@ export function listingBidCardMarkup(listing, userBidAmount) {
 
             <div class="listing-card__time">
               <i class="bi bi-clock"></i>
-              <span>${formattedDate}</span>
+              <span>${timeRemaining}</span>
             </div>
           </div>
 
@@ -233,9 +231,7 @@ export function bidCardMarkup(bid) {
     listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
   const sellerName = listing.seller?.name ?? "Unknown seller";
 
-  const formattedDate = listing.endsAt
-    ? toDatetimeLocal(listing.endsAt)
-    : "No end date";
+  const timeRemaining = getTimeRemaining(listing.endsAt);
 
   return `
     <div class="profile-page__bid-card">
@@ -260,7 +256,7 @@ export function bidCardMarkup(bid) {
 
             <div class="listing-card__time">
               <i class="bi bi-clock"></i>
-              <span>${formattedDate}</span>
+              <span>${timeRemaining}</span>
             </div>
           </div>
 
@@ -292,9 +288,8 @@ export function winCardMarkup(listing) {
     listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
   const sellerName = listing.seller?.name ?? "Unknown seller";
 
-  const formattedDate = listing.endsAt
-    ? toDatetimeLocal(listing.endsAt)
-    : "No end date";
+  // For won auctions, always show "Auction ended"
+  const timeRemaining = "Auction ended";
 
   return `
     <div class="profile-page__bid-card">
@@ -319,7 +314,7 @@ export function winCardMarkup(listing) {
 
             <div class="listing-card__time">
               <i class="bi bi-clock"></i>
-              <span>Ended: ${formattedDate}</span>
+              <span>${timeRemaining}</span>
             </div>
           </div>
 
@@ -400,7 +395,7 @@ export function singlePageCardMarkup(listing) {
     listing.seller?.avatar?.url ?? "https://placehold.co/48x48?text=S";
   const sellerImgAlt = listing.seller?.avatar?.alt ?? "Seller avatar";
   const sellerName = listing.seller?.name ?? "Unknown seller";
-  const formattedDate = toDatetimeLocal(listing.endsAt);
+  const timeRemaining = getTimeRemaining(listing.endsAt);
 
   const isAuth = isAuthenticated();
   const bidFormHtml = isAuth
@@ -476,7 +471,7 @@ export function singlePageCardMarkup(listing) {
               <div class="listing-detail__bid-time">
                 <div class="label">Time Remaining</div>
                 <div class="value">
-                  <i class="bi bi-clock"></i> ${formattedDate}
+                  <i class="bi bi-clock"></i> ${timeRemaining}
                 </div>
               </div>
             </div>
