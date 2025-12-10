@@ -32,7 +32,7 @@
             Back to Profile
           </a>
 
-          <div class="listing-detail__details">
+          <div class="listing-detail__details listing-detail__details--form">
             <h1 class="mb-4">Create New Listing</h1>
 
             <form id="createListingForm">
@@ -68,7 +68,9 @@
                   <div class="media-group mb-3" data-media-index="0">
                     <div class="d-flex gap-2 align-items-start mb-2">
                       <div class="flex-grow-1">
-                        <label class="form-label">Image URL</label>
+                        <label class="form-label form-label--small"
+                          >Image URL</label
+                        >
                         <input
                           type="url"
                           name="imageUrl[]"
@@ -78,7 +80,9 @@
                         />
                       </div>
                       <div class="flex-grow-1">
-                        <label class="form-label">Image ALT Text</label>
+                        <label class="form-label form-label--small"
+                          >Image ALT Text</label
+                        >
                         <input
                           type="text"
                           name="imageAlt[]"
@@ -90,8 +94,7 @@
                       <div class="d-flex align-items-end">
                         <button
                           type="button"
-                          class="btn btn-outline-danger btn-sm remove-media-btn"
-                          style="display: none"
+                          class="btn btn-outline-danger btn-sm remove-media-btn remove-media-btn--hidden"
                         >
                           <i class="bi bi-trash"></i>
                         </button>

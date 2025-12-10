@@ -11,8 +11,8 @@ export function listingProfileCardMarkup(listing) {
     ? listing.bids[listing.bids.length - 1]
     : null;
 
-  const currentBidAmount = latestBid?.amount ?? "No bids yet";
-  const bidderName = latestBid?.bidder?.name ?? "Unknown bidder";
+  const currentBidAmount = latestBid?.amount ?? "0";
+  const bidderName = latestBid?.bidder?.name ?? "No bidder yet";
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
   const formattedDate = toDatetimeLocal(listing.endsAt);
@@ -102,8 +102,8 @@ export function listingCardMarkup(listing) {
     ? listing.bids[listing.bids.length - 1]
     : null;
 
-  const currentBidAmount = latestBid?.amount ?? "No bids yet";
-  const bidderName = latestBid?.bidder?.name ?? "Unknown bidder";
+  const currentBidAmount = latestBid?.amount ?? "0";
+  const bidderName = latestBid?.bidder?.name ?? "No bidder yet";
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
   const formattedDate = toDatetimeLocal(listing.endsAt);
@@ -160,8 +160,8 @@ export function listingBidCardMarkup(listing, userBidAmount) {
     ? listing.bids[listing.bids.length - 1]
     : null;
 
-  const currentBidAmount = latestBid?.amount ?? "No bids yet";
-  const bidderName = latestBid?.bidder?.name ?? "Unknown bidder";
+  const currentBidAmount = latestBid?.amount ?? "0";
+  const bidderName = latestBid?.bidder?.name ?? "No bidder yet";
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
 
@@ -228,7 +228,7 @@ export function bidCardMarkup(bid) {
     ? listing.bids[listing.bids.length - 1]
     : null;
 
-  const currentBidAmount = latestBid?.amount ?? "No bids yet";
+  const currentBidAmount = latestBid?.amount ?? "0";
   const sellerImg =
     listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
   const sellerName = listing.seller?.name ?? "Unknown seller";
@@ -298,7 +298,7 @@ export function winCardMarkup(listing) {
 
   return `
     <div class="profile-page__bid-card">
-      <div class="listing-card__bid-badge" style="background-color: #28a745; color: white;">Won</div>
+      <div class="listing-card__bid-badge listing-card__bid-badge--won">Won</div>
       <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
         <div class="listing-card__image">
           <img src="${imageUrl}" alt="${imageAlt}" />
@@ -347,7 +347,7 @@ export function singlePageCardMarkup(listing) {
         alt: "No image available",
       };
 
-  const mainImageHtml = `
+  const primaryImageMarkup = `
     <div class="listing-detail__main-image" id="mainImageContainer">
       <img
         src="${firstImage.url}"
@@ -357,9 +357,9 @@ export function singlePageCardMarkup(listing) {
     </div>
   `;
 
-  let thumbnailsHtml = "";
+  let thumbnailsMarkup = "";
   if (hasImages) {
-    thumbnailsHtml = `
+    thumbnailsMarkup = `
       <div class="listing-detail__thumbnails" id="thumbnailsContainer">
         ${media
           .map(
@@ -388,8 +388,8 @@ export function singlePageCardMarkup(listing) {
   const bids = listing.bids ?? [];
   const latestBid = bids.length > 0 ? bids[bids.length - 1] : null;
 
-  const currentBidAmount = latestBid?.amount ?? "No bids yet";
-  const bidderName = latestBid?.bidder?.name ?? "No bids yet";
+  const currentBidAmount = latestBid?.amount ?? "0";
+  const bidderName = latestBid?.bidder?.name ?? "No bid yet";
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
 
@@ -427,15 +427,15 @@ export function singlePageCardMarkup(listing) {
 
   return `
     <div class="container">
-      <a href="../index.html" class="btn btn-outline-secondary btn-sm mb-3 listing-detail__back">
+      <a href="../feed/index.html" class="btn btn-outline-secondary btn-sm mb-3 listing-detail__back">
         <i class="bi bi-arrow-left"></i>
         Back to Listings
       </a>
 
       <div class="listing-detail__grid">
         <div class="listing-detail__gallery">
-          ${mainImageHtml}
-          ${thumbnailsHtml}
+          ${primaryImageMarkup}
+          ${thumbnailsMarkup}
         </div>
 
         <div class="listing-detail__details">

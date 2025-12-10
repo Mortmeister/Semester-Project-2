@@ -109,6 +109,11 @@
       border-radius: $border-radius-sm;
       font-size: $font-size-xs;
       font-weight: $font-weight-semibold;
+
+      &--won {
+        background-color: #28a745;
+        color: white;
+      }
     }
   }
 
@@ -203,4 +208,3 @@
 .profile-page__bid-card {
   position: relative;
 }
-
