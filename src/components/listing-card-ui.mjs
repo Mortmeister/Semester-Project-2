@@ -107,47 +107,45 @@ export function listingCardMarkup(listing) {
   const bidderAvatar =
     latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
   const timeRemaining = getTimeRemaining(listing.endsAt);
+  const sellerImg =
+    listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
+  const sellerName = listing.seller?.name ?? "Unknown seller";
 
   return `
-       <a href="../single_page/index.html?id=${listing.id}" class="listing-card col text-decoration-none">
-         <div class="card h-100">
-           <img
-             src="${imageUrl}"
-             class="card-img-top"
-             alt="${imageAlt}"
-           />
+       <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
+        <div class="listing-card__image">
+          <img src="${imageUrl}" alt="${imageAlt}" />
+        </div>
 
-           <div class="card-body">
-             <h5 class="card-title">${listing.title}</h5>
+        <div class="listing-card__body">
+          <div class="listing-card__header">
+            <h3 class="listing-card__title">${listing.title}</h3>
+          </div>
 
-             <p class="card-text text-muted">
-               ${listing.description}
-             </p>
+          <p class="listing-card__description">${listing.description}</p>
 
-             <div class="d-flex justify-content-between mt-3">
-               <div>
-                 <div class="text-muted small">Current Bid</div>
-                 <strong>${currentBidAmount} Credits</strong>
-               </div>
+          <div class="listing-card__info">
+            <div class="listing-card__bid">
+              <div class="listing-card__bid-label">Current Bid</div>
+              <div class="listing-card__bid-amount">${currentBidAmount} Credits</div>
+            </div>
 
-               <div class="d-flex align-items-center gap-1">
-                 <i class="bi bi-clock"></i>
-                 <span>${timeRemaining}</span>
-               </div>
-             </div>
+            <div class="listing-card__time">
+              <i class="bi bi-clock"></i>
+              <span>${timeRemaining}</span>
+            </div>
+          </div>
 
-             <div class="d-flex align-items-center mt-3">
-               <img
-                 src="${bidderAvatar}"
-                 class="rounded-circle me-2"
-                 width="32"
-                 height="32"
-               />
-               <span class="text-muted">${bidderName}</span>
-             </div>
-           </div>
-         </div>
-       </a>
+          <div class="listing-card__seller">
+            <img
+              src="${sellerImg}"
+              alt="${sellerName}"
+              class="listing-card__seller-avatar"
+            />
+            <span class="listing-card__seller-name">${sellerName}</span>
+          </div>
+        </div>
+      </a>
        `;
 }
 
