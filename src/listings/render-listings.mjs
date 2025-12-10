@@ -5,6 +5,7 @@ import {
   bidCardMarkup,
   singlePageCardMarkup,
 } from "../components/listing-card-ui.mjs";
+import { getSingleListing } from "../api/auth-service.mjs";
 
 export async function renderListings(container, listings) {
   try {
@@ -44,7 +45,48 @@ export async function renderBidListings(container, bids) {
       return;
     }
 
-    container.innerHTML = bids
+    const fullBidData = await Promise.all(
+      bids.map(async (bid) => {
+        const listingId = bid.listing?.id || bid.listingId;
+
+        if (!listingId) {
+          console.warn("Bid missing listing ID:", bid);
+          return null;
+        }
+
+        try {
+          const { data: fullListing } = await getSingleListing(listingId, {
+            includeSeller: true,
+            includeBids: true,
+          });
+
+          if (!fullListing) {
+            console.warn(`No listing data returned for ID ${listingId}`);
+            return null;
+          }
+
+          return {
+            ...bid,
+            listing: {
+              ...fullListing,
+              id: fullListing.id || listingId,
+            },
+          };
+        } catch (error) {
+          console.error(`Failed to fetch listing ${listingId}:`, error);
+          return null;
+        }
+      })
+    );
+
+    const validBids = fullBidData.filter((bid) => bid !== null);
+
+    if (validBids.length === 0) {
+      container.innerHTML = `<p class="text-muted">Unable to load bid information.</p>`;
+      return;
+    }
+
+    container.innerHTML = validBids
       .map((bid) => bidCardMarkup(bid))
       .filter((markup) => markup !== "")
       .join("");

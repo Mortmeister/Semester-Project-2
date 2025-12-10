@@ -3,7 +3,10 @@
   padding: $spacing-sm $spacing-lg;
   font-weight: $font-weight-normal;
   border-radius: $border-radius-md;
-  @include transition(background-color $transition-base, transform $transition-base);
+  @include transition(
+    background-color $transition-base,
+    transform $transition-base
+  );
   border: none;
   cursor: pointer;
   display: inline-flex;
@@ -140,6 +143,10 @@
   font-weight: $font-weight-normal;
   color: $color-text-primary;
   font-size: $font-size-sm;
+
+  &--small {
+    font-size: $font-size-sm;
+  }
 }
 
 .form-control {
@@ -151,7 +158,10 @@
   background-color: $color-bg-primary;
   border: 1px solid $color-border;
   border-radius: $border-radius-md;
-  @include transition(border-color $transition-base, box-shadow $transition-base);
+  @include transition(
+    border-color $transition-base,
+    box-shadow $transition-base
+  );
 
   &:focus {
     outline: none;
@@ -189,6 +199,27 @@ textarea.form-control {
   margin-top: $spacing-xs;
   font-size: $font-size-sm;
   color: $color-text-muted;
+}
+
+// Media preview component
+.media-preview {
+  max-width: 200px;
+  max-height: 200px;
+  display: none;
+
+  &.media-preview--visible {
+    display: block;
+  }
+
+  &--large {
+    max-width: 300px;
+    max-height: 300px;
+  }
+}
+
+// Remove button visibility
+.remove-media-btn.remove-media-btn--hidden {
+  display: none;
 }
 
 .form-error {
@@ -338,7 +369,6 @@ select.form-control {
   color: $color-info;
 }
 
-// Toast Notifications
 .toast {
   background: $color-bg-primary;
   border: 1px solid $color-border;
@@ -425,4 +455,3 @@ select.form-control {
 .toast-exit {
   animation: slideOut 0.3s ease-out forwards;
 }
-

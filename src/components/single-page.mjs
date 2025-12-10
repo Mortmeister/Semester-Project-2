@@ -29,7 +29,7 @@ export async function loadSinglePage() {
     } else {
       const bidForm = document.getElementById("bidOnAuctionForm");
       if (bidForm) {
-        bidForm.style.display = "none";
+        bidForm.classList.add("d-none");
       }
     }
   } catch (error) {

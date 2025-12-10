@@ -85,6 +85,11 @@
   &__details {
     @include card-base;
     padding: $spacing-xl;
+
+    &--form {
+      max-width: 800px;
+      margin: 0 auto;
+    }
   }
 
   &__header {
@@ -261,4 +266,3 @@
     color: $color-text-muted;
   }
 }
-

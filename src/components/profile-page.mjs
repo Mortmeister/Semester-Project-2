@@ -43,13 +43,13 @@ export function initProfileEditToggle() {
   if (!editBtn || !editForm || !cancelBtn) return;
 
   editBtn.addEventListener("click", () => {
-    editForm.style.display = "block";
-    editBtn.style.display = "none";
+    editForm.classList.remove("profile-page__edit-form--hidden");
+    editBtn.classList.add("d-none");
   });
 
   cancelBtn.addEventListener("click", () => {
-    editForm.style.display = "none";
-    editBtn.style.display = "block";
+    editForm.classList.add("profile-page__edit-form--hidden");
+    editBtn.classList.remove("d-none");
   });
 }
 
@@ -80,25 +80,20 @@ export async function loadProfilePage() {
       const avatarContainer = document.getElementById("avatarImage2");
       if (avatarContainer) {
         if (profileData.avatar?.url) {
-          // Replace placeholder div with actual image
           avatarContainer.innerHTML = `<img src="${
             profileData.avatar.url
           }" alt="${
             profileData.name || "User avatar"
-          }" class="profile-page__avatar" style="width: 120px; height: 120px; object-fit: cover; border-radius: 50%;" />`;
+          }" class="profile-page__avatar profile-page__avatar--large" />`;
         }
-        // If no avatar, keep the placeholder spinner
       }
     }
 
-    // Banner image
     if (profileBanner) {
       if (profileData.banner?.url) {
-        // Replace loading spinner with actual image
         profileBanner.innerHTML = `<img src="${profileData.banner.url}" alt="Profile banner" />`;
       } else {
-        // Keep placeholder if no banner
-        profileBanner.style.backgroundColor = "#e9ecef";
+        profileBanner.classList.add("profile-page__banner--placeholder");
       }
     }
 

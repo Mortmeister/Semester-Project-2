@@ -10,9 +10,9 @@ export function updateImagePreview(
   const url = imageUrlInput.value.trim();
   if (url && url.startsWith("http")) {
     imageURLPreview.src = url;
-    imageURLPreview.style.display = "block";
+    imageURLPreview.classList.add("media-preview--visible");
   } else {
-    imageURLPreview.style.display = "none";
+    imageURLPreview.classList.remove("media-preview--visible");
   }
 }
 
@@ -41,9 +41,9 @@ export function updateMediaPreview(urlInput) {
   const url = urlInput.value.trim();
   if (url && url.startsWith("http")) {
     preview.src = url;
-    preview.style.display = "block";
+    preview.classList.add("media-preview--visible");
   } else {
-    preview.style.display = "none";
+    preview.classList.remove("media-preview--visible");
   }
 }
 

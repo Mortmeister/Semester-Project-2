@@ -100,7 +100,7 @@ function addMediaGroup() {
   mediaGroup.innerHTML = `
     <div class="d-flex gap-2 align-items-start mb-2">
       <div class="flex-grow-1">
-        <label class="form-label" style="font-size: 0.875rem">Image URL</label>
+        <label class="form-label form-label--small">Image URL</label>
         <input
           type="url"
           name="imageUrl[]"
@@ -110,7 +110,7 @@ function addMediaGroup() {
         />
       </div>
       <div class="flex-grow-1">
-        <label class="form-label" style="font-size: 0.875rem">Image ALT Text</label>
+        <label class="form-label form-label--small">Image ALT Text</label>
         <input
           type="text"
           name="imageAlt[]"
@@ -133,7 +133,6 @@ function addMediaGroup() {
         class="media-preview img-thumbnail"
         src=""
         alt="Image preview"
-        style="max-width: 200px; max-height: 200px; display: none;"
       />
     </div>
   `;
@@ -165,6 +164,10 @@ function updateRemoveButtons() {
     mediaInputsContainer.querySelectorAll(".remove-media-btn");
 
   removeButtons.forEach((btn) => {
-    btn.style.display = mediaGroups.length > 1 ? "block" : "none";
+    if (mediaGroups.length > 1) {
+      btn.classList.remove("remove-media-btn--hidden");
+    } else {
+      btn.classList.add("remove-media-btn--hidden");
+    }
   });
 }

@@ -15,7 +15,7 @@ export function listingSkeleton(count = 3) {
       () => `
       <div class="col">
         <div class="card h-100">
-          <div class="card-img-top bg-light" style="height: 200px; display: flex; align-items: center; justify-content: center;">
+          <div class="card-img-top bg-light skeleton-image">
             <div class="spinner-border spinner-border-sm text-secondary" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
