@@ -18,10 +18,14 @@ export async function renderListings(container, listings) {
   }
 }
 
-export async function renderProfileListings(container, listings) {
+export async function renderProfileListings(
+  container,
+  listings,
+  showActions = true
+) {
   try {
     container.innerHTML = listings
-      .map((listing) => listingProfileCardMarkup(listing))
+      .map((listing) => listingProfileCardMarkup(listing, showActions))
       .join("");
   } catch (error) {
     console.error("Error rendering listings", error);
@@ -38,10 +42,13 @@ export async function renderSingleListing(container, listing) {
   }
 }
 
-export async function renderBidListings(container, bids) {
+export async function renderBidListings(container, bids, isOwnProfile = true) {
   try {
     if (!bids || bids.length === 0) {
-      container.innerHTML = `<p class="text-muted">You haven't placed any bids yet.</p>`;
+      const emptyMessage = isOwnProfile
+        ? `<p class="text-muted">You haven't placed any bids yet.</p>`
+        : `<p class="text-muted">No bids found.</p>`;
+      container.innerHTML = emptyMessage;
       return;
     }
 
@@ -87,7 +94,7 @@ export async function renderBidListings(container, bids) {
     }
 
     container.innerHTML = validBids
-      .map((bid) => bidCardMarkup(bid))
+      .map((bid) => bidCardMarkup(bid, isOwnProfile))
       .filter((markup) => markup !== "")
       .join("");
   } catch (error) {
