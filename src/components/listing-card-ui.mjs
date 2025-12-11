@@ -2,7 +2,7 @@ import { toDatetimeLocal, getTimeRemaining } from "../utils/date-time.mjs";
 import { bidHistoryMarkup } from "./bid-history.mjs";
 import { isAuthenticated } from "../utils/auth.mjs";
 
-export function listingProfileCardMarkup(listing) {
+export function listingProfileCardMarkup(listing, showActions = true) {
   const imageUrl =
     listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
   const imageAlt = listing.media?.[0]?.alt ?? "No alt text provided";
@@ -12,18 +12,18 @@ export function listingProfileCardMarkup(listing) {
     : null;
 
   const currentBidAmount = latestBid?.amount ?? "0";
-  const bidderName = latestBid?.bidder?.name ?? "No bidder yet";
-  const bidderAvatar =
-    latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
+  const sellerImg =
+    listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
+  const sellerName = listing.seller?.name ?? "Unknown seller";
   const timeRemaining = getTimeRemaining(listing.endsAt);
 
-  return `
-    <div class="profile-page__bid-card">
+  // Only show edit/delete actions if showActions is true
+  const actionsHtml = showActions
+    ? `
       <div class="listing-card__actions">
         <button class="listing-card__actions-btn" data-bs-toggle="dropdown" aria-expanded="false">
           <i class="bi bi-three-dots-vertical"></i>
         </button>
-
     <ul class="dropdown-menu dropdown-menu-end">
           <li>
             <a class="dropdown-item" href="../update_listing/index.html?id=${listing.id}">
@@ -31,7 +31,6 @@ export function listingProfileCardMarkup(listing) {
               Edit
             </a>
           </li>
-
           <li>
             <button
               class="dropdown-item text-danger d-flex align-items-center gap-2"
@@ -45,26 +44,26 @@ export function listingProfileCardMarkup(listing) {
           </li>
         </ul>
       </div>
+    `
+    : "";
+
+  return `
+    <div class="profile-page__bid-card">
+      ${actionsHtml}
 
       <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
-
-        
         <div class="listing-card__image">
           <img src="${imageUrl}" alt="${imageAlt}" />
         </div>
-
         
         <div class="listing-card__body">
-
           <div class="listing-card__header">
             <h3 class="listing-card__title">${listing.title}</h3>
           </div>
 
           <p class="listing-card__description">${listing.description}</p>
-
           
           <div class="listing-card__info">
-
             <div class="listing-card__bid">
               <div class="listing-card__bid-label">Current Bid</div>
               <div class="listing-card__bid-amount">${currentBidAmount} Credits</div>
@@ -74,19 +73,16 @@ export function listingProfileCardMarkup(listing) {
               <i class="bi bi-clock"></i>
               <span>${timeRemaining}</span>
             </div>
-
           </div>
-
           
           <div class="listing-card__seller">
             <img
-              src="${bidderAvatar}"
-              alt="${bidderName}"
+              src="${sellerImg}"
+              alt="${sellerName}"
               class="listing-card__seller-avatar"
             />
-            <span class="listing-card__seller-name">${bidderName}</span>
+            <span class="listing-card__seller-name">${sellerName}</span>
           </div>
-
         </div>
       </a>
     </div>
@@ -103,16 +99,14 @@ export function listingCardMarkup(listing) {
     : null;
 
   const currentBidAmount = latestBid?.amount ?? "0";
-  const bidderName = latestBid?.bidder?.name ?? "No bidder yet";
-  const bidderAvatar =
-    latestBid?.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
-  const timeRemaining = getTimeRemaining(listing.endsAt);
   const sellerImg =
     listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
   const sellerName = listing.seller?.name ?? "Unknown seller";
+  const timeRemaining = getTimeRemaining(listing.endsAt);
 
   return `
-       <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
+    <div class="profile-page__bid-card">
+      <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
         <div class="listing-card__image">
           <img src="${imageUrl}" alt="${imageAlt}" />
         </div>
@@ -128,28 +122,33 @@ export function listingCardMarkup(listing) {
             <div class="listing-card__bid">
               <div class="listing-card__bid-label">Current Bid</div>
               <div class="listing-card__bid-amount">${currentBidAmount} Credits</div>
-            </div>
+               </div>
 
             <div class="listing-card__time">
-              <i class="bi bi-clock"></i>
+                 <i class="bi bi-clock"></i>
               <span>${timeRemaining}</span>
-            </div>
-          </div>
+               </div>
+             </div>
 
           <div class="listing-card__seller">
-            <img
+               <img
               src="${sellerImg}"
               alt="${sellerName}"
               class="listing-card__seller-avatar"
-            />
+               />
             <span class="listing-card__seller-name">${sellerName}</span>
-          </div>
-        </div>
-      </a>
+           </div>
+         </div>
+       </a>
+    </div>
        `;
 }
 
-export function listingBidCardMarkup(listing, userBidAmount) {
+export function listingBidCardMarkup(
+  listing,
+  userBidAmount,
+  isOwnProfile = true
+) {
   const imageUrl =
     listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
   const imageAlt = listing.media?.[0]?.alt ?? "No alt text provided";
@@ -169,9 +168,12 @@ export function listingBidCardMarkup(listing, userBidAmount) {
 
   const timeRemaining = getTimeRemaining(listing.endsAt);
 
+  // Change text based on whether it's the user's own profile
+  const bidLabel = isOwnProfile ? "Your bid" : "User's bid";
+
   return `
     <div class="profile-page__bid-card">
-      <div class="listing-card__bid-badge">Your bid: ${userBidAmount}</div>
+      <div class="listing-card__bid-badge">${bidLabel}: ${userBidAmount}</div>
       <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
         <div class="listing-card__image">
           <img src="${imageUrl}" alt="${imageAlt}" />
@@ -210,7 +212,7 @@ export function listingBidCardMarkup(listing, userBidAmount) {
   `;
 }
 
-export function bidCardMarkup(bid) {
+export function bidCardMarkup(bid, isOwnProfile = true) {
   const listing = bid.listing;
   if (!listing) {
     return "";
@@ -231,9 +233,12 @@ export function bidCardMarkup(bid) {
 
   const timeRemaining = getTimeRemaining(listing.endsAt);
 
+  // Change text based on whether it's the user's own profile
+  const bidLabel = isOwnProfile ? "Your bid" : "User's bid";
+
   return `
     <div class="profile-page__bid-card">
-      <div class="listing-card__bid-badge">Your bid: ${bid.amount}</div>
+      <div class="listing-card__bid-badge">${bidLabel}: ${bid.amount}</div>
       <a href="../single_page/index.html?id=${listing.id}" class="listing-card">
         <div class="listing-card__image">
           <img src="${imageUrl}" alt="${imageAlt}" />

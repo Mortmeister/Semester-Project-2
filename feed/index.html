@@ -27,17 +27,33 @@
         <div class="container">
           <h1 class="hero__title">Welcome to Auction House</h1>
           <p class="hero__description">
-            Discover unique treasures and bid your way to victory.
+            Discover unique items, place your bids, and win amazing treasures.
+            Join our community of collectors and enthusiasts.
           </p>
 
-          <div class="hero__search hero__search--narrow mt-4 mx-auto">
-            <div class="search-bar d-flex align-items-center">
-              <i class="bi bi-search search-bar__icon"></i>
+          <div class="hero__search">
+            <!-- Search Mode Toggle -->
+            <div class="search-mode-toggle">
+              <button
+                class="search-mode-toggle__btn active"
+                data-mode="listings"
+              >
+                <i class="bi bi-search"></i>
+                Search Listings
+              </button>
+              <button class="search-mode-toggle__btn" data-mode="users">
+                <i class="bi bi-person"></i>
+                Search Users
+              </button>
+            </div>
+
+            <div class="search-bar">
+              <i class="bi bi-search search-bar__icon" id="searchIcon"></i>
               <input
                 type="text"
-                class="form-control ms-2"
-                placeholder="Search listings..."
-                id="searchForPosts"
+                class="form-control"
+                id="searchInput"
+                placeholder="Search listings by title, description, or tags..."
               />
             </div>
           </div>
@@ -50,7 +66,7 @@
             class="listings-section__header d-flex justify-content-between align-items-center"
           >
             <div>
-              <h2>Active Listings</h2>
+              <h2 id="sectionTitle">Active Listings</h2>
               <p class="text-muted" id="listingsCount">Loading...</p>
             </div>
 
@@ -66,6 +82,11 @@
           <div
             id="listingsSectionContainer"
             class="listings-section__grid mt-4"
+          ></div>
+          <div
+            id="usersSectionContainer"
+            class="users-section__grid mt-4"
+            style="display: none"
           ></div>
           <div class="pagination d-flex justify-content-between">
             <button class="btn btn-primary" id="prevBtn">Previous</button>

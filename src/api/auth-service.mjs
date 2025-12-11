@@ -141,3 +141,45 @@ export function searchPosts(query) {
     method: "GET",
   });
 }
+
+export function searchUsers(query) {
+  return apiClient(`auction/profiles/search?q=${query}`, {
+    method: "GET",
+  });
+}
+export async function getUserProfileByUsername(username) {
+  return apiClient(PROFILE_URL + username, {
+    method: "GET",
+  });
+}
+
+// Get a specific user's listings by username
+export async function getUserListingsByUsername(
+  username,
+  { includeSeller = true, includeBids = true } = {}
+) {
+  const query = `?_seller=${includeSeller}&_bids=${includeBids}`;
+  return apiClient(PROFILE_URL + username + PROFILE_LISTINGS_URL + query, {
+    method: "GET",
+  });
+}
+
+// Get a specific user's bids by username
+export async function getUserBidsByUsername(username) {
+  return apiClient(
+    PROFILE_URL + username + "/bids?_listings=true&_seller=true&_bids=true",
+    {
+      method: "GET",
+    }
+  );
+}
+
+// Get a specific user's wins by username
+export async function getUserWinsByUsername(username) {
+  return apiClient(
+    PROFILE_URL + username + "/wins?_listings=true&_seller=true&_bids=true",
+    {
+      method: "GET",
+    }
+  );
+}
