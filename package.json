@@ -8,9 +8,15 @@
     "build": "vite build",
     "preview": "vite preview",
     "sass:watch": "sass styles/scss/styles.scss styles/css/styles.css --watch",
-    "sass:build": "sass styles/scss/styles.scss styles/css/styles.css --style compressed"
+    "sass:build": "sass styles/scss/styles.scss styles/css/styles.css --style compressed",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node"
   },
   "devDependencies": {
+    "jest": "^30.2.0",
     "vite": "^7.2.2"
   }
 }
