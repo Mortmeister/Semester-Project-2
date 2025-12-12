@@ -3,12 +3,14 @@ import { isAuthenticated } from "../utils/auth.mjs";
 import { logout } from "../utils/auth.mjs";
 
 export function initLogoutHandler() {
-  const logoutLink = document.getElementById("logoutLink");
-  if (!logoutLink) return;
-  console.log("herro?");
-  logoutLink.addEventListener("click", (event) => {
-    event.preventDefault();
-    logout();
+  const logoutLinks = document.querySelectorAll(
+    "#logoutLink, #mobileLogoutLink"
+  );
+  logoutLinks.forEach((logoutLink) => {
+    logoutLink.addEventListener("click", (event) => {
+      event.preventDefault();
+      logout();
+    });
   });
 }
 
@@ -18,14 +20,69 @@ export function initHeaderDropdown() {
 
   if (!menuBtn || !menu) return;
 
+  // Only initialize desktop dropdown on desktop
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) return;
+
   menuBtn.addEventListener("click", (event) => {
     event.stopPropagation();
     menu.classList.toggle("show");
   });
 
   document.addEventListener("click", (event) => {
-    if (!menu.contains(event.target) && event.target !== menuBtn) {
+    if (
+      !menu.contains(event.target) &&
+      event.target !== menuBtn &&
+      !menuBtn.contains(event.target)
+    ) {
       menu.classList.remove("show");
+    }
+  });
+}
+
+export function initHamburgerMenu() {
+  const hamburgerBtn = document.getElementById("hamburgerButton");
+  const mainNav = document.getElementById("mainNav");
+  const mobileUserMenu = document.getElementById("mobileUserMenu");
+
+  if (!hamburgerBtn || !mainNav) return;
+
+  hamburgerBtn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    const isMobile = window.innerWidth <= 768;
+
+    const navIsOpen = mainNav.classList.contains("show");
+
+    if (navIsOpen) {
+      mainNav.classList.remove("show");
+      hamburgerBtn.classList.remove("active");
+      if (mobileUserMenu) {
+        mobileUserMenu.classList.remove("show");
+      }
+    } else {
+      mainNav.classList.add("show");
+      hamburgerBtn.classList.add("active");
+      // Toggle mobile user menu on mobile only
+      if (mobileUserMenu && isMobile) {
+        mobileUserMenu.classList.add("show");
+      }
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    const isMobile = window.innerWidth <= 768;
+    const clickedInsideNav = mainNav.contains(event.target);
+    const clickedHamburger =
+      event.target === hamburgerBtn || hamburgerBtn.contains(event.target);
+    const clickedMobileMenu =
+      mobileUserMenu && mobileUserMenu.contains(event.target);
+
+    if (!clickedInsideNav && !clickedHamburger && !clickedMobileMenu) {
+      mainNav.classList.remove("show");
+      hamburgerBtn.classList.remove("active");
+      if (mobileUserMenu) {
+        mobileUserMenu.classList.remove("show");
+      }
     }
   });
 }
@@ -45,16 +102,33 @@ export function initHeaderEl(user, isAuth) {
           <span class="ms-2">Auction House</span>
         </a>
 
-        <nav class="main-header__nav d-flex align-items-center gap-3">
-          <div class="main-header__credits d-flex align-items-center gap-1">
-            <i class="bi bi-coin"></i>
-            <span>${credits} Credits</span>
+        <button class="main-header__hamburger" id="hamburgerButton" aria-label="Toggle menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+
+        <nav class="main-header__nav d-flex align-items-center gap-3" id="mainNav">
+        <div class="main-header__credits d-flex align-items-center gap-1">
+          <i class="bi bi-coin"></i>
+          <span>${credits} Credits</span>
+        </div>
+
+        <a href="../create_listing/index.html"
+           class="btn btn-primary btn-sm d-flex align-items-center gap-1">
+          <i class="bi bi-plus-lg"></i> Create Listing
+        </a>
+
+          <div id="mobileUserMenu" class="mobile-user-menu">
+            <a href="../profile/index.html" class="mobile-user-menu__item">
+              <i class="bi bi-person"></i> Profile
+            </a>
+            <div class="mobile-user-menu__divider"></div>
+            <a class="mobile-user-menu__item mobile-user-menu__item--danger" id="mobileLogoutLink">
+              <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
           </div>
 
-          <a href="../create_listing/index.html"
-             class="btn btn-primary btn-sm d-flex align-items-center gap-1">
-            <i class="bi bi-plus-lg"></i> Create Listing
-          </a>
 
           <div class="user-dropdown">
             <button class="main-header__user" id="userMenuButton">
@@ -91,7 +165,13 @@ export function initHeaderEl(user, isAuth) {
           <span class="ms-2">Auction House</span>
         </a>
 
-        <nav class="main-header__nav d-flex align-items-center gap-3">
+        <button class="main-header__hamburger" id="hamburgerButton" aria-label="Toggle menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+
+        <nav class="main-header__nav d-flex align-items-center gap-3" id="mainNav">
           <a href="../login/index.html" class="btn btn-outline-primary btn-sm">
             <i class="bi bi-box-arrow-in-right"></i> Login
           </a>
@@ -116,12 +196,14 @@ export async function loadHeader() {
       headerContainer.innerHTML = initHeaderEl(user, true);
       initHeaderDropdown();
       initLogoutHandler();
-      debugger;
+      initHamburgerMenu();
     } catch (error) {
       console.error("Failed to load user profile:", error);
       headerContainer.innerHTML = initHeaderEl(null, false);
+      initHamburgerMenu();
     }
   } else {
     headerContainer.innerHTML = initHeaderEl(null, false);
+    initHamburgerMenu();
   }
 }
