@@ -24,7 +24,6 @@ export async function loadListings() {
   const container = document.getElementById("listingsSectionContainer");
   if (!container) return;
 
-  // Show loading skeleton
   container.innerHTML = listingSkeleton(6);
 
   try {
@@ -32,7 +31,6 @@ export async function loadListings() {
     await renderListings(container, data);
     updatePaginationButtons(meta);
 
-    // Update listings count
     const listingsCountEl = document.getElementById("listingsCount");
     if (listingsCountEl) {
       const count = data?.length ?? 0;

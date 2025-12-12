@@ -81,8 +81,14 @@ export async function getListings({
   page = 1,
   sort = "created",
   sortOrder = "desc",
+  tag = null,
 } = {}) {
-  const query = `?_seller=${includeSeller}&_active=true&_bids=${includeBids}&limit=${limit}&page=${page}&sort=${sort}&sortOrder=${sortOrder}`;
+  let query = `?_seller=${includeSeller}&_active=true&_bids=${includeBids}&limit=${limit}&page=${page}&sort=${sort}&sortOrder=${sortOrder}`;
+
+  if (tag) {
+    query += `&_tag=${tag}`;
+  }
+
   return apiClient(GET_LISTINGS_URL + query, { method: "GET" });
 }
 

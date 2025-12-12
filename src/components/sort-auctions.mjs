@@ -4,6 +4,72 @@ import { listingSkeleton } from "./loading.mjs";
 
 const container = document.getElementById("listingsSectionContainer");
 const sortPostsEl = document.getElementById("sortPostsEl");
+const sortByTagsEl = document.getElementById("sortByTagsEl");
+
+export async function initSortByTags() {
+  try {
+    const { data: listings } = await getListings({
+      limit: 100, // fetch everything
+      includeSeller: false,
+      includeBids: false,
+    });
+
+    if (!sortByTagsEl) return;
+
+    const resetOption = document.createElement("option");
+    resetOption.value = "";
+    resetOption.textContent = "Sort by tags";
+    sortByTagsEl.appendChild(resetOption);
+
+    const tagCount = {};
+
+    listings.forEach((listing) => {
+      listing.tags?.forEach((tag) => {
+        const normalized = tag.trim().toLowerCase();
+        tagCount[normalized] = (tagCount[normalized] || 0) + 1;
+      });
+    });
+
+    const sortedTags = Object.entries(tagCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 10);
+
+    sortedTags.forEach(([tag]) => {
+      const option = document.createElement("option");
+      const formatted = tag.charAt(0).toUpperCase() + tag.slice(1);
+
+      option.value = tag;
+      option.textContent = formatted;
+      sortByTagsEl.appendChild(option);
+    });
+
+    sortByTagsEl.addEventListener("change", async (event) => {
+      const selectedTag = event.target.value;
+
+      container.innerHTML = listingSkeleton(6);
+
+      if (selectedTag === "") {
+        const { data } = await getListings({
+          limit: 18,
+          sort: "created",
+          sortOrder: "desc",
+        });
+        renderListings(container, data);
+        return;
+      }
+
+      const { data } = await getListings({
+        limit: 100,
+        includeSeller: true,
+        includeBids: true,
+        tag: selectedTag,
+      });
+      renderListings(container, data);
+    });
+  } catch (error) {
+    console.error("Failed to load tags:", error);
+  }
+}
 
 export function initSortPosts() {
   if (!sortPostsEl || !container) return;
@@ -23,18 +89,14 @@ export function initSortPosts() {
         sort = "endsAt";
         sortOrder = "desc";
         break;
-      case "most-bids":
-        sort = "_count.bids";
-        sortOrder = "desc";
-        break;
       case "newest":
         sort = "created";
-        sortOrder = "asc";
+        sortOrder = "desc";
         break;
 
       case "oldest":
         sort = "created";
-        sortOrder = "desc";
+        sortOrder = "asc";
         break;
     }
 
