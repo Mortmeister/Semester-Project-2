@@ -70,13 +70,16 @@
               <p class="text-muted" id="listingsCount">Loading...</p>
             </div>
 
-            <select class="form-select w-auto" id="sortPostsEl">
-              <option value="newest">Newest First</option>
-              <option value="oldest">Oldest First</option>
-              <option value="ending-soon">Ending Soon</option>
-              <option value="ending-last">Ending last</option>
-              <option value="most-bids">Most Bids</option>
-            </select>
+            <div class="d-flex gap-2">
+              <select class="form-select w-auto" id="sortPostsEl">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="ending-soon">Ending Soon</option>
+                <option value="ending-last">Ending last</option>
+              </select>
+
+              <select class="form-select w-auto" id="sortByTagsEl"></select>
+            </div>
           </div>
 
           <div
