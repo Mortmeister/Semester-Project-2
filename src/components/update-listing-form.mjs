@@ -5,6 +5,15 @@ import { isAuthenticated, handleUnauthorizedAccess } from "../utils/auth.mjs";
 import { updateImagePreview, initImagePreview } from "./image-preview.mjs";
 import { loadHeader } from "./header.mjs";
 
+function splitTags(tagsString) {
+  if (!tagsString) return [];
+
+  return tagsString
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter((tag) => tag.length > 0);
+}
+
 async function prefillForm() {
   const id = getParam("id");
   if (!id) {
@@ -18,6 +27,7 @@ async function prefillForm() {
   const imageAlt = document.getElementById("imageAlt");
   const endsAt = document.getElementById("deadline");
   const imageURLPreview = document.getElementById("imageURLPreview");
+  const tags = document.getElementById("tags");
 
   const { data } = await getSingleListing(id);
 
@@ -26,6 +36,7 @@ async function prefillForm() {
   imageUrl.value = data.media?.[0]?.url ?? "";
   imageAlt.value = data.media?.[0]?.alt ?? "";
   endsAt.value = toDatetimeLocal(data.endsAt) ?? "";
+  tags.value = data.tags ?? "";
 
   // Show preview if image URL exists
   if (imageURLPreview && imageUrl.value && imageUrl.value.startsWith("http")) {
@@ -59,14 +70,15 @@ export function initUpdateListingForm() {
         },
       ],
       endsAt: formData.get("endsAt"),
+      tags: splitTags(formData.get("tags")),
     };
 
     try {
       await updateListing(payload, id);
       window.location.href = "../profile/index.html";
     } catch (error) {
-      console.error("Update listing error:", error);
-      alert("Failed to update listing. Check your input.");
+      console.error("Create listing error:", error.errors[0].message);
+      alert(error.errors[0].message);
     }
   });
 }

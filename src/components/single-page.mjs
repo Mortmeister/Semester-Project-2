@@ -20,9 +20,7 @@ export async function loadSinglePage() {
     const { data } = await getSingleListing(id);
     await renderSingleListing(container, data);
 
-    setTimeout(() => {
-      initImageGallery(data);
-    }, 0);
+    initImageGallery(data);
 
     if (isAuthenticated()) {
       initBidForm(id);
