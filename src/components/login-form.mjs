@@ -21,7 +21,7 @@ export function initLoginForm() {
 
       saveToken(authToken);
       saveUsername(username);
-      window.location.href = "./feed/index.html";
+      window.location.href = "../feed/index.html";
       console.log("Login successful:", username);
     } catch (error) {
       console.error("Login error:", error);

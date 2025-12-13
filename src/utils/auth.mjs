@@ -3,7 +3,7 @@ import { getToken, deleteToken, deleteUsername } from "./storage.mjs";
 export function logout() {
   deleteToken();
   deleteUsername();
-  window.location.href = "../index.html";
+  window.location.href = "../login/index.html";
 }
 
 export function isAuthenticated() {
