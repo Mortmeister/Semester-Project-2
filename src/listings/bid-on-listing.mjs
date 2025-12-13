@@ -20,8 +20,9 @@ export function initBidForm(id) {
       await makeBid(id, payload);
       location.reload();
     } catch (error) {
-      console.error(error);
-      alert("Failed to place bid. Please try again.");
+      const errorMessage = error.errors[0].message;
+
+      alert(errorMessage);
     }
   });
 }

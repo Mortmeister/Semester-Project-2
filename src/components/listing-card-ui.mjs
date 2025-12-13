@@ -2,6 +2,12 @@ import { toDatetimeLocal, getTimeRemaining } from "../utils/date-time.mjs";
 import { bidHistoryMarkup } from "./bid-history.mjs";
 import { isAuthenticated } from "../utils/auth.mjs";
 
+function splitTags(tags) {
+  if (!Array.isArray(tags)) return [];
+
+  return tags.map((tag) => tag.trim()).filter((tag) => tag.length > 0);
+}
+
 export function listingProfileCardMarkup(listing, showActions = true) {
   const imageUrl =
     listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
@@ -443,15 +449,17 @@ export function singlePageCardMarkup(listing) {
 
           <p class="listing-detail__description">${listing.description}</p>
 
-          ${
-            listing.tags
-              ? `
+        ${
+          listing.tags
+            ? `
             <div class="listing-detail__tags">
-              <span class="badge bg-secondary">${listing.tags}</span>
+              ${splitTags(listing.tags)
+                .map((tag) => `<span class="badge bg-secondary">${tag}</span>`)
+                .join(" ")}
             </div>
           `
-              : ""
-          }
+            : ""
+        }
 
           <div class="listing-detail__seller">
             <img

@@ -20,10 +20,8 @@ export async function apiClient(endpoint, options = {}) {
     const response = await fetch(url, { ...options, headers });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(
-        errorData.message || `HTTP error! Status: ${response.status}`
-      );
+      const errorData = await response.json();
+      throw errorData;
     }
 
     if (response.status === 204) {

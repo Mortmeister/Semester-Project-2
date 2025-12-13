@@ -2,6 +2,15 @@ import { createListing } from "../api/auth-service.mjs";
 import { isAuthenticated, handleUnauthorizedAccess } from "../utils/auth.mjs";
 import { initMediaPreviews, updateMediaPreview } from "./image-preview.mjs";
 
+function splitTags(tagsString) {
+  if (!tagsString) return [];
+
+  return tagsString
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter((tag) => tag.length > 0);
+}
+
 export function initCreateListingForm() {
   const createListingFormEl = document.getElementById("createListingForm");
   if (!createListingFormEl) return;
@@ -71,17 +80,19 @@ export function initCreateListingForm() {
     const payload = {
       title: formData.get("title"),
       description: formData.get("description"),
+      tags: splitTags(formData.get("tags")),
       media: media,
       endsAt: formData.get("endsAt"),
     };
 
+    debugger;
     try {
       const { data } = await createListing(payload);
       console.log("Listing created:", data);
       window.location.href = "../profile/index.html";
     } catch (error) {
-      console.error("Create listing error:", error);
-      alert("Failed to create listing. Check your input.");
+      console.error("Create listing error:", error.errors[0].message);
+      alert(error.errors[0].message);
     }
   });
 }

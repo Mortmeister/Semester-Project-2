@@ -1,7 +1,7 @@
 import { registerUser } from "../api/auth-service.mjs";
 
 export function initRegisterForm() {
-  const registerFormEl = document.getElementById("registerForm");
+  const registerFormEl = document.getElementById("registerUserForm");
   if (!registerFormEl) return;
 
   registerFormEl.addEventListener("submit", async (event) => {
@@ -21,10 +21,10 @@ export function initRegisterForm() {
 
     try {
       const { data } = await registerUser(payload);
-      console.log("User registered:", data);
+      alert(`User registered: ${data.name}`);
+      window.location.href = "../login/index.html";
     } catch (error) {
-      console.error("Register error:", error);
-      alert("Registration failed. Check your input.");
+      alert(`Register error: ${error.errors[0].message}`);
     }
   });
 }

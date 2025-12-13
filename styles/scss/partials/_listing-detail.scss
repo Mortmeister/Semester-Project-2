@@ -22,7 +22,6 @@
   }
 
   &__gallery {
-    position: sticky;
     top: calc(#{$header-height} + #{$spacing-lg});
     height: fit-content;
   }
