@@ -113,7 +113,7 @@ export async function loadProfilePage() {
     }
 
     // Get all the HTML elements we need to update with profile information
-    const avatarImageElement = document.getElementById("avatarImage");
+
     const avatarImageLargeElement = document.getElementById("avatarImage2");
     const bannerElement = document.getElementById("profileBanner");
     const usernameElement = document.getElementById("profileUsername");
@@ -123,12 +123,6 @@ export async function loadProfilePage() {
     const listingsCountElement = document.getElementById("myListingsCount");
     const bidsCountElement = document.getElementById("myBidsCount");
     const winsCountElement = document.getElementById("myWinsCount");
-
-    // Update the small avatar image at the top
-    if (avatarImageElement && profileData.avatar && profileData.avatar.url) {
-      avatarImageElement.src = profileData.avatar.url;
-      avatarImageElement.alt = profileData.name || "User avatar";
-    }
 
     // Update the large avatar image
     if (avatarImageLargeElement) {

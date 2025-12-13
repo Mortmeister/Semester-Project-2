@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - Auction House</title>
+    <title>Auction House - Browse Listings</title>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -14,66 +14,90 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
     />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <link rel="stylesheet" href="../styles/css/styles.css" />
-    <script type="module" src="./src/pages/login-page.mjs"></script>
+    <link rel="stylesheet" href="./styles/css/styles.css" />
+    <script type="module" src="./src/pages/feed-page.mjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </head>
   <body>
     <header class="main-header" id="header"></header>
 
     <main>
-      <div class="auth-page">
-        <div class="auth-page container">
-          <div class="auth-page header">
-            <h1>Welcome Back</h1>
-            <p>Login to your auction account</p>
-          </div>
+      <section class="hero py-5 text-center">
+        <div class="container">
+          <h1 class="hero__title">Welcome to Auction House</h1>
+          <p class="hero__description">
+            Discover unique items, place your bids, and win amazing treasures.
+            Join our community of collectors and enthusiasts.
+          </p>
 
-          <div class="auth-page card">
-            <form class="auth-page form" id="loginForm">
-              <div class="form-group">
-                <label for="email" class="form-label">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  class="form-control"
-                  id="loginEmail"
-                  placeholder="your.name@stud.noroff.no"
-                  value="john.doe@stud.noroff.no"
-                  required
-                />
-                <small class="form-text"
-                  >Must be a valid @stud.noroff.no email address</small
-                >
-              </div>
-
-              <div class="form-group">
-                <label for="password" class="form-label">Password</label>
-                <input
-                  type="password"
-                  class="form-control"
-                  name="password"
-                  id="loginPassword"
-                  placeholder="Enter your password"
-                  required
-                />
-              </div>
-
-              <button class="btn btn-primary btn-block" type="submit">
-                Login
+          <div class="hero__search">
+            <!-- Search Mode Toggle -->
+            <div class="search-mode-toggle">
+              <button
+                class="search-mode-toggle__btn active"
+                data-mode="listings"
+              >
+                <i class="bi bi-search"></i>
+                Search Listings
               </button>
-            </form>
+              <button class="search-mode-toggle__btn" data-mode="users">
+                <i class="bi bi-person"></i>
+                Search Users
+              </button>
+            </div>
 
-            <div class="auth-page__footer">
-              <p>
-                Don't have an account?
-                <a href="register.html">Register here</a>
-              </p>
+            <div class="search-bar">
+              <i class="bi bi-search search-bar__icon" id="searchIcon"></i>
+              <input
+                type="text"
+                class="form-control"
+                id="searchInput"
+                placeholder="Search listings by title, description, or tags..."
+              />
             </div>
           </div>
         </div>
-      </div>
+      </section>
+
+      <section class="listings-section py-5">
+        <div class="container">
+          <div
+            class="listings-section__header d-flex justify-content-between align-items-center"
+          >
+            <div>
+              <h2 id="sectionTitle">Active Listings</h2>
+              <p class="text-muted" id="listingsCount">Loading...</p>
+            </div>
+
+            <div class="d-flex gap-2">
+              <select class="form-select w-auto" id="sortPostsEl">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="ending-soon">Ending Soon</option>
+                <option value="ending-last">Ending last</option>
+              </select>
+
+              <select class="form-select w-auto" id="sortByTagsEl"></select>
+            </div>
+          </div>
+
+          <div
+            id="listingsSectionContainer"
+            class="listings-section__grid mt-4"
+          ></div>
+          <div
+            id="usersSectionContainer"
+            class="users-section__grid mt-4"
+            style="display: none"
+          ></div>
+          <div class="pagination d-flex justify-content-between">
+            <button class="btn btn-primary" id="prevBtn">Previous</button>
+            <span id="pageIndicator"></span>
+            <button class="btn btn-primary" id="nextBtn">Next</button>
+          </div>
+        </div>
+      </section>
     </main>
   </body>
 </html>

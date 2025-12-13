@@ -23,7 +23,7 @@ export function bidHistoryMarkup(bids = []) {
         bid.bidder?.avatar?.url ?? "https://placehold.co/32x32?text=?";
 
       return `
-        <div class="list-group-item d-flex justify-content-between align-items-center">
+        <div class="list-group-item d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2">
           <div class="d-flex align-items-center gap-2">
             <img
               src="${bidderAvatar}"
@@ -35,7 +35,7 @@ export function bidHistoryMarkup(bids = []) {
             <span>${bidderName}</span>
           </div>
 
-          <div>${amount} Credits · ${created}</div>
+          <div class="text-sm-end text-start">${amount} Credits · ${created}</div>
         </div>
       `;
     })
