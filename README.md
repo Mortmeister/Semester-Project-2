@@ -89,6 +89,7 @@ There are a few things I'd like to improve if I had more time:
 
 - **Better Error Handling**: Currently using `alert()` for errors. Would like to implement a toast notification system or inline error messages
 - **Pagination**: The pagination works but could be improved with better loading states and page number display
+- ** Tags**: Make tags clickable to show all listings with the selected tag
 - **Testing**: No automated tests yet. Would like to add Playwright for E2E testing.
 - **Code Organization**: Some duplicate code exists (like the storage utilities). Would refactor to remove duplication
 - **Design & Visual Identity**: The design is intentionally minimal and functional, but with more time I would like to personalize it further. This could include stronger branding, more refined typography choices, improved spacing, and small UI details that give the application more character while still keeping it professional.
