@@ -1,5 +1,9 @@
 import { getUserProfile, updateUserProfile } from "../api/auth-service.mjs";
 
+/*
+ This function fills the edit profile form with the user's current profile data
+ It fetches the user's profile and puts their name, bio, avatar, and banner into the form
+*/
 export async function prefillForm() {
   const username = document.getElementById("editName");
   const bio = document.getElementById("editBio");
@@ -16,7 +20,11 @@ export async function prefillForm() {
     console.error("Failed to prefill profile:", error);
   }
 }
-
+/*
+ This function sets up the profile update form
+ When the form is submitted, it sends updated profile data to the API
+ After updating, it redirects back to the profile page
+ */
 export function initUpdateProfileForm() {
   const editProfileForm = document.getElementById("profileForm");
   if (!editProfileForm) return;

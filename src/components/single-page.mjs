@@ -1,5 +1,5 @@
 import { renderSingleListing } from "../listings/render-listings.mjs";
-import { getSingleListing } from "../api/auth-service.mjs";
+import { getSingleListing, getUserProfile } from "../api/auth-service.mjs";
 import { getParam } from "../utils/get-params.mjs";
 import { initBidForm } from "../listings/bid-on-listing.mjs";
 import { isAuthenticated } from "../utils/auth.mjs";
@@ -24,6 +24,13 @@ export async function loadSinglePage() {
 
     if (isAuthenticated()) {
       initBidForm(id);
+
+      const userProfile = await getUserProfile();
+      const credits = userProfile?.data?.credits ?? 0;
+      const creditsText = document.getElementById("bidFormCredits");
+      if (creditsText) {
+        creditsText.textContent = `Your available credits: ${credits}`;
+      }
     } else {
       const bidForm = document.getElementById("bidOnAuctionForm");
       if (bidForm) {

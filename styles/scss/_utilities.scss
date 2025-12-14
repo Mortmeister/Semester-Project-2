@@ -1,11 +1,11 @@
 // Utility Classes
 .container {
   width: 100%;
-  max-width: $breakpoint-xl;
+  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: $spacing-lg;
-  padding-right: $spacing-lg;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 // Margin utilities
@@ -14,27 +14,27 @@
 }
 
 .mt-1 {
-  margin-top: $spacing-xs;
+  margin-top: 0.25rem;
 }
 
 .mt-2 {
-  margin-top: $spacing-sm;
+  margin-top: 0.5rem;
 }
 
 .mt-3 {
-  margin-top: $spacing-md;
+  margin-top: 0.75rem;
 }
 
 .mt-4 {
-  margin-top: $spacing-lg;
+  margin-top: 1rem;
 }
 
 .mt-5 {
-  margin-top: $spacing-xl;
+  margin-top: 1.5rem;
 }
 
 .mt-6 {
-  margin-top: $spacing-2xl;
+  margin-top: 2rem;
 }
 
 .mb-0 {
@@ -42,32 +42,32 @@
 }
 
 .mb-1 {
-  margin-bottom: $spacing-xs;
+  margin-bottom: 0.25rem;
 }
 
 .mb-2 {
-  margin-bottom: $spacing-sm;
+  margin-bottom: 0.5rem;
 }
 
 .mb-3 {
-  margin-bottom: $spacing-md;
+  margin-bottom: 0.75rem;
 }
 
 .mb-4 {
-  margin-bottom: $spacing-lg;
+  margin-bottom: 1rem;
 }
 
 .mb-5 {
-  margin-bottom: $spacing-xl;
+  margin-bottom: 1.5rem;
 }
 
 .mb-6 {
-  margin-bottom: $spacing-2xl;
+  margin-bottom: 2rem;
 }
 
 .py-5 {
-  padding-top: $spacing-xl;
-  padding-bottom: $spacing-xl;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 
 // Text utilities
@@ -84,15 +84,15 @@
 }
 
 .text-primary {
-  color: $color-primary;
+  color: #2563eb;
 }
 
 .text-secondary {
-  color: $color-text-secondary;
+  color: #4b5563;
 }
 
 .text-danger {
-  color: $color-danger;
+  color: #dc2626;
 }
 
 // Display utilities
@@ -110,15 +110,15 @@
 
 // Gap utilities
 .gap-2 {
-  gap: $spacing-sm;
+  gap: 0.5rem;
 }
 
 .gap-3 {
-  gap: $spacing-md;
+  gap: 0.75rem;
 }
 
 .gap-4 {
-  gap: $spacing-lg;
+  gap: 1rem;
 }
 
 // Width utilities
@@ -156,9 +156,9 @@
   display: inline-block;
   width: 20px;
   height: 20px;
-  border: 2px solid $color-border-light;
-  border-top-color: $color-primary;
-  border-radius: $border-radius-full;
+  border: 2px solid #d1d5db;
+  border-top-color: #2563eb;
+  border-radius: 9999px;
   animation: spin 0.6s linear infinite;
 }
 
@@ -169,7 +169,9 @@
 }
 
 .loading {
-  @include flex-center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   min-height: 200px;
 }
 

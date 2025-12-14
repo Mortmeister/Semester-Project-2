@@ -9,7 +9,7 @@ const sortByTagsEl = document.getElementById("sortByTagsEl");
 export async function initSortByTags() {
   try {
     const { data: listings } = await getListings({
-      limit: 100, // fetch everything
+      limit: 100,
       includeSeller: false,
       includeBids: false,
     });
