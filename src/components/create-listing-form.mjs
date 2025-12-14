@@ -90,11 +90,11 @@ export function initCreateListingForm() {
 
     try {
       const { data } = await createListing(payload);
-      console.log("Listing created:", data);
       window.location.href = "../profile/index.html";
     } catch (error) {
-      console.error("Create listing error:", error.errors[0].message);
-      alert(error.errors[0].message);
+      const message =
+        error?.errors?.[0]?.message || "Failed to create listing.";
+      alert(message);
     }
   });
 }
