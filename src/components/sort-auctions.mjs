@@ -1,6 +1,7 @@
 import { getListings } from "../api/auth-service.mjs";
 import { renderListings } from "../listings/render-listings.mjs";
 import { listingSkeleton } from "./loading.mjs";
+import { updatePaginationButtons } from "./pagination.mjs";
 
 const container = document.getElementById("listingsSectionContainer");
 const sortPostsEl = document.getElementById("sortPostsEl");
@@ -58,13 +59,15 @@ export async function initSortByTags() {
         return;
       }
 
-      const { data } = await getListings({
+      const { data, meta } = await getListings({
         limit: 100,
         includeSeller: true,
         includeBids: true,
         tag: selectedTag,
       });
       renderListings(container, data);
+      const listingsCount = data?.length ?? 0;
+      updatePaginationButtons(meta, listingsCount);
     });
   } catch (error) {
     console.error("Failed to load tags:", error);

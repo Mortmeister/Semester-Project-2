@@ -4,16 +4,28 @@ import { listingSkeleton } from "./loading.mjs";
 
 let currentPage = 1;
 
-function updatePaginationButtons(data) {
+/*
+Disable next button if no nextPage in meta or if we got fewer than 18 listings. 
+*/
+export function updatePaginationButtons(meta, listingsCount) {
   const pageIndicator = document.getElementById("pageIndicator");
   pageIndicator.textContent = `Page ${currentPage}`;
 
   const prevBtn = document.getElementById("prevBtn");
   const nextBtn = document.getElementById("nextBtn");
 
+  if (!prevBtn || !nextBtn) return;
+
+  if (pageIndicator) {
+    pageIndicator.textContent = `Page ${currentPage}`;
+  }
+
   prevBtn.disabled = currentPage === 1;
 
-  if (data?.nextPage) {
+  const hasNextPage = meta?.nextPage;
+  const isLastPage = listingsCount < 18;
+
+  if (hasNextPage && !isLastPage) {
     nextBtn.disabled = false;
   } else {
     nextBtn.disabled = true;
@@ -29,13 +41,14 @@ export async function loadListings() {
   try {
     const { data, meta } = await getListings({ page: currentPage });
     await renderListings(container, data);
-    updatePaginationButtons(meta);
+
+    const listingsCount = data?.length ?? 0;
+    updatePaginationButtons(meta, listingsCount);
 
     const listingsCountEl = document.getElementById("listingsCount");
     if (listingsCountEl) {
-      const count = data?.length ?? 0;
-      listingsCountEl.textContent = `${count} listing${
-        count !== 1 ? "s" : ""
+      listingsCountEl.textContent = `${listingsCount} listing${
+        listingsCount !== 1 ? "s" : ""
       } available`;
     }
   } catch (error) {
