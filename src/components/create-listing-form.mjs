@@ -37,7 +37,7 @@ export function initCreateListingForm() {
 
   mediaInputsContainer.addEventListener("click", (event) => {
     if (event.target.closest(".remove-media-btn")) {
-      const mediaGroup = e.target.closest(".media-group");
+      const mediaGroup = event.target.closest(".media-group");
       if (mediaGroup) {
         removeMediaGroup(mediaGroup);
       }
