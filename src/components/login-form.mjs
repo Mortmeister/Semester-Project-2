@@ -22,7 +22,6 @@ export function initLoginForm() {
       saveToken(authToken);
       saveUsername(username);
       window.location.href = "../feed/index.html";
-      console.log("Login successful:", username);
     } catch (error) {
       console.error("Login error:", error);
       alert("Wrong email or password. Please try again.");
