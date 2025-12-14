@@ -2,6 +2,7 @@ import { searchPosts, getListings, searchUsers } from "../api/auth-service.mjs";
 import { renderListings } from "../listings/render-listings.mjs";
 import { listingSkeleton } from "./loading.mjs";
 import { createUserCard } from "./user-card-ui.mjs";
+import { updatePaginationButtons } from "./pagination.mjs";
 
 const container = document.getElementById("listingsSectionContainer");
 const usersContainer = document.getElementById("usersSectionContainer");
@@ -76,6 +77,7 @@ function switchSearchMode(mode) {
     if (sortSelect) sortSelect.style.display = "none";
     if (tagsSelect) tagsSelect.style.display = "none";
     if (pagination) pagination.style.display = "none";
+    updatePaginationButtons(null, 0);
   } else {
     container.style.display = "grid";
     usersContainer.style.display = "none";
