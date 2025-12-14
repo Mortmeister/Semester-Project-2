@@ -17,6 +17,7 @@ The project focuses on working with REST APIs, handling authentication, and buil
 - **Profile Pages**: See your own listings, bids, and won auctions, or browse other users' profiles
 - **Multiple Images**: Add multiple images to each listing with alt text
 - **Search & Filter**: Search for listings and users, filter by tags, and sort by date or ending time
+- **Dynamic tags**: Tags are generated dynamically based of the top 10 most popular tags in the API.
 - **Responsive Design**: Works on desktop, tablet, and mobile devices
 
 ## Tech Stack
@@ -29,10 +30,6 @@ The project focuses on working with REST APIs, handling authentication, and buil
 - **Netlify** - Deployment platform
 
 ## Getting Started
-
-### Prerequisites
-
-You'll need Node.js installed on your computer. I used Node.js version 18 or higher.
 
 ### Installation
 
