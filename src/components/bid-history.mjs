@@ -1,5 +1,10 @@
 import { toDatetimeLocal } from "../utils/date-time.mjs";
 
+/*
+ This function creates HTML for the bid history list
+ It shows who placed each bid, how much they bid, and when.
+ If there are no bids, it shows a message saying "No bids yet"
+*/
 export function bidHistoryMarkup(bids = []) {
   if (!Array.isArray(bids) || bids.length === 0) {
     return `

@@ -1,3 +1,8 @@
+/*
+This is taken from my previous blog project. It renders a url as a preview of the image for the auction posting. 
+It shows the image if the URL is valid, or hides it if not
+*/
+
 export function updateImagePreview(
   inputId = "imageUrl",
   previewId = "imageURLPreview"

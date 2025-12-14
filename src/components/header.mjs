@@ -2,25 +2,40 @@ import { getUserProfile } from "../api/auth-service.mjs";
 import { isAuthenticated } from "../utils/auth.mjs";
 import { logout } from "../utils/auth.mjs";
 
+/*
+This function makes the logout buttons work. We have two logout buttons: one for desktop and one for mobile. 
+Both buttons need to call the logout() function when clicked.
+ */
 export function initLogoutHandler() {
-  const logoutLinks = document.querySelectorAll(
-    "#logoutLink, #mobileLogoutLink"
-  );
-  logoutLinks.forEach((logoutLink) => {
-    logoutLink.addEventListener("click", (event) => {
+  const desktopLogout = document.getElementById("logoutLink");
+  const mobileLogout = document.getElementById("mobileLogoutLink");
+
+  if (desktopLogout) {
+    desktopLogout.addEventListener("click", (event) => {
       event.preventDefault();
       logout();
     });
-  });
+  }
+
+  if (mobileLogout) {
+    mobileLogout.addEventListener("click", (event) => {
+      event.preventDefault();
+      logout();
+    });
+  }
 }
 
+/*
+The function can safely run on any page only activates when the required elements exist. 
+It makes the hamburger menu work on mobile. When you click the hamburger button, it shows 
+or hides the navigation menu. 
+ */
 export function initHeaderDropdown() {
   const menuBtn = document.getElementById("userMenuButton");
   const menu = document.getElementById("userMenu");
 
   if (!menuBtn || !menu) return;
 
-  // Only initialize desktop dropdown on desktop
   const isMobile = window.innerWidth <= 768;
   if (isMobile) return;
 
@@ -39,7 +54,8 @@ export function initHeaderDropdown() {
     }
   });
 }
-
+/*
+ */
 export function initHamburgerMenu() {
   const hamburgerBtn = document.getElementById("hamburgerButton");
   const mainNav = document.getElementById("mainNav");
@@ -62,7 +78,6 @@ export function initHamburgerMenu() {
     } else {
       mainNav.classList.add("show");
       hamburgerBtn.classList.add("active");
-      // Toggle mobile user menu on mobile only
       if (mobileUserMenu && isMobile) {
         mobileUserMenu.classList.add("show");
       }
@@ -86,7 +101,10 @@ export function initHamburgerMenu() {
     }
   });
 }
-
+/* 
+This function creates the HTML for the header, it shows different content if the user is logged in or not
+// If logged in, it shows the user's name, avatar, and credits,  otherwise it shows login and register user. 
+*/
 export function initHeaderEl(user, isAuth) {
   if (isAuth && user?.data) {
     const { data } = user;
@@ -183,7 +201,10 @@ export function initHeaderEl(user, isAuth) {
     `;
   }
 }
-
+/* 
+ This  loads the header into the page. It checks if the user is logged in and shows the right header content
+ It also sets up all the header interactions like dropdowns and menus. 
+*/
 export async function loadHeader() {
   const headerContainer = document.getElementById("header");
   if (!headerContainer) return;

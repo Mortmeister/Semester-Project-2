@@ -2,12 +2,21 @@ import { toDatetimeLocal, getTimeRemaining } from "../utils/date-time.mjs";
 import { bidHistoryMarkup } from "./bid-history.mjs";
 import { isAuthenticated } from "../utils/auth.mjs";
 
+/*
+This function splits an array of tags and removes empty ones.
+Tags come from the API as an array, but sometimes they have empty strings or extra spaces.
+We use this to clean them up before showing them on the page.
+ */
 function splitTags(tags) {
   if (!Array.isArray(tags)) return [];
-
   return tags.map((tag) => tag.trim()).filter((tag) => tag.length > 0);
 }
 
+/*
+This function creates HTML for a listing card on the profile page. 
+It's different from the feed page card because it can show edit/delete buttons. 
+The showActions parameter controls whether to show those buttons - only true when viewing your own profile
+*/
 export function listingProfileCardMarkup(listing, showActions = true) {
   const imageUrl =
     listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
@@ -23,7 +32,6 @@ export function listingProfileCardMarkup(listing, showActions = true) {
   const sellerName = listing.seller?.name ?? "Unknown seller";
   const timeRemaining = getTimeRemaining(listing.endsAt);
 
-  // Only show edit/delete actions if showActions is true
   const actionsHtml = showActions
     ? `
       <div class="listing-card__actions">
@@ -95,6 +103,11 @@ export function listingProfileCardMarkup(listing, showActions = true) {
   `;
 }
 
+/*
+This function creates HTML for a listing card on the feed page.
+This is the simplest card version, it just shows the listing info without any action buttons.
+Used on the main feed page where everyone can see all listings.
+*/
 export function listingCardMarkup(listing) {
   const imageUrl =
     listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
@@ -150,6 +163,12 @@ export function listingCardMarkup(listing) {
        `;
 }
 
+/*
+This function creates HTML for a listing card that shows a user's bid.
+It's used on the profile page in the "Bids" tab to show what someone has bid on.
+The userBidAmount parameter is needed because we want to show the specific amount they bid, not just the current highest bid.
+The badge text changes based on whether you're viewing your own profile or someone else's.
+ */
 export function listingBidCardMarkup(
   listing,
   userBidAmount,
@@ -174,7 +193,6 @@ export function listingBidCardMarkup(
 
   const timeRemaining = getTimeRemaining(listing.endsAt);
 
-  // Change text based on whether it's the user's own profile
   const bidLabel = isOwnProfile ? "Your bid" : "User's bid";
 
   return `
@@ -218,6 +236,12 @@ export function listingBidCardMarkup(
   `;
 }
 
+/*
+This function creates HTML for a bid card on the profile page.
+It's similar to listingBidCardMarkup but works with bid objects from the API.
+The bid object already has the listing attached, so we don't need to pass it separately.
+Used when rendering the bids tab on the profile page.
+*/
 export function bidCardMarkup(bid, isOwnProfile = true) {
   const listing = bid.listing;
   if (!listing) {
@@ -239,7 +263,6 @@ export function bidCardMarkup(bid, isOwnProfile = true) {
 
   const timeRemaining = getTimeRemaining(listing.endsAt);
 
-  // Change text based on whether it's the user's own profile
   const bidLabel = isOwnProfile ? "Your bid" : "User's bid";
 
   return `
@@ -283,6 +306,11 @@ export function bidCardMarkup(bid, isOwnProfile = true) {
   `;
 }
 
+/*
+This function creates HTML for a won auction card.
+It's used on the profile page in the "Wins" tab to show auctions the user has won.
+Always shows "Auction ended" for time remaining since these auctions are over.
+*/
 export function winCardMarkup(listing) {
   const imageUrl =
     listing.media?.[0]?.url ?? "https://placehold.co/600x400?text=No+Image";
@@ -297,7 +325,6 @@ export function winCardMarkup(listing) {
     listing.seller?.avatar?.url ?? "https://placehold.co/32x32?text=S";
   const sellerName = listing.seller?.name ?? "Unknown seller";
 
-  // For won auctions, always show "Auction ended"
   const timeRemaining = "Auction ended";
 
   return `
@@ -341,6 +368,18 @@ export function winCardMarkup(listing) {
   `;
 }
 
+/*
+This function creates HTML for the single listing detail page.
+This is the most complex card because it shows everything - all images, full description, bid form, and complete bid history.
+It also handles multiple images with thumbnails that users can click to switch between.
+The bid form only shows if the user is logged in, otherwise it shows a login prompt.
+
+ 
+- If the listing has images, the first image is used as the main image.
+- If no images are provided, a placeholder image is shown instead.
+- When multiple images exist, thumbnails are generated so the user can switch between images.
+
+*/
 export function singlePageCardMarkup(listing) {
   const media = listing.media ?? [];
   const hasImages = media.length > 0;
@@ -388,7 +427,6 @@ export function singlePageCardMarkup(listing) {
     `;
   }
 
-  //  BIDS
   const bids = listing.bids ?? [];
   const latestBid = bids.length > 0 ? bids[bids.length - 1] : null;
 
@@ -399,7 +437,6 @@ export function singlePageCardMarkup(listing) {
 
   const latestBidTime = toDatetimeLocal(latestBid?.created) ?? "";
 
-  // SELLER
   const sellerImg =
     listing.seller?.avatar?.url ?? "https://placehold.co/48x48?text=S";
   const sellerImgAlt = listing.seller?.avatar?.alt ?? "Seller avatar";
@@ -420,7 +457,7 @@ export function singlePageCardMarkup(listing) {
                 <i class="bi bi-gavel"></i> Place Bid
               </button>
             </form>
-            <p class="text-muted small">Your available credits: 1000</p>
+            <p class="text-muted small" id="bidFormCredits">Your available credits:</p>
           `
     : `
             <div class="alert alert-info">

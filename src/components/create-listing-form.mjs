@@ -2,6 +2,10 @@ import { createListing } from "../api/auth-service.mjs";
 import { isAuthenticated, handleUnauthorizedAccess } from "../utils/auth.mjs";
 import { initMediaPreviews, updateMediaPreview } from "./image-preview.mjs";
 
+/*
+ This function splits a comma-separated string of tags into an array
+ It removes empty spaces and filters out empty tags.
+*/
 function splitTags(tagsString) {
   if (!tagsString) return [];
 
@@ -11,6 +15,11 @@ function splitTags(tagsString) {
     .filter((tag) => tag.length > 0);
 }
 
+/* 
+// This function sets up the create listing form
+// It handles adding multiple images, previewing images, and submitting the form
+// When submitted, it sends the listing data to the API to create a new auction
+*/
 export function initCreateListingForm() {
   const createListingFormEl = document.getElementById("createListingForm");
   if (!createListingFormEl) return;
@@ -20,17 +29,14 @@ export function initCreateListingForm() {
 
   if (!mediaInputsContainer || !addMediaBtn) return;
 
-  // Initialize image previews for existing inputs
   initMediaPreviews();
 
-  // Handle adding new image group
   addMediaBtn.addEventListener("click", () => {
     addMediaGroup();
   });
 
-  // Handle removing image groups
-  mediaInputsContainer.addEventListener("click", (e) => {
-    if (e.target.closest(".remove-media-btn")) {
+  mediaInputsContainer.addEventListener("click", (event) => {
+    if (event.target.closest(".remove-media-btn")) {
       const mediaGroup = e.target.closest(".media-group");
       if (mediaGroup) {
         removeMediaGroup(mediaGroup);
@@ -38,17 +44,14 @@ export function initCreateListingForm() {
     }
   });
 
-  // Handle image preview updates
-  mediaInputsContainer.addEventListener("input", (e) => {
-    if (e.target.classList.contains("media-url-input")) {
-      updateMediaPreview(e.target);
+  mediaInputsContainer.addEventListener("input", (event) => {
+    if (event.target.classList.contains("media-url-input")) {
+      updateMediaPreview(event.target);
     }
   });
 
-  // Update remove button visibility
   updateRemoveButtons();
 
-  // Form submission
   createListingFormEl.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -85,7 +88,6 @@ export function initCreateListingForm() {
       endsAt: formData.get("endsAt"),
     };
 
-    debugger;
     try {
       const { data } = await createListing(payload);
       console.log("Listing created:", data);
@@ -97,6 +99,13 @@ export function initCreateListingForm() {
   });
 }
 
+/*
+ This function adds a new image input group to the form
+ It is called when the user clicks the "Add Image" button.
+
+  nextIndex is used to keep track of how many image inputs exist so far,
+  so each new image group gets its own index.
+*/
 function addMediaGroup() {
   const mediaInputsContainer = document.getElementById("mediaInputs");
   if (!mediaInputsContainer) return;
@@ -152,6 +161,10 @@ function addMediaGroup() {
   updateRemoveButtons();
 }
 
+/*
+ This function removes an image input group from the form
+ It prevents removing the last image since at least one image is required to post an auction.
+*/
 function removeMediaGroup(mediaGroup) {
   const mediaInputsContainer = document.getElementById("mediaInputs");
   if (!mediaInputsContainer) return;
@@ -166,6 +179,10 @@ function removeMediaGroup(mediaGroup) {
   updateRemoveButtons();
 }
 
+/*
+ This function shows or hides the remove buttons on image inputs
+ If there's only one image, the remove button is hidden
+*/
 function updateRemoveButtons() {
   const mediaInputsContainer = document.getElementById("mediaInputs");
   if (!mediaInputsContainer) return;

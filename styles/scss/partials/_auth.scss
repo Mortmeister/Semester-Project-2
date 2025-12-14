@@ -4,55 +4,60 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: $spacing-xl $spacing-lg;
-  background: $color-bg-secondary;
+  padding: 1.5rem 1rem;
+  background: #f9fafb;
+}
 
-  &__container {
-    width: 100%;
-    max-width: 480px;
+.auth-page__container {
+  width: 100%;
+  max-width: 480px;
+}
+
+.auth-page__header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.auth-page__header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.auth-page__header p {
+  color: #4b5563;
+}
+
+.auth-page__card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .auth-page__card {
+    padding: 3rem;
   }
+}
 
-  &__header {
-    text-align: center;
-    margin-bottom: $spacing-xl;
+.auth-page__form {
+  margin-bottom: 1.5rem;
+}
 
-    h1 {
-      margin-bottom: $spacing-sm;
-    }
+.auth-page__footer {
+  text-align: center;
+}
 
-    p {
-      color: $color-text-secondary;
-    }
-  }
+.auth-page__footer p {
+  margin: 0;
+  color: #4b5563;
+}
 
-  &__card {
-    @include card-base;
-    padding: $spacing-xl;
+.auth-page__footer p a {
+  color: #2563eb;
+  font-weight: 500;
+}
 
-    @include respond-to(md) {
-      padding: $spacing-3xl;
-    }
-  }
-
-  &__form {
-    margin-bottom: $spacing-xl;
-  }
-
-  &__footer {
-    text-align: center;
-
-    p {
-      margin: 0;
-      color: $color-text-secondary;
-
-      a {
-        color: $color-primary;
-        font-weight: $font-weight-normal;
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-    }
-  }
+.auth-page__footer p a:hover {
+  text-decoration: underline;
 }

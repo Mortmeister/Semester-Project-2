@@ -18,13 +18,16 @@ import { initDeleteDelegation } from "../listings/delete-listing.mjs";
 import { loadingSpinner } from "./loading.mjs";
 import { getParam } from "../utils/get-params.mjs";
 
-// This function handles switching between tabs (Listings, Bids, Wins)
+/*
+This function handles switching between tabs (Listings, Bids, Wins).
+When you click a tab, it removes active from all tabs and panes, then adds it to the clicked one.
+Uses the data-tab attribute to know which content pane to show.
+*/
 export function initTabSwitching() {
   // Get all the tab buttons and tab content areas
   const allTabButtons = document.querySelectorAll(".nav-link");
   const allTabPanes = document.querySelectorAll(".tab-pane");
 
-  // Add click listener to each tab button
   allTabButtons.forEach((button) => {
     button.addEventListener("click", () => {
       const tabToShow = button.dataset.tab;
@@ -47,35 +50,42 @@ export function initTabSwitching() {
   });
 }
 
-// This function handles showing/hiding the edit profile form
+/*
+This function handles showing/hiding the edit profile form.
+When you click "Edit Profile", it hides the button and shows the form.
+When you click "Cancel", it hides the form and shows the button again.
+This way the form only shows when you actually want to edit.
+*/
 export function initProfileEditToggle() {
-  // Get the edit button, form, and cancel button from the page
   const editButton = document.getElementById("editProfileBtn");
   const editFormElement = document.getElementById("editForm");
   const cancelButton = document.getElementById("cancelEditBtn");
 
-  // If any of these elements don't exist, stop here
   if (!editButton || !editFormElement || !cancelButton) {
     return;
   }
 
-  // When edit button is clicked, show the form and hide the button
   editButton.addEventListener("click", () => {
     editFormElement.classList.remove("profile-page__edit-form--hidden");
     editButton.classList.add("d-none");
   });
 
-  // When cancel button is clicked, hide the form and show the edit button again
   cancelButton.addEventListener("click", () => {
     editFormElement.classList.add("profile-page__edit-form--hidden");
     editButton.classList.remove("d-none");
   });
 }
 
-// This is the main function that loads all the profile page data
+/*
+This is the main function that loads all the profile page data.
+It checks if you're viewing your own profile or someone else's by looking at the URL.
+If viewing someone else, it uses different API functions to get their data.
+Then it loads listings, bids, and wins for that user and displays everything.
+
+Because the function is so long I've added comments along the way.
+*/
 export async function loadProfilePage() {
   try {
-    // Check if we're viewing someone else's profile by looking at the URL
     const usernameFromUrl = getParam("user");
     const loggedInUsername = localStorage.getItem("username");
 
@@ -93,27 +103,23 @@ export async function loadProfilePage() {
       profileDataResponse = await getUserProfile();
     }
 
-    // Extract the profile data from the response
     const profileData = profileDataResponse.data;
 
-    // Check if the profile we're viewing belongs to the logged in user
+    // Check if the profile we're viewing belongs to the logged in user.
     const profileOwnerUsername = profileData.name;
     const isMyProfile = profileOwnerUsername === loggedInUsername;
 
-    // Show or hide the edit button based on whether it's the user's own profile
+    // Only show edit button on my profile.
     const editButton = document.getElementById("editProfileBtn");
     if (editButton) {
       if (isMyProfile) {
-        // Show the edit button if it's their own profile
         editButton.style.display = "block";
       } else {
-        // Hide the edit button if it's someone else's profile
         editButton.style.display = "none";
       }
     }
 
     // Get all the HTML elements we need to update with profile information
-
     const avatarImageLargeElement = document.getElementById("avatarImage2");
     const bannerElement = document.getElementById("profileBanner");
     const usernameElement = document.getElementById("profileUsername");
@@ -124,7 +130,7 @@ export async function loadProfilePage() {
     const bidsCountElement = document.getElementById("myBidsCount");
     const winsCountElement = document.getElementById("myWinsCount");
 
-    // Update the large avatar image
+    // Update the avatar image
     if (avatarImageLargeElement) {
       const largeAvatarContainer = document.getElementById("avatarImage2");
       if (largeAvatarContainer) {
@@ -148,22 +154,15 @@ export async function loadProfilePage() {
       }
     }
 
-    // Update the username text
     if (usernameElement) {
       usernameElement.textContent = profileData.name || "User";
     }
-
-    // Update the email text
     if (emailElement) {
       emailElement.textContent = profileData.email || "";
     }
-
-    // Update the bio text
     if (bioElement) {
       bioElement.textContent = profileData.bio || "";
     }
-
-    // Update the credits amount
     if (creditsElement) {
       creditsElement.textContent = profileData.credits || 0;
     }
@@ -184,7 +183,7 @@ export async function loadProfilePage() {
           listingsResponse = await getUserListingsByUsername(usernameFromUrl);
           listingsArray = listingsResponse.data || [];
         } else {
-          // If viewing own profile, get own listings
+          // If viewing my profile, get my listings
           listingsResponse = await getUserListings();
           listingsArray = listingsResponse.data || [];
         }
@@ -201,7 +200,7 @@ export async function loadProfilePage() {
           isOwnProfile
         );
 
-        // Only enable delete functionality if it's the user's own profile
+        // Only enable delete functionality if its my  profile
         if (isOwnProfile) {
           initDeleteDelegation(listingsContainer);
         }
@@ -272,7 +271,6 @@ export async function loadProfilePage() {
     // Load and display the user's wins (auctions they won)
     const winsContainer = document.getElementById("myWins");
     if (winsContainer) {
-      // Show loading spinner while we fetch the data
       winsContainer.innerHTML = loadingSpinner();
 
       try {
