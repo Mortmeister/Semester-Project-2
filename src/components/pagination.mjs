@@ -2,6 +2,10 @@ import { getListings } from "../api/auth-service.mjs";
 import { renderListings } from "../listings/render-listings.mjs";
 import { listingSkeleton } from "./loading.mjs";
 
+export function resetPage() {
+  currentPage = 1;
+}
+
 let currentPage = 1;
 
 /*

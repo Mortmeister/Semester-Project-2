@@ -2,7 +2,11 @@ import { searchPosts, getListings, searchUsers } from "../api/auth-service.mjs";
 import { renderListings } from "../listings/render-listings.mjs";
 import { listingSkeleton } from "./loading.mjs";
 import { createUserCard } from "./user-card-ui.mjs";
-import { updatePaginationButtons } from "./pagination.mjs";
+import {
+  updatePaginationButtons,
+  loadListings,
+  resetPage,
+} from "./pagination.mjs";
 
 const container = document.getElementById("listingsSectionContainer");
 const usersContainer = document.getElementById("usersSectionContainer");
@@ -19,7 +23,6 @@ let currentMode = "listings";
 export function initSearchPosts() {
   if (!searchInput || !container || !usersContainer) return;
 
-  // Toggle between listings and users
   toggleButtons.forEach((btn) => {
     btn.addEventListener("click", () => {
       const mode = btn.getAttribute("data-mode");
@@ -27,7 +30,6 @@ export function initSearchPosts() {
     });
   });
 
-  // Search input handler
   searchInput.addEventListener("input", async (event) => {
     const query = event.target.value.trim();
 
@@ -39,10 +41,9 @@ export function initSearchPosts() {
   });
 }
 
-function switchSearchMode(mode) {
+async function switchSearchMode(mode) {
   currentMode = mode;
 
-  // Update toggle buttons
   toggleButtons.forEach((btn) => {
     if (btn.getAttribute("data-mode") === mode) {
       btn.classList.add("active");
@@ -51,7 +52,6 @@ function switchSearchMode(mode) {
     }
   });
 
-  // Update search icon
   if (mode === "users") {
     searchIcon.className = "bi bi-person search-bar__icon";
     searchInput.placeholder = "Search users by name or email...";
@@ -61,7 +61,6 @@ function switchSearchMode(mode) {
       "Search listings by title, description, or tags...";
   }
 
-  // Update section title
   if (sectionTitle) {
     if (mode === "users") {
       sectionTitle.textContent = "Users";
@@ -70,7 +69,6 @@ function switchSearchMode(mode) {
     }
   }
 
-  // Show/hide containers and related elements
   if (mode === "users") {
     container.style.display = "none";
     usersContainer.style.display = "grid";
@@ -82,15 +80,16 @@ function switchSearchMode(mode) {
     container.style.display = "grid";
     usersContainer.style.display = "none";
     if (sortSelect) sortSelect.style.display = "block";
+    if (tagsSelect) tagsSelect.style.display = "block";
     if (pagination) pagination.style.display = "flex";
   }
 
-  // Clear and reset search
   searchInput.value = "";
   if (mode === "listings") {
-    handleListingsSearch("");
+    resetPage();
+    await loadListings();
   } else {
-    handleUsersSearch("");
+    await handleUsersSearch("");
   }
 }
 
@@ -98,13 +97,15 @@ async function handleListingsSearch(query) {
   container.innerHTML = listingSkeleton(6);
 
   if (query.length === 0) {
-    const { data } = await getListings();
-    renderListings(container, data);
+    resetPage();
+    await loadListings();
     return;
   }
 
   const { data } = await searchPosts(query);
-  renderListings(container, data);
+  await renderListings(container, data);
+
+  updatePaginationButtons(null, 0);
 }
 
 async function handleUsersSearch(query) {
