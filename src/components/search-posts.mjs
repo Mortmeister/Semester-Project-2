@@ -10,6 +10,7 @@ const searchIcon = document.getElementById("searchIcon");
 const toggleButtons = document.querySelectorAll(".search-mode-toggle__btn");
 const sectionTitle = document.getElementById("sectionTitle");
 const sortSelect = document.getElementById("sortPostsEl");
+const tagsSelect = document.getElementById("sortByTagsEl");
 const pagination = document.querySelector(".pagination");
 
 let currentMode = "listings";
@@ -73,6 +74,7 @@ function switchSearchMode(mode) {
     container.style.display = "none";
     usersContainer.style.display = "grid";
     if (sortSelect) sortSelect.style.display = "none";
+    if (tagsSelect) tagsSelect.style.display = "none";
     if (pagination) pagination.style.display = "none";
   } else {
     container.style.display = "grid";
