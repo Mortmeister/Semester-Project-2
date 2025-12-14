@@ -17,6 +17,10 @@ export function initRegisterForm() {
         url: formData.get("avatarUrl"),
         alt: formData.get("avatarAlt"),
       },
+      banner: {
+        url: formData.get("bannerUrl"),
+        alt: formData.get("bannerAlt"),
+      },
     };
 
     try {
